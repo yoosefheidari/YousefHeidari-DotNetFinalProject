@@ -1,0 +1,203 @@
+﻿using App.Domain.Core.BaseData.Entities;
+using App.Domain.Core.Operator.Entities;
+using App.Domain.Core.Work.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+namespace App.Infrastructure.DataBase.SqlServer
+{
+    public class AppDbContext : IdentityDbContext<IdentityUser<int>,IdentityRole<int>,int>
+    {
+        public AppDbContext(DbContextOptions<AppDbContext> options)
+            : base(options)
+        {
+
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            #region Order
+            modelBuilder.Entity<Order>()
+                .Property(x => x.Description)
+                .IsRequired(false)
+                .HasMaxLength(2000);
+            modelBuilder.Entity<Order>()
+                .Property(x => x.FinalPrice)
+                .IsRequired(false)
+                .HasPrecision(10,0);
+            modelBuilder.Entity<Order>()
+                .Property(x => x.SuggestedWorkTimeByExpert)
+                .IsRequired(false)
+                .HasMaxLength(250);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Skill)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.SkillId)
+                .IsRequired();          
+
+            modelBuilder.Entity<Order>()                
+                .HasOne(x => x.Customer)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.CustomerId)
+                .IsRequired();
+
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.ConfirmedExpertId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Status)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.StatusId)
+                .IsRequired();
+
+            modelBuilder.Entity<Order>()
+                .HasMany(x => x.OrderTags)
+                .WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired();
+            #endregion
+
+            modelBuilder.Entity<Tag>()
+                .HasMany(x => x.OrderTags)
+                .WithOne(x => x.Tag)
+                .HasForeignKey(x => x.TagId)
+                .IsRequired();
+
+            modelBuilder.Entity<Tag>()
+                .HasOne(x => x.TagGroup)
+                .WithMany(x => x.Tags)
+                .HasForeignKey(x => x.TagGroupId)
+                .IsRequired();
+
+            modelBuilder.Entity<Tag>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<TagGroup>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+
+
+            modelBuilder.Entity<ExpertSuggest>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.ExpertSuggests)
+                .HasForeignKey(x => x.ExpertId)
+                .IsRequired();
+
+            modelBuilder.Entity<ExpertSuggest>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.ExpertSuggests)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired(false);
+          
+            modelBuilder.Entity<ExpertSuggest>()
+                .Property(x => x.Price)
+                .HasPrecision(10,0);
+
+
+            modelBuilder.Entity<ExpertSkill>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.ExpertSkills)
+                .HasForeignKey(x => x.ExpertId)
+                .IsRequired();
+
+            modelBuilder.Entity<ExpertSkill>()
+                .HasOne(x => x.Skill)
+                .WithMany(x => x.ExpertSkills)
+                .HasForeignKey(x => x.SkillId)
+                .IsRequired();
+
+            modelBuilder.Entity<Skill>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.Skills)
+                .HasForeignKey(x => x.CategoryId)
+                .IsRequired();
+            modelBuilder.Entity<Skill>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Category>()
+                .Property(x => x.DisplayOrder)
+                .IsRequired(false);
+            modelBuilder.Entity<Category>()
+                .Property(x => x.DisplayOrder)
+                .IsRequired(false);
+            modelBuilder.Entity<Category>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Opinion>()
+                .Property(x => x.Title)
+                .HasMaxLength(50);
+            modelBuilder.Entity<Opinion>()
+                .Property(x => x.Title)
+                .HasMaxLength(2000);
+
+
+            modelBuilder.Entity<Status>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+
+
+            modelBuilder.Entity<SkillTagGroup>()
+                .HasOne(x => x.Skill)
+                .WithMany(x => x.SkillTagGroups)
+                .HasForeignKey(x => x.SkillId)
+                .IsRequired();
+
+            modelBuilder.Entity<SkillTagGroup>()
+                .HasOne(x => x.TagGroup)
+                .WithMany(x => x.SkillTagGroups)
+                .HasForeignKey(x => x.TagGroupId)
+                .IsRequired();
+
+            modelBuilder.Entity<PhysicalFile>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.PhysicalFiles)
+                .HasForeignKey(x => x.ExpertId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<PhysicalFile>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.PhysicalFiles)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired(false);
+
+            modelBuilder.Entity<PhysicalFile>()
+                .Property(x => x.Path)
+                .HasMaxLength(500);
+        }
+        #region User Aggregate DbSets
+        public virtual DbSet<Admin> Admins { get; set; } = null!;
+        public virtual DbSet<Expert> Experts { get; set; } = null!;
+        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        #endregion
+
+        #region BaseData Aggregate Dbsets
+        public virtual DbSet<Status> Statuses { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Opinion> Opinions { get; set; } = null!;
+        public virtual DbSet<PhysicalFile> Files { get; set; } = null!;
+        #endregion
+
+        #region MainWork Aggreagate Dbsets
+        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<Tag> Tags { get; set; } = null!;
+        public virtual DbSet<Skill> Skills { get; set; } = null!;
+        public virtual DbSet<OrderTag> OrderTags { get; set; } = null!;
+        public virtual DbSet<SkillTagGroup> CategorySpecifications { get; set; } = null!;
+        public virtual DbSet<TagGroup> TagGroups { get; set; } = null!;
+        public virtual DbSet<ExpertSkill> ExpertSkills { get; set; } = null!;
+        public virtual DbSet<SkillTagGroup> SkillTagGroups { get; set; } = null!;
+        public virtual DbSet<ExpertSuggest> ExpertSuggests { get; set; } = null!;
+        #endregion
+    }
+}
