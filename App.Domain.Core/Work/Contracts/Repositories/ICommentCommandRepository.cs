@@ -9,8 +9,8 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface ICommentCommandRepository
     {
-        Task<int> Add(CommentDTO opinion, CancellationToken cancellationToken);
-        Task Update(CommentDTO opinion, CancellationToken cancellationToken);
+        Task<int> Add(CommentDTO comment, CancellationToken cancellationToken);
+        Task Update(CommentDTO comment, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

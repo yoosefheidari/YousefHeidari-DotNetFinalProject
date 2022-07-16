@@ -27,9 +27,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Models\" />
+    <Folder Include="Areas\Admin\Models\Brand\" />
+    <Folder Include="Areas\Admin\Models\Comment\" />
+    <Folder Include="Areas\Admin\Models\File\" />
+    <Folder Include="Areas\Admin\Models\Tag\" />
+    <Folder Include="Areas\Admin\Models\TagGroup\" />
+    <Folder Include="Areas\Admin\Models\Status\" />
+    <Folder Include="Areas\Admin\Models\Order\" />
+    <Folder Include="Areas\Admin\Models\NewFolder4\" />
+    <Folder Include="Areas\Admin\Models\Category\" />
     <Folder Include="Areas\Admin\Services\" />
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Areas\Expert\Controllers\" />
     <Folder Include="Areas\Expert\Data\" />
     <Folder Include="Areas\Expert\Models\" />

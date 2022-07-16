@@ -2,7 +2,8 @@
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
-    public class TagController1 : Controller
+    [Area("Admin")]
+    public class TagController : Controller
     {
         public IActionResult Index()
         {
