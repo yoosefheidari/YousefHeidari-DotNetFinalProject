@@ -9,7 +9,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IExpertSkillQueryRepository
     {
-        Task<List<ExpertSkill>> GetAll(CancellationToken cancellationToken);
-        Task<ExpertSkill> Get(int id, CancellationToken cancellationToken);
+        Task<List<ExpertCategory>> GetAll(CancellationToken cancellationToken);
+        Task<ExpertCategory> Get(int id, CancellationToken cancellationToken);
     }
 }

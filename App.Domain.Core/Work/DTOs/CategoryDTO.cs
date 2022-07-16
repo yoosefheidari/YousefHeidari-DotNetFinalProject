@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.BaseData.DTOs
+namespace App.Domain.Core.Work.DTOs
 {
     public class CategoryDTO
     {

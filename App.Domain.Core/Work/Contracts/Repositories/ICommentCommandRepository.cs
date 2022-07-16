@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.Work.Entities;
+﻿using App.Domain.Core.Work.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Contracts.Repositories
 {
-    public interface ISkillTagGroupCommandRepository
+    public interface ICommentCommandRepository
     {
-        Task<int> Add(CategoryTagGroup skillTagGroup, CancellationToken cancellationToken);
+        Task<int> Add(CommentDTO opinion, CancellationToken cancellationToken);
+        Task Update(CommentDTO opinion, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

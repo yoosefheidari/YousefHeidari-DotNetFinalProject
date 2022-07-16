@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Work.Entities
+namespace App.Domain.Core.Work.DTOs
 {
-    public class TagGroup
+    public class BrandDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
-
-        public virtual List<Tag> Tags { get; set; }
-        public virtual List<CategoryTagGroup> CategoryTagGroups { get; set; }
     }
 }

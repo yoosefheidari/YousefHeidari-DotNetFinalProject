@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Entities
 {
-    public class TagGroup
+    public class Brand
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
 
-        public virtual List<Tag> Tags { get; set; }
-        public virtual List<CategoryTagGroup> CategoryTagGroups { get; set; }
+
+        public virtual List<BrandCategory> BrandCategories { get; set; }
     }
 }

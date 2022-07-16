@@ -9,7 +9,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IExpertSkillCommandRepository
     {
-        Task<int> Add(ExpertSkill expertSkill,CancellationToken cancellationToken);
+        Task<int> Add(ExpertCategory expertSkill,CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

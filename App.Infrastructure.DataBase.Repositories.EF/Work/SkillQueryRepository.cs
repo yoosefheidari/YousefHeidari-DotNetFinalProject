@@ -20,11 +20,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             _appDbContext = appDbContext;
         }
 
-        public async Task<SkillDTO> Get(int id, CancellationToken cancellationToken)
+        public async Task<DTO> Get(int id, CancellationToken cancellationToken)
         {
             var skill = await _appDbContext.Skills
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var skillDto = new SkillDTO()
+            var skillDto = new DTO()
             {
                 Id = id,
                 Name = skill.Name,
@@ -34,11 +34,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return skillDto;
         }
 
-        public async Task<SkillDTO> Get(string name, CancellationToken cancellationToken)
+        public async Task<DTO> Get(string name, CancellationToken cancellationToken)
         {
             var skill = await _appDbContext.Skills
                 .Where(x => x.Name == name).SingleAsync(cancellationToken);
-            var skillDto = new SkillDTO()
+            var skillDto = new DTO()
             {
                 Id = skill.Id,
                 Name = skill.Name,
@@ -48,10 +48,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return skillDto;
         }
 
-        public async Task<List<SkillDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<DTO>> GetAll(CancellationToken cancellationToken)
         {
             var skills = await _appDbContext.Skills
-                .Select(x => new SkillDTO()
+                .Select(x => new DTO()
                 {
                     Id = x.Id,
                     Name = x.Name,

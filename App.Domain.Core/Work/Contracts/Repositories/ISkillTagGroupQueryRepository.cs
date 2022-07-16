@@ -9,7 +9,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface ISkillTagGroupQueryRepository
     {
-        Task<List<SkillTagGroup>> GetAll(CancellationToken cancellationToken);
-        Task<SkillTagGroup> Get(int id, CancellationToken cancellationToken);
+        Task<List<CategoryTagGroup>> GetAll(CancellationToken cancellationToken);
+        Task<CategoryTagGroup> Get(int id, CancellationToken cancellationToken);
     }
 }

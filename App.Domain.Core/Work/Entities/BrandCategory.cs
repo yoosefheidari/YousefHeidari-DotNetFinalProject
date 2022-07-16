@@ -4,13 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Work.DTOs
+namespace App.Domain.Core.Work.Entities
 {
-    public class SkillDTO
+    public class BrandCategory
     {
         public int Id { get; set; }
-        public string Name { get; set; }
         public int CategoryId { get; set; }
-        public DateTimeOffset CreationDate { get; set; }
+        public int BrandId { get; set; }
     }
 }

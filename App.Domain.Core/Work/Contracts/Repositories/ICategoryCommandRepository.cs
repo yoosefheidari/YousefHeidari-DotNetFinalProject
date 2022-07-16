@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Contracts.Repositories
 {
-    public interface ISkillCommandRepository
+    public interface ICategoryCommandRepository
     {
-        Task<int> Add(SkillDTO skill, CancellationToken cancellationToken);
-        Task Update(SkillDTO skill, CancellationToken cancellationToken);
+        Task<int> Add(CategoryDTO category,CancellationToken cancellationToken);
+        Task Update(CategoryDTO category, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

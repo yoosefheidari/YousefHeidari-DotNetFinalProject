@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.BaseData.Entities
+namespace App.Domain.Core.Work.Entities
 {
     public class Category
     {
@@ -18,6 +18,8 @@ namespace App.Domain.Core.BaseData.Entities
         public bool IsActive { get; set; }
 
 
-        public virtual List<Skill> Skills { get; set; }
+        public virtual List<Order> Orders { get; set; }
+        public virtual List<ExpertCategory> ExpertCategories { get; set; }
+        public virtual List<BrandCategory> BrandCategories { get; set; }
     }
 }

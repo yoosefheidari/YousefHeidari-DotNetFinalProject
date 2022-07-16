@@ -18,7 +18,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             _appDbContext = appDbContext;
         }
-        public async Task<int> Add(SkillTagGroup skillTagGroup, CancellationToken cancellationToken)
+        public async Task<int> Add(CategoryTagGroup skillTagGroup, CancellationToken cancellationToken)
         {
             await _appDbContext.SkillTagGroups.AddAsync(skillTagGroup, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);

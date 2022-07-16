@@ -1,13 +1,12 @@
-﻿using App.Domain.Core.Work.Entities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.BaseData.Entities
+namespace App.Domain.Core.Work.DTOs
 {
-    public class Opinion
+    public class CommentDTO
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,11 +15,5 @@ namespace App.Domain.Core.BaseData.Entities
         public int OrderId { get; set; }
         public int? Rating { get; set; }
         public bool? DoesRecomended { get; set; }
-
-
-
-
-        public virtual Order Order { get; set; }
-        
     }
 }

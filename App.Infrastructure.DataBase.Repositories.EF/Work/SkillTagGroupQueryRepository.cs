@@ -18,14 +18,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             _appDbContext = appDbContext;
         }
-        public async Task<SkillTagGroup> Get(int id, CancellationToken cancellationToken)
+        public async Task<CategoryTagGroup> Get(int id, CancellationToken cancellationToken)
         {
             var skillTagGroup = await _appDbContext.SkillTagGroups
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
             return skillTagGroup;
         }
 
-        public async Task<List<SkillTagGroup>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<CategoryTagGroup>> GetAll(CancellationToken cancellationToken)
         {
             var skillTagGroups = await _appDbContext.SkillTagGroups.ToListAsync(cancellationToken);
             return skillTagGroups;

@@ -23,7 +23,7 @@ namespace App.Domain.Core.Operator.Entities
 
         public virtual List<Order> Orders { get; set; }
         public virtual List<ExpertSuggest> ExpertSuggests { get; set; }
-        public virtual List<ExpertSkill> ExpertSkills { get; set; }
+        public virtual List<ExpertCategory> ExpertCategories { get; set; }
         public virtual List<PhysicalFile> PhysicalFiles { get; set; }
 
     }

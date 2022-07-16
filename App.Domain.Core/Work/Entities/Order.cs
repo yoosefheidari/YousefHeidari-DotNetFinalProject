@@ -12,7 +12,7 @@ namespace App.Domain.Core.Work.Entities
     {
         public int Id { get; set; }
         public  int CustomerId { get; set; }
-        public int SkillId { get; set; }
+        public int CategoryId { get; set; }
         public int StatusId { get; set; }
         public string? Description { get; set; }
         public decimal? FinalPrice { get; set; }
@@ -25,7 +25,7 @@ namespace App.Domain.Core.Work.Entities
         public DateTimeOffset RequestedDate { get; set; }
 
 
-        public virtual Skill Skill { get; set; }
+        public virtual Category Category { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual Expert Expert { get; set; }
         public virtual Status Status { get; set; }

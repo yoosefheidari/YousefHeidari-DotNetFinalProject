@@ -18,14 +18,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             _appDbContext = appDbContext;
         }
-        public async Task<ExpertSkill> Get(int id, CancellationToken cancellationToken)
+        public async Task<ExpertCategory> Get(int id, CancellationToken cancellationToken)
         {
             var expertSkill = await _appDbContext.ExpertSkills
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
             return expertSkill;
         }
 
-        public async Task<List<ExpertSkill>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<ExpertCategory>> GetAll(CancellationToken cancellationToken)
         {
             var expertSkills = await _appDbContext.ExpertSkills.ToListAsync(cancellationToken);
             return expertSkills;

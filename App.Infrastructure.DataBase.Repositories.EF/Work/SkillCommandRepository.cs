@@ -20,7 +20,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             _appDbContext = appDbContext;
         }
 
-        public async Task<int> Add(SkillDTO skill, CancellationToken cancellationToken)
+        public async Task<int> Add(DTO skill, CancellationToken cancellationToken)
         {
             var newSkill = new Skill()
             {
@@ -40,7 +40,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(SkillDTO skill, CancellationToken cancellationToken)
+        public async Task Update(DTO skill, CancellationToken cancellationToken)
         {
             var skill1 = await _appDbContext.Skills.SingleAsync(x => x.Id == skill.Id, cancellationToken);
             skill1.Name = skill.Name;

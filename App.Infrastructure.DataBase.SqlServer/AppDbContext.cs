@@ -102,13 +102,13 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasPrecision(10,0);
 
 
-            modelBuilder.Entity<ExpertSkill>()
+            modelBuilder.Entity<ExpertCategory>()
                 .HasOne(x => x.Expert)
                 .WithMany(x => x.ExpertSkills)
                 .HasForeignKey(x => x.ExpertId)
                 .IsRequired();
 
-            modelBuilder.Entity<ExpertSkill>()
+            modelBuilder.Entity<ExpertCategory>()
                 .HasOne(x => x.Skill)
                 .WithMany(x => x.ExpertSkills)
                 .HasForeignKey(x => x.SkillId)
@@ -147,13 +147,13 @@ namespace App.Infrastructure.DataBase.SqlServer
 
 
 
-            modelBuilder.Entity<SkillTagGroup>()
+            modelBuilder.Entity<CategoryTagGroup>()
                 .HasOne(x => x.Skill)
                 .WithMany(x => x.SkillTagGroups)
                 .HasForeignKey(x => x.SkillId)
                 .IsRequired();
 
-            modelBuilder.Entity<SkillTagGroup>()
+            modelBuilder.Entity<CategoryTagGroup>()
                 .HasOne(x => x.TagGroup)
                 .WithMany(x => x.SkillTagGroups)
                 .HasForeignKey(x => x.TagGroupId)
@@ -193,10 +193,10 @@ namespace App.Infrastructure.DataBase.SqlServer
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<Skill> Skills { get; set; } = null!;
         public virtual DbSet<OrderTag> OrderTags { get; set; } = null!;
-        public virtual DbSet<SkillTagGroup> CategorySpecifications { get; set; } = null!;
+        public virtual DbSet<CategoryTagGroup> CategorySpecifications { get; set; } = null!;
         public virtual DbSet<TagGroup> TagGroups { get; set; } = null!;
-        public virtual DbSet<ExpertSkill> ExpertSkills { get; set; } = null!;
-        public virtual DbSet<SkillTagGroup> SkillTagGroups { get; set; } = null!;
+        public virtual DbSet<ExpertCategory> ExpertSkills { get; set; } = null!;
+        public virtual DbSet<CategoryTagGroup> SkillTagGroups { get; set; } = null!;
         public virtual DbSet<ExpertSuggest> ExpertSuggests { get; set; } = null!;
         #endregion
     }

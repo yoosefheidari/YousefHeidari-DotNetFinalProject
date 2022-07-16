@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Entities
 {
-    public class SkillTagGroup
+    public class CategoryTagGroup
     {
         public int Id { get; set; }
-        public int SkillId { get; set; }
+        public int CategoryId { get; set; }
         public int TagGroupId { get; set; }
 
 
-        public virtual Skill Skill { get; set; }  
+        public virtual Category Category { get; set; }  
         public virtual TagGroup TagGroup { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             _appDbContext = appDbContext;
         }
-        public async Task<int> Add(ExpertSkill expertSkill, CancellationToken cancellationToken)
+        public async Task<int> Add(ExpertCategory expertSkill, CancellationToken cancellationToken)
         {
             await _appDbContext.ExpertSkills.AddAsync(expertSkill, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);

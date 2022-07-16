@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Entities
 {
-    public class ExpertSkill
+    public class ExpertCategory
     {
         public int Id { get; set; }
+        public int CategoryId { get; set; }
         public int ExpertId { get; set; }
-        public int SkillId { get; set; }
 
 
 
         public virtual Expert Expert { get; set; }
-        public virtual Skill Skill { get; set; }
+        public virtual Category Category { get; set; }
     }
 }
