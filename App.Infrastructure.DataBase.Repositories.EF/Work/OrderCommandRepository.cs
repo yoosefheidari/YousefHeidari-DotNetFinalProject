@@ -25,7 +25,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             var newOrder = new Order()
             {
                 FinalizedDate = order.FinalizedDate,
-                SkillId = order.SkillId,
+                CategoryId = order.CategoryId,
                 StatusId = order.StatusId,
                 SuggestedWorkTimeByExpert = order.SuggestedWorkTimeByExpert,
                 ConfirmedExpertId = order.ConfirmedExpertId,
@@ -58,7 +58,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             order1.ConfirmedExpertId = order.ConfirmedExpertId;
             order1.FinalizedDate = order.FinalizedDate;
             order1.StatusId = order.StatusId;
-            order1.SkillId = order.SkillId;
+            order1.CategoryId = order.CategoryId;
             order1.RequestedDate = order.RequestedDate;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

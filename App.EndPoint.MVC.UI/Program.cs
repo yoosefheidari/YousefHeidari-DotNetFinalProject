@@ -14,31 +14,30 @@ var builder = WebApplication.CreateBuilder(args);
 
 #region BaseDataRepositories
 
-builder.Services.AddScoped<ICategoryCommandRepository, CategoryCommandRepository>();
-builder.Services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+
 builder.Services.AddScoped<IStatusCommandRepository, StatusCommandRepository>();
 builder.Services.AddScoped<IStatusQueryRepository, StatusQueryRepository>();
-builder.Services.AddScoped<ICommentCommandRepository, OpinionCommandRepository>();
-builder.Services.AddScoped<ICommentQueryRepository, OpinionQueryRepository>();
+
 builder.Services.AddScoped<IFileCommandRepository, FileCommandRepository>();
 builder.Services.AddScoped<IFileQueryRepository, FileQueryRepository>();
 
 #endregion
 
 #region WorkRepositories
-
-builder.Services.AddScoped<IExpertSkillCommandRepository, ExpertSkillCommandRepository>();
-builder.Services.AddScoped<IExpertSkillQueryRepository, ExpertSkillQueryRepository>();
+builder.Services.AddScoped<ICommentCommandRepository, CommentCommandRepository>();
+builder.Services.AddScoped<ICommentQueryRepository, CommentQueryRepository>();
+builder.Services.AddScoped<ICategoryCommandRepository, CategoryCommandRepository>();
+builder.Services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
+builder.Services.AddScoped<IExpertCategoryCommandRepository, ExpertCategoryCommandRepository>();
+builder.Services.AddScoped<IExpertCategoryQueryRepository, ExpertCategoryQueryRepository>();
 builder.Services.AddScoped<IExpertSuggestCommandRepository, ExpertSuggestCommandRepository>();
 builder.Services.AddScoped<IExpertSuggestQueryRepository, ExpertSuggestQueryRepository>();
 builder.Services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
 builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
 builder.Services.AddScoped<IOrderTagCommandRepository, OrderTagCommandRepository>();
 builder.Services.AddScoped<IOrderTagQueryRepository, OrderTagQueryRepository>();
-builder.Services.AddScoped<ISkillCommandRepository, SkillCommandRepository>();
-builder.Services.AddScoped<ISkillQueryRepository, SkillQueryRepository>();
-builder.Services.AddScoped<ISkillTagGroupCommandRepository, SkillTagGroupCommandRepository>();
-builder.Services.AddScoped<ISkillTagGroupQueryRepository, SkillTagGroupQueryRepository>();
+builder.Services.AddScoped<ICategoryTagGroupCommandRepository, CategoryTagGroupCommandRepository>();
+builder.Services.AddScoped<ICategoryTagGroupQueryRepository, CategoryTagGroupQueryRepository>();
 builder.Services.AddScoped<ITagCommandRepository, TagCommandRepository>();
 builder.Services.AddScoped<ITagQueryRepository, TagQueryRepository>();
 builder.Services.AddScoped<ITagGroupCommandRepository, TagGroupCommandRepository>();

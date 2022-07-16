@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Contracts.Repositories
 {
-    public interface IExpertSkillQueryRepository
+    public interface ICategoryTagGroupCommandRepository
     {
-        Task<List<ExpertCategory>> GetAll(CancellationToken cancellationToken);
-        Task<ExpertCategory> Get(int id, CancellationToken cancellationToken);
+        Task<int> Add(CategoryTagGroup categoryTagGroup, CancellationToken cancellationToken);
+        Task Delete(int id, CancellationToken cancellationToken);
     }
 }

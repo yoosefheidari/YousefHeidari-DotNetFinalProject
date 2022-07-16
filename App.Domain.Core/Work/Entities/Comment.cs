@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.Entities
 {
-    public class Opinion
+    public class Comment
     {
         public int Id { get; set; }
         public string Title { get; set; }

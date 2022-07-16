@@ -10,25 +10,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
-    public class SkillTagGroupCommandRepository : ISkillTagGroupCommandRepository
+    public class CategoryTagGroupCommandRepository : ICategoryTagGroupCommandRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public SkillTagGroupCommandRepository(AppDbContext appDbContext)
+        public CategoryTagGroupCommandRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
-        public async Task<int> Add(CategoryTagGroup skillTagGroup, CancellationToken cancellationToken)
+        public async Task<int> Add(CategoryTagGroup categoryTagGroup, CancellationToken cancellationToken)
         {
-            await _appDbContext.SkillTagGroups.AddAsync(skillTagGroup, cancellationToken);
+            await _appDbContext.CategoryTagGroups.AddAsync(categoryTagGroup, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
-            return skillTagGroup.Id;
+            return categoryTagGroup.Id;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var skillTagGroup = await _appDbContext.SkillTagGroups.SingleAsync(x => x.Id == id, cancellationToken);
-            _appDbContext.SkillTagGroups.Remove(skillTagGroup);
+            var skillTagGroup = await _appDbContext.CategoryTagGroups.SingleAsync(x => x.Id == id, cancellationToken);
+            _appDbContext.CategoryTagGroups.Remove(skillTagGroup);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

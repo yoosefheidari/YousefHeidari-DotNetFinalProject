@@ -10,25 +10,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
-    public class ExpertSkillCommandRepository : IExpertSkillCommandRepository
+    public class ExpertCategoryCommandRepository : IExpertCategoryCommandRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public ExpertSkillCommandRepository(AppDbContext appDbContext)
+        public ExpertCategoryCommandRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
-        public async Task<int> Add(ExpertCategory expertSkill, CancellationToken cancellationToken)
+        public async Task<int> Add(ExpertCategory expertCategory, CancellationToken cancellationToken)
         {
-            await _appDbContext.ExpertSkills.AddAsync(expertSkill, cancellationToken);
+            await _appDbContext.ExpertCategories.AddAsync(expertCategory, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
-            return expertSkill.Id;
+            return expertCategory.Id;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var expertSkill = await _appDbContext.ExpertSkills.SingleAsync(x => x.Id == id, cancellationToken);
-            _appDbContext.ExpertSkills.Remove(expertSkill);
+            var expertCategory = await _appDbContext.ExpertCategories.SingleAsync(x => x.Id == id, cancellationToken);
+            _appDbContext.ExpertCategories.Remove(expertCategory);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

@@ -33,9 +33,9 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasMaxLength(250);
 
             modelBuilder.Entity<Order>()
-                .HasOne(x => x.Skill)
+                .HasOne(x => x.Category)
                 .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.SkillId)
+                .HasForeignKey(x => x.CategoryId)
                 .IsRequired();          
 
             modelBuilder.Entity<Order>()                
@@ -104,25 +104,17 @@ namespace App.Infrastructure.DataBase.SqlServer
 
             modelBuilder.Entity<ExpertCategory>()
                 .HasOne(x => x.Expert)
-                .WithMany(x => x.ExpertSkills)
+                .WithMany(x => x.ExpertCategories)
                 .HasForeignKey(x => x.ExpertId)
                 .IsRequired();
 
             modelBuilder.Entity<ExpertCategory>()
-                .HasOne(x => x.Skill)
-                .WithMany(x => x.ExpertSkills)
-                .HasForeignKey(x => x.SkillId)
-                .IsRequired();
-
-            modelBuilder.Entity<Skill>()
                 .HasOne(x => x.Category)
-                .WithMany(x => x.Skills)
+                .WithMany(x => x.ExpertCategories)
                 .HasForeignKey(x => x.CategoryId)
                 .IsRequired();
-            modelBuilder.Entity<Skill>()
-                .Property(x => x.Name)
-                .HasMaxLength(50);
 
+            
             modelBuilder.Entity<Category>()
                 .Property(x => x.DisplayOrder)
                 .IsRequired(false);
@@ -133,10 +125,10 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .Property(x => x.Name)
                 .HasMaxLength(50);
 
-            modelBuilder.Entity<Opinion>()
+            modelBuilder.Entity<Comment>()
                 .Property(x => x.Title)
                 .HasMaxLength(50);
-            modelBuilder.Entity<Opinion>()
+            modelBuilder.Entity<Comment>()
                 .Property(x => x.Title)
                 .HasMaxLength(2000);
 
@@ -148,14 +140,14 @@ namespace App.Infrastructure.DataBase.SqlServer
 
 
             modelBuilder.Entity<CategoryTagGroup>()
-                .HasOne(x => x.Skill)
-                .WithMany(x => x.SkillTagGroups)
-                .HasForeignKey(x => x.SkillId)
+                .HasOne(x => x.Category)
+                .WithMany(x => x.CategoryTagGroups)
+                .HasForeignKey(x => x.CategoryId)
                 .IsRequired();
 
             modelBuilder.Entity<CategoryTagGroup>()
                 .HasOne(x => x.TagGroup)
-                .WithMany(x => x.SkillTagGroups)
+                .WithMany(x => x.CategoryTagGroups)
                 .HasForeignKey(x => x.TagGroupId)
                 .IsRequired();
 
@@ -182,22 +174,21 @@ namespace App.Infrastructure.DataBase.SqlServer
         #endregion
 
         #region BaseData Aggregate Dbsets
-        public virtual DbSet<Status> Statuses { get; set; } = null!;
-        public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Opinion> Opinions { get; set; } = null!;
+        public virtual DbSet<Status> Statuses { get; set; } = null!;        
         public virtual DbSet<PhysicalFile> Files { get; set; } = null!;
         #endregion
 
         #region MainWork Aggreagate Dbsets
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
-        public virtual DbSet<Skill> Skills { get; set; } = null!;
         public virtual DbSet<OrderTag> OrderTags { get; set; } = null!;
         public virtual DbSet<CategoryTagGroup> CategorySpecifications { get; set; } = null!;
         public virtual DbSet<TagGroup> TagGroups { get; set; } = null!;
-        public virtual DbSet<ExpertCategory> ExpertSkills { get; set; } = null!;
-        public virtual DbSet<CategoryTagGroup> SkillTagGroups { get; set; } = null!;
+        public virtual DbSet<ExpertCategory> ExpertCategories { get; set; } = null!;
+        public virtual DbSet<CategoryTagGroup> CategoryTagGroups { get; set; } = null!;
         public virtual DbSet<ExpertSuggest> ExpertSuggests { get; set; } = null!;
+        public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<Comment> Comments { get; set; } = null!;
         #endregion
     }
 }

@@ -35,7 +35,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 CreationDate = category.CreationDate,
                 CustomerId = category.CustomerId,
                 IsConfirmedByCustomer = category.IsConfirmedByCustomer,
-                SkillId = category.SkillId,
+                CategoryId = category.CategoryId,
                 StatusId = category.StatusId,
                 SuggestedWorkTimeByExpert=category.SuggestedWorkTimeByExpert
             };
@@ -57,7 +57,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     CreationDate = x.CreationDate,
                     CustomerId = x.CustomerId,
                     IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                    SkillId = x.SkillId,
+                    CategoryId = x.CategoryId,
                     StatusId = x.StatusId,
                     SuggestedWorkTimeByExpert = x.SuggestedWorkTimeByExpert
                 })

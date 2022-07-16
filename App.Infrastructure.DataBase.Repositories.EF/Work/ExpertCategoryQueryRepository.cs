@@ -10,25 +10,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
-    public class ExpertSkillQueryRepository : IExpertSkillQueryRepository
+    public class ExpertCategoryQueryRepository : IExpertCategoryQueryRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public ExpertSkillQueryRepository(AppDbContext appDbContext)
+        public ExpertCategoryQueryRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
         public async Task<ExpertCategory> Get(int id, CancellationToken cancellationToken)
         {
-            var expertSkill = await _appDbContext.ExpertSkills
+            var expertCategory = await _appDbContext.ExpertCategories
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            return expertSkill;
+            return expertCategory;
         }
 
         public async Task<List<ExpertCategory>> GetAll(CancellationToken cancellationToken)
         {
-            var expertSkills = await _appDbContext.ExpertSkills.ToListAsync(cancellationToken);
-            return expertSkills;
+            var expertCategorys = await _appDbContext.ExpertCategories.ToListAsync(cancellationToken);
+            return expertCategorys;
         }
     }
 }

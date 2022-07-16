@@ -10,25 +10,25 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
-    public class SkillTagGroupQueryRepository : ISkillTagGroupQueryRepository
+    public class CategoryTagGroupQueryRepository : ICategoryTagGroupQueryRepository
     {
         private readonly AppDbContext _appDbContext;
 
-        public SkillTagGroupQueryRepository(AppDbContext appDbContext)
+        public CategoryTagGroupQueryRepository(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
         public async Task<CategoryTagGroup> Get(int id, CancellationToken cancellationToken)
         {
-            var skillTagGroup = await _appDbContext.SkillTagGroups
+            var categoryTagGroup = await _appDbContext.CategoryTagGroups
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            return skillTagGroup;
+            return categoryTagGroup;
         }
 
         public async Task<List<CategoryTagGroup>> GetAll(CancellationToken cancellationToken)
         {
-            var skillTagGroups = await _appDbContext.SkillTagGroups.ToListAsync(cancellationToken);
-            return skillTagGroups;
+            var categoryTagGroup = await _appDbContext.CategoryTagGroups.ToListAsync(cancellationToken);
+            return categoryTagGroup;
         }
     }
 }
