@@ -12,6 +12,7 @@ namespace App.Domain.Core.Work.Entities
         public int Id { get; set; }
         public int CategoryId { get; set; }
         public int ExpertId { get; set; }
+        public bool IsDeleted { get; set; }
 
 
 

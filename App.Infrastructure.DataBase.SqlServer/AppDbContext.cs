@@ -79,6 +79,11 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .Property(x => x.Name)
                 .HasMaxLength(50);
 
+            modelBuilder.Entity<Tag>()
+                .Property(x => x.Price)
+                .HasPrecision(10, 0)
+                .IsRequired(false);
+
             modelBuilder.Entity<TagGroup>()
                 .Property(x => x.Name)
                 .HasMaxLength(50);
@@ -124,12 +129,16 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<Category>()
                 .Property(x => x.Name)
                 .HasMaxLength(50);
+            modelBuilder.Entity<Category>()
+                .Property(x => x.BasePrice)
+                .HasPrecision(10, 0)
+                .IsRequired(false);
 
             modelBuilder.Entity<Comment>()
                 .Property(x => x.Title)
                 .HasMaxLength(50);
             modelBuilder.Entity<Comment>()
-                .Property(x => x.Title)
+                .Property(x => x.Description)
                 .HasMaxLength(2000);
 
 
@@ -166,6 +175,23 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<PhysicalFile>()
                 .Property(x => x.Path)
                 .HasMaxLength(500);
+
+
+            modelBuilder.Entity<Brand>()
+                .Property(x => x.Name)
+                .HasMaxLength(50);
+
+            modelBuilder.Entity<Brand>()
+                .HasMany(x => x.BrandCategories)
+                .WithOne(x=>x.Brand)
+                .HasForeignKey(x=>x.BrandId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Category>()
+                .HasMany(x => x.BrandCategories)
+                .WithOne(x => x.Category)
+                .HasForeignKey(x => x.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         #region User Aggregate DbSets
         public virtual DbSet<Admin> Admins { get; set; } = null!;

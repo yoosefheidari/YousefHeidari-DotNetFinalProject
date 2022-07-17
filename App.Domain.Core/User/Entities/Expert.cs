@@ -15,10 +15,10 @@ namespace App.Domain.Core.Operator.Entities
         public string Name { get; set; }
         public string Family { get; set; }
         public string Mobile { get; set; }
-        public string Email { get; set; }
+        //public string Email { get; set; }
         public string Address { get; set; }
         public string NationalCode { get; set; }
-
+        public bool IsDeleted { get; set; }
 
 
         public virtual List<Order> Orders { get; set; }

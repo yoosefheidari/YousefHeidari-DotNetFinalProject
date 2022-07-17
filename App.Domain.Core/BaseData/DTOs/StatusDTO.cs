@@ -11,6 +11,5 @@ namespace App.Domain.Core.BaseData.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTimeOffset CreationDate { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

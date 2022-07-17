@@ -15,6 +15,7 @@ namespace App.Domain.Core.Work.Entities
         public decimal Price { get; set; }
         public bool? IsConfirmedByCustomer { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsDeleted { get; set; }
 
 
         public virtual Order Order { get; set; }

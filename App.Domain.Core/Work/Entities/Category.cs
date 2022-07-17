@@ -16,6 +16,7 @@ namespace App.Domain.Core.Work.Entities
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
+        public decimal? BasePrice { get; set; }
 
 
         public virtual List<Order> Orders { get; set; }

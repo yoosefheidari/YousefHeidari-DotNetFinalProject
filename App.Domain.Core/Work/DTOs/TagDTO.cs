@@ -11,8 +11,8 @@ namespace App.Domain.Core.Work.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public decimal? Price { get; set; }
         public int TagGroupId { get; set; }
-        public bool IsDeleted { get; set; }
         public bool? HasValue { get; set; }
     }
 }

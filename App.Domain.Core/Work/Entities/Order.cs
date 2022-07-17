@@ -23,6 +23,7 @@ namespace App.Domain.Core.Work.Entities
         public DateTimeOffset CreationDate { get; set; }
         public DateTimeOffset? FinalizedDate { get; set; }
         public DateTimeOffset RequestedDate { get; set; }
+        public bool IsDeleted { get; set; }
 
 
         public virtual Category Category { get; set; }
