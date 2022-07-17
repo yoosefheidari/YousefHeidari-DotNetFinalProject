@@ -13,5 +13,6 @@ namespace App.Domain.Core.BaseData.DTOs
         public int? ExpertId { get; set; }
         public int? OrderId { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

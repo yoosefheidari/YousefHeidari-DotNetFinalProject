@@ -215,6 +215,8 @@ namespace App.Infrastructure.DataBase.SqlServer
         public virtual DbSet<ExpertSuggest> ExpertSuggests { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<BrandCategory> BrandCategories { get; set; } = null!;
+        public virtual DbSet<Brand> Brands { get; set; } = null!;
         #endregion
     }
 }

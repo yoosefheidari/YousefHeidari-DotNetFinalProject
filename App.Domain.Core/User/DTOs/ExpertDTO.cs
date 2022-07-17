@@ -16,5 +16,6 @@ namespace App.Domain.Core.User.DTOs
         public string Email { get; set; }
         public string Address { get; set; }
         public string NationalCode { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

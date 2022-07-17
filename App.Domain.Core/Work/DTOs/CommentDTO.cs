@@ -15,5 +15,6 @@ namespace App.Domain.Core.Work.DTOs
         public int OrderId { get; set; }
         public int? Rating { get; set; }
         public bool? DoesRecomended { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

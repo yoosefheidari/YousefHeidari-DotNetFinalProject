@@ -14,5 +14,6 @@ namespace App.Domain.Core.Work.DTOs
         public decimal? Price { get; set; }
         public int TagGroupId { get; set; }
         public bool? HasValue { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }

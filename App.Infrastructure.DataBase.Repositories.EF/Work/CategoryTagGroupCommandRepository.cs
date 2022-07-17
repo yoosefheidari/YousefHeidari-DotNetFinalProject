@@ -27,8 +27,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var skillTagGroup = await _appDbContext.CategoryTagGroups.SingleAsync(x => x.Id == id, cancellationToken);
-            _appDbContext.CategoryTagGroups.Remove(skillTagGroup);
+            var categoryTagGroup = await _appDbContext.CategoryTagGroups.SingleAsync(x => x.Id == id, cancellationToken);
+            _appDbContext.CategoryTagGroups.Remove(categoryTagGroup);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

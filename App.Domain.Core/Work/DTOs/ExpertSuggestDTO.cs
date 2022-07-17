@@ -14,5 +14,6 @@ namespace App.Domain.Core.Work.DTOs
         public decimal Price { get; set; }
         public bool? IsConfirmedByCustomer { get; set; }
         public DateTimeOffset CreationDate { get; set; }
+        public bool IsDeleted { get; set; }
     }
 }
