@@ -9,8 +9,8 @@ namespace App.Domain.Core.User.Contracts.Repositories
 {
     public interface IExpertQueryRepository
     {
-        Task<List<ExpertDTO>> GetAll(CancellationToken cancellationToken);
-        Task<ExpertDTO> Get(int id, CancellationToken cancellationToken);
-        Task<ExpertDTO> GetByUserId(int userId, CancellationToken cancellationToken);
+        Task<List<UserFileDTO>> GetAll(CancellationToken cancellationToken);
+        Task<UserFileDTO> Get(int id, CancellationToken cancellationToken);
+        Task<UserFileDTO> GetByUserId(int userId, CancellationToken cancellationToken);
     }
 }

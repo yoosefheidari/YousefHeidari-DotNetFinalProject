@@ -9,8 +9,8 @@ namespace App.Domain.Core.User.Contracts.Repositories
 {
     public interface IAdminCommandRepository
     {
-        Task<int> Add(AdminDTO admin);
-        Task Update(AdminDTO admin);
+        Task<int> Add(UserDTO admin);
+        Task Update(UserDTO admin);
         Task Delete(int id);
     }
 }

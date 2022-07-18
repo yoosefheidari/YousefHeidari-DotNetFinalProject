@@ -30,9 +30,9 @@ namespace App.Domain.Core.Work.Entities
         public virtual Customer Customer { get; set; }
         public virtual Expert Expert { get; set; }
         public virtual Status Status { get; set; }
-        public virtual Comment Comment { get; set; }
+        public virtual ServiceComment Comment { get; set; }
         public virtual List<OrderTag> OrderTags { get; set; }
-        public virtual List<ExpertSuggest> ExpertSuggests { get; set; }
+        public virtual List<Suggest> ExpertSuggests { get; set; }
         public virtual List<PhysicalFile> PhysicalFiles { get; set; }
     }
 }

@@ -9,8 +9,8 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IExpertSuggestCommandRepository
     {
-        Task<int> Add(ExpertSuggestDTO expertSuggest, CancellationToken cancellationToken);
-        Task Update(ExpertSuggestDTO expertSuggest, CancellationToken cancellationToken);
+        Task<int> Add(SuggestDTO expertSuggest, CancellationToken cancellationToken);
+        Task Update(SuggestDTO expertSuggest, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

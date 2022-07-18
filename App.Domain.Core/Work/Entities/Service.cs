@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.User.DTOs
+namespace App.Domain.Core.Work.Entities
 {
-    public class AdminDTO
+    internal class Service
     {
-        
     }
 }

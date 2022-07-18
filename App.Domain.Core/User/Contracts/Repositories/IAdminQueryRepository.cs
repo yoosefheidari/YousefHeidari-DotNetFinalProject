@@ -9,8 +9,8 @@ namespace App.Domain.Core.User.Contracts.Repositories
 {
     public interface IAdminQueryRepository
     {
-        Task<List<AdminDTO>> GetAll();
-        Task<AdminDTO> Get(int id);
-        Task<AdminDTO> Get(string name);
+        Task<List<UserDTO>> GetAll();
+        Task<UserDTO> Get(int id);
+        Task<UserDTO> Get(string name);
     }
 }

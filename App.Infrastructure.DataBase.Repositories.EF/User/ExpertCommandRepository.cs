@@ -20,7 +20,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             _appDbContext = appDbContext;
         }
 
-        public async Task<int> Add(ExpertDTO expert, CancellationToken cancellationToken)
+        public async Task<int> Add(UserFileDTO expert, CancellationToken cancellationToken)
         {
             var newExpert = new Expert()
             {
@@ -44,7 +44,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(ExpertDTO expert, CancellationToken cancellationToken)
+        public async Task Update(UserFileDTO expert, CancellationToken cancellationToken)
         {
             var expert1 = await _appDbContext.Experts.SingleAsync(x => x.Id == expert.Id, cancellationToken);
             expert1.Name = expert.Name;

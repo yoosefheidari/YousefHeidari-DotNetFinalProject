@@ -19,11 +19,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             _appDbContext = appDbContext;
         }
 
-        public async Task<ExpertSuggestDTO> Get(int id, CancellationToken cancellationToken)
+        public async Task<SuggestDTO> Get(int id, CancellationToken cancellationToken)
         {
             var expertSuggest = await _appDbContext.ExpertSuggests
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var expertSuggestDto = new ExpertSuggestDTO()
+            var expertSuggestDto = new SuggestDTO()
             {
                 Id = id,
                 CreationDate = expertSuggest.CreationDate,
@@ -35,10 +35,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return expertSuggestDto;
         }
 
-        public async Task<List<ExpertSuggestDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<SuggestDTO>> GetAll(CancellationToken cancellationToken)
         {
             var expertSuggests = await _appDbContext.ExpertSuggests
-                .Select(x => new ExpertSuggestDTO()
+                .Select(x => new SuggestDTO()
                 {
                     Id = x.Id,
                     CreationDate = x.CreationDate,
@@ -51,11 +51,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return expertSuggests;
         }
 
-        public async Task<List<ExpertSuggestDTO>> GetAll(int OrderId, CancellationToken cancellationToken)
+        public async Task<List<SuggestDTO>> GetAll(int OrderId, CancellationToken cancellationToken)
         {
             var expertSuggests = await _appDbContext.ExpertSuggests
                 .Where(x=>x.OrderId==OrderId)
-                .Select(x => new ExpertSuggestDTO()
+                .Select(x => new SuggestDTO()
                 {
                     Id = x.Id,
                     CreationDate = x.CreationDate,

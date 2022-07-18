@@ -19,11 +19,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             _appDbContext = appDbContext;
         }
 
-        public async Task<ExpertDTO> Get(int id, CancellationToken cancellationToken)
+        public async Task<UserFileDTO> Get(int id, CancellationToken cancellationToken)
         {
             var expert = await _appDbContext.Experts
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var expertDto = new ExpertDTO()
+            var expertDto = new UserFileDTO()
             {
                 Id = id,
                 Name = expert.Name,
@@ -37,10 +37,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             return expertDto;
         }
 
-        public async Task<List<ExpertDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<UserFileDTO>> GetAll(CancellationToken cancellationToken)
         {
             var experts = await _appDbContext.Experts
-                .Select(x => new ExpertDTO()
+                .Select(x => new UserFileDTO()
                 {
                     Id = x.Id,
                     Name = x.Name,
@@ -56,11 +56,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             return experts;
         }
 
-        public async Task<ExpertDTO> GetByUserId(int userId, CancellationToken cancellationToken)
+        public async Task<UserFileDTO> GetByUserId(int userId, CancellationToken cancellationToken)
         {
             var expert = await _appDbContext.Experts
                 .Where(x => x.IdentityUserId == userId).SingleAsync(cancellationToken);
-            var expertDto = new ExpertDTO()
+            var expertDto = new UserFileDTO()
             {
                 Id = expert.Id,
                 Name = expert.Name,

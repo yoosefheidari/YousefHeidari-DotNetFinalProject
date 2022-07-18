@@ -20,9 +20,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             _appDbContext = appDbContext;
         }
 
-        public async Task<int> Add(ExpertSuggestDTO expertSuggest, CancellationToken cancellationToken)
+        public async Task<int> Add(SuggestDTO expertSuggest, CancellationToken cancellationToken)
         {
-            var newExpertSuggest = new ExpertSuggest()
+            var newExpertSuggest = new Suggest()
             {
                 ExpertId = expertSuggest.Id,
                 IsConfirmedByCustomer = expertSuggest.IsConfirmedByCustomer,
@@ -42,7 +42,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task Update(ExpertSuggestDTO expertSuggest, CancellationToken cancellationToken)
+        public async Task Update(SuggestDTO expertSuggest, CancellationToken cancellationToken)
         {
             var expertSuggest1 = await _appDbContext.ExpertSuggests.SingleAsync(x => x.Id == expertSuggest.Id, cancellationToken);
             expertSuggest1.IsConfirmedByCustomer= expertSuggest.IsConfirmedByCustomer;

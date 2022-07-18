@@ -22,7 +22,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task<int> Add(CommentDTO comment, CancellationToken cancellationToken)
         {
-            var newComment = new Comment()
+            var newComment = new ServiceComment()
             {
                 Description = comment.Description,
                 DoesRecomended = comment.DoesRecomended,

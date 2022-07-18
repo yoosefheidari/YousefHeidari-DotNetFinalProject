@@ -21,7 +21,7 @@ namespace App.Domain.Core.Work.Entities
 
         public virtual List<Order> Orders { get; set; }
         public virtual List<ExpertCategory> ExpertCategories { get; set; }
-        public virtual List<BrandCategory> BrandCategories { get; set; }
+        //public virtual List<BrandCategory> BrandCategories { get; set; }
         public virtual List<CategoryTagGroup> CategoryTagGroups { get; set; }
     }
 }

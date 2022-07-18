@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Core.Work.DTOs
 {
-    public class TagGroupDTO
+    public class SuggestDTO
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public int? OrderId { get; set; }
+        public int ExpertId { get; set; }
+        public decimal Price { get; set; }
+        public bool? IsConfirmedByCustomer { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
     }

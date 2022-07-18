@@ -90,19 +90,19 @@ namespace App.Infrastructure.DataBase.SqlServer
 
 
 
-            modelBuilder.Entity<ExpertSuggest>()
+            modelBuilder.Entity<Suggest>()
                 .HasOne(x => x.Expert)
                 .WithMany(x => x.ExpertSuggests)
                 .HasForeignKey(x => x.ExpertId)
                 .IsRequired();
 
-            modelBuilder.Entity<ExpertSuggest>()
+            modelBuilder.Entity<Suggest>()
                 .HasOne(x => x.Order)
                 .WithMany(x => x.ExpertSuggests)
                 .HasForeignKey(x => x.OrderId)
                 .IsRequired(false);
           
-            modelBuilder.Entity<ExpertSuggest>()
+            modelBuilder.Entity<Suggest>()
                 .Property(x => x.Price)
                 .HasPrecision(10,0);
 
@@ -134,10 +134,10 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasPrecision(10, 0)
                 .IsRequired(false);
 
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Title)
                 .HasMaxLength(50);
-            modelBuilder.Entity<Comment>()
+            modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Description)
                 .HasMaxLength(2000);
 
@@ -212,9 +212,9 @@ namespace App.Infrastructure.DataBase.SqlServer
         public virtual DbSet<TagGroup> TagGroups { get; set; } = null!;
         public virtual DbSet<ExpertCategory> ExpertCategories { get; set; } = null!;
         public virtual DbSet<CategoryTagGroup> CategoryTagGroups { get; set; } = null!;
-        public virtual DbSet<ExpertSuggest> ExpertSuggests { get; set; } = null!;
+        public virtual DbSet<Suggest> ExpertSuggests { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
-        public virtual DbSet<Comment> Comments { get; set; } = null!;
+        public virtual DbSet<ServiceComment> Comments { get; set; } = null!;
         public virtual DbSet<BrandCategory> BrandCategories { get; set; } = null!;
         public virtual DbSet<Brand> Brands { get; set; } = null!;
         #endregion
