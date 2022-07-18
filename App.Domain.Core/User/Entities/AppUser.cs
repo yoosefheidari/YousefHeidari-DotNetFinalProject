@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using App.Domain.Core.Work.Entities;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,12 @@ namespace App.Domain.Core.User.Entities
         public string NationalCode { get; set; }
         public string Mobile { get; set; }
 
+
+        public virtual List<Order> Orders { get; set; }
+        public virtual List<Suggest> Suggests { get; set; }
+
+        public virtual List<ExpertCategory> ExpertCategories { get; set; }
+        public virtual List<UserFile> UserFiles { get; set; }
 
 
     }

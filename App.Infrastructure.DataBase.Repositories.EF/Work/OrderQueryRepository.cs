@@ -22,27 +22,25 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var category = await _appDbContext.Orders
+            var order = await _appDbContext.Orders
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
             var orderDto = new OrderDTO()
             {
                 Id = id,
-                Description = category.Description,
-                RequestedDate = category.RequestedDate,
-                FinalizedDate = category.FinalizedDate,
-                FinalPrice = category.FinalPrice,
-                ConfirmedExpertId = category.ConfirmedExpertId,
-                CreationDate = category.CreationDate,
-                CustomerId = category.CustomerId,
-                IsConfirmedByCustomer = category.IsConfirmedByCustomer,
-                CategoryId = category.CategoryId,
-                StatusId = category.StatusId,
-                SuggestedWorkTimeByExpert=category.SuggestedWorkTimeByExpert
+                Description = order.Description,
+                IsDeleted = order.IsDeleted,
+                FinalPrice = order.FinalPrice,
+                ConfirmedExpertId = order.ConfirmedExpertId,
+                CreationDate = order.CreationDate,
+                CustomerId = order.CustomerId,
+                IsConfirmedByCustomer = order.IsConfirmedByCustomer,
+                StatusId = order.StatusId,
+                ServiceId = order.ServiceId,
             };
             return orderDto;
         }
 
-        
+
         public async Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken)
         {
             var orders = await _appDbContext.Orders
@@ -50,16 +48,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 {
                     Id = x.Id,
                     Description = x.Description,
-                    RequestedDate = x.RequestedDate,
-                    FinalizedDate = x.FinalizedDate,
                     FinalPrice = x.FinalPrice,
                     ConfirmedExpertId = x.ConfirmedExpertId,
                     CreationDate = x.CreationDate,
                     CustomerId = x.CustomerId,
                     IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                    CategoryId = x.CategoryId,
                     StatusId = x.StatusId,
-                    SuggestedWorkTimeByExpert = x.SuggestedWorkTimeByExpert
+                    ServiceId = x.ServiceId,
+                    IsDeleted = x.IsDeleted,
                 })
                 .ToListAsync(cancellationToken);
             return orders;

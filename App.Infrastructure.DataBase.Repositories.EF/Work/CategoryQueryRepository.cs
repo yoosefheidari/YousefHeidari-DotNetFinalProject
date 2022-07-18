@@ -27,10 +27,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = id,
                 Name = category.Name,
                 CreationDate = category.CreationDate,
-                DisplayOrder = category.DisplayOrder,
-                IsActive = category.IsActive,
                 IsDeleted = category.IsDeleted,
-                ParentCategoryId = category.ParentCategoryId,
             };
             return categoryDto;
         }
@@ -44,10 +41,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = category.Id,
                 Name = category.Name,
                 CreationDate = DateTime.Now,
-                DisplayOrder = category.DisplayOrder,
-                IsActive = category.IsActive,
                 IsDeleted = category.IsDeleted,
-                ParentCategoryId = category.ParentCategoryId,
             };
             return categoryDto;
         }
@@ -60,10 +54,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     Id = x.Id,
                     Name = x.Name,
                     CreationDate = x.CreationDate,
-                    DisplayOrder = x.DisplayOrder,
-                    IsActive = x.IsActive,
                     IsDeleted = x.IsDeleted,
-                    ParentCategoryId = x.ParentCategoryId
                 })
                 .ToListAsync(cancellationToken);
             return categories;

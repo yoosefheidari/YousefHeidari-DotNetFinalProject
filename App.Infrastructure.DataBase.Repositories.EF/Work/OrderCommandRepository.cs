@@ -24,17 +24,16 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var newOrder = new Order()
             {
-                FinalizedDate = order.FinalizedDate,
-                CategoryId = order.CategoryId,
+                
                 StatusId = order.StatusId,
-                SuggestedWorkTimeByExpert = order.SuggestedWorkTimeByExpert,
                 ConfirmedExpertId = order.ConfirmedExpertId,
                 CustomerId = order.CustomerId,
                 Description = order.Description,
                 FinalPrice = order.FinalPrice,
                 IsConfirmedByCustomer = order.IsConfirmedByCustomer,
-                RequestedDate = order.RequestedDate,
                 CreationDate = order.CreationDate,
+                IsDeleted=order.IsDeleted,
+                
             };
             await _appDbContext.Orders.AddAsync(newOrder, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -56,10 +55,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             order1.Description=order.Description;
             order1.FinalPrice=order.FinalPrice;
             order1.ConfirmedExpertId = order.ConfirmedExpertId;
-            order1.FinalizedDate = order.FinalizedDate;
             order1.StatusId = order.StatusId;
-            order1.CategoryId = order.CategoryId;
-            order1.RequestedDate = order.RequestedDate;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

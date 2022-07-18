@@ -1,5 +1,4 @@
 ﻿using App.Domain.Core.BaseData.Entities;
-using App.Domain.Core.Operator.Entities;
 using App.Domain.Core.User.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,7 +20,6 @@ namespace App.Domain.Core.Work.Entities
         //public int ServiceBasePrice { get; set; }
         public bool? IsConfirmedByCustomer { get; set; }
         public DateTimeOffset CreationDate { get; set; }
-        public DateTimeOffset? FinalizedDate { get; set; }
         public bool IsDeleted { get; set; }
 
 

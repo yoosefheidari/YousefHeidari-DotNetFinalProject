@@ -1,5 +1,4 @@
-﻿using App.Domain.Core.Operator.Entities;
-using App.Domain.Core.User.Entities;
+﻿using App.Domain.Core.User.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +11,12 @@ namespace App.Domain.Core.Work.Entities
     {
         public int Id { get; set; }
         public int CategoryId { get; set; }
-        public int UserId { get; set; }
+        public int ExpertId { get; set; }
         public bool IsDeleted { get; set; }
 
 
 
-        public virtual AppUser User { get; set; }
+        public virtual AppUser Expert { get; set; }
         public virtual Category Category { get; set; }
     }
 }

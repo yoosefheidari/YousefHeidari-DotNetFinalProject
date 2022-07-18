@@ -26,10 +26,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             {
                 Name = category.Name,
                 CreationDate = category.CreationDate,
-                DisplayOrder = category.DisplayOrder,
-                IsActive = category.IsActive,
                 IsDeleted = category.IsDeleted,
-                ParentCategoryId = category.ParentCategoryId,
             };
             await _appDbContext.Categories.AddAsync(newCategory, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -45,11 +42,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task Update(CategoryDTO category, CancellationToken cancellationToken)
         {
-            var categori = await _appDbContext.Categories.SingleAsync(x => x.Id == category.Id, cancellationToken);
-            categori.DisplayOrder = category.DisplayOrder;
-            categori.IsActive = category.IsActive;
+            var categori = await _appDbContext.Categories.SingleAsync(x => x.Id == category.Id, cancellationToken);            
             categori.Name = category.Name;
-            categori.ParentCategoryId = category.ParentCategoryId;
             categori.IsDeleted = category.IsDeleted;
             await _appDbContext.SaveChangesAsync(cancellationToken);
 

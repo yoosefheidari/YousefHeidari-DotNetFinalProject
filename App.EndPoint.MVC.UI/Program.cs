@@ -2,7 +2,7 @@ using App.Domain.Core.BaseData.Contracts.Repositories;
 using App.Domain.Core.User.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Repositories;
 using App.Infrastructure.DataBase.Repositories.EF.BaseData;
-using App.Infrastructure.DataBase.Repositories.EF.User;
+using App.Infrastructure.DataBase.Repositories.EF.User.Admin;
 using App.Infrastructure.DataBase.Repositories.EF.Work;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Identity;
@@ -24,33 +24,29 @@ builder.Services.AddScoped<IFileQueryRepository, FileQueryRepository>();
 #endregion
 
 #region WorkRepositories
-builder.Services.AddScoped<ICommentCommandRepository, CommentCommandRepository>();
-builder.Services.AddScoped<ICommentQueryRepository, CommentQueryRepository>();
 builder.Services.AddScoped<ICategoryCommandRepository, CategoryCommandRepository>();
 builder.Services.AddScoped<ICategoryQueryRepository, CategoryQueryRepository>();
 builder.Services.AddScoped<IExpertCategoryCommandRepository, ExpertCategoryCommandRepository>();
 builder.Services.AddScoped<IExpertCategoryQueryRepository, ExpertCategoryQueryRepository>();
-builder.Services.AddScoped<IExpertSuggestCommandRepository, ExpertSuggestCommandRepository>();
-builder.Services.AddScoped<IExpertSuggestQueryRepository, ExpertSuggestQueryRepository>();
 builder.Services.AddScoped<IOrderCommandRepository, OrderCommandRepository>();
 builder.Services.AddScoped<IOrderQueryRepository, OrderQueryRepository>();
-builder.Services.AddScoped<IOrderTagCommandRepository, OrderTagCommandRepository>();
-builder.Services.AddScoped<IOrderTagQueryRepository, OrderTagQueryRepository>();
-builder.Services.AddScoped<ICategoryTagGroupCommandRepository, CategoryTagGroupCommandRepository>();
-builder.Services.AddScoped<ICategoryTagGroupQueryRepository, CategoryTagGroupQueryRepository>();
-builder.Services.AddScoped<ITagCommandRepository, TagCommandRepository>();
-builder.Services.AddScoped<ITagQueryRepository, TagQueryRepository>();
-builder.Services.AddScoped<ITagGroupCommandRepository, TagGroupCommandRepository>();
-builder.Services.AddScoped<ITagGroupQueryRepository, TagGroupQueryRepository>();
+builder.Services.AddScoped<IOrderFileCommandRepository, OrderFileCommandRepository>();
+builder.Services.AddScoped<IOrderFileQueryRepository, OrderFileQueryRepository>();
+builder.Services.AddScoped<IServiceCommandRepository, ServiceCommandRepository>();
+builder.Services.AddScoped<IServiceQueryRepository, ServiceQueryRepository>();
+builder.Services.AddScoped<IServiceCommentCommandRepository, ServiceCommentCommandRepository>();
+builder.Services.AddScoped<IServiceCommentQueryRepository, ServiceCommentQueryRepository>();
+builder.Services.AddScoped<ISuggestCommandRepository, SuggestCommandRepository>();
+builder.Services.AddScoped<ISuggestQueryRepository, SuggestQueryRepository>();
+builder.Services.AddScoped<IServiceFileCommandRepository, ServiceFileCommandRepository>();
+builder.Services.AddScoped<IServiceFileQueryRepository, ServiceFileQueryRepository>();
 
 #endregion
 
 #region UserRepositories
 
-builder.Services.AddScoped<ICustomerCommandRepository, CustomerCommandRepository>();
-builder.Services.AddScoped<ICustomerQueryRepository, CustomerQueryRepository>();
-builder.Services.AddScoped<IExpertCommandRepository, ExpertCommandRepository>();
-builder.Services.AddScoped<IExpertQueryRepository, ExpertQueryRepository>();
+builder.Services.AddScoped<IUserCommandRepository, UserCommandRepository>();
+builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 #endregion
 

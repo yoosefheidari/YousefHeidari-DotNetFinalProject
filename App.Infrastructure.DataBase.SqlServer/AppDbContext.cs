@@ -1,5 +1,5 @@
 ﻿using App.Domain.Core.BaseData.Entities;
-using App.Domain.Core.Operator.Entities;
+using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace App.Infrastructure.DataBase.SqlServer
 {
-    public class AppDbContext : IdentityDbContext<IdentityUser<int>,IdentityRole<int>,int>
+    public class AppDbContext : IdentityDbContext<IdentityUser<int>, IdentityRole<int>, int>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
@@ -23,22 +23,18 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .Property(x => x.Description)
                 .IsRequired(false)
                 .HasMaxLength(2000);
+
             modelBuilder.Entity<Order>()
                 .Property(x => x.FinalPrice)
-                .IsRequired(false)
-                .HasPrecision(10,0);
-            modelBuilder.Entity<Order>()
-                .Property(x => x.SuggestedWorkTimeByExpert)
-                .IsRequired(false)
-                .HasMaxLength(250);
+                .IsRequired(false);
 
             modelBuilder.Entity<Order>()
-                .HasOne(x => x.Category)
+                .HasOne(x => x.Service)
                 .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.CategoryId)
-                .IsRequired();          
+                .HasForeignKey(x => x.ServiceId)
+                .IsRequired();
 
-            modelBuilder.Entity<Order>()                
+            modelBuilder.Entity<Order>()
                 .HasOne(x => x.Customer)
                 .WithMany(x => x.Orders)
                 .HasForeignKey(x => x.CustomerId)
@@ -56,43 +52,12 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasForeignKey(x => x.StatusId)
                 .IsRequired();
 
-            modelBuilder.Entity<Order>()
-                .HasMany(x => x.OrderTags)
-                .WithOne(x => x.Order)
-                .HasForeignKey(x => x.OrderId)
-                .IsRequired();
             #endregion
-
-            modelBuilder.Entity<Tag>()
-                .HasMany(x => x.OrderTags)
-                .WithOne(x => x.Tag)
-                .HasForeignKey(x => x.TagId)
-                .IsRequired();
-
-            modelBuilder.Entity<Tag>()
-                .HasOne(x => x.TagGroup)
-                .WithMany(x => x.Tags)
-                .HasForeignKey(x => x.TagGroupId)
-                .IsRequired();
-
-            modelBuilder.Entity<Tag>()
-                .Property(x => x.Name)
-                .HasMaxLength(50);
-
-            modelBuilder.Entity<Tag>()
-                .Property(x => x.Price)
-                .HasPrecision(10, 0)
-                .IsRequired(false);
-
-            modelBuilder.Entity<TagGroup>()
-                .Property(x => x.Name)
-                .HasMaxLength(50);
-
 
 
             modelBuilder.Entity<Suggest>()
                 .HasOne(x => x.Expert)
-                .WithMany(x => x.ExpertSuggests)
+                .WithMany(x => x.Suggests)
                 .HasForeignKey(x => x.ExpertId)
                 .IsRequired();
 
@@ -101,10 +66,8 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .WithMany(x => x.ExpertSuggests)
                 .HasForeignKey(x => x.OrderId)
                 .IsRequired(false);
-          
-            modelBuilder.Entity<Suggest>()
-                .Property(x => x.Price)
-                .HasPrecision(10,0);
+
+            
 
 
             modelBuilder.Entity<ExpertCategory>()
@@ -119,24 +82,16 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasForeignKey(x => x.CategoryId)
                 .IsRequired();
 
+
             
-            modelBuilder.Entity<Category>()
-                .Property(x => x.DisplayOrder)
-                .IsRequired(false);
-            modelBuilder.Entity<Category>()
-                .Property(x => x.DisplayOrder)
-                .IsRequired(false);
             modelBuilder.Entity<Category>()
                 .Property(x => x.Name)
                 .HasMaxLength(50);
-            modelBuilder.Entity<Category>()
-                .Property(x => x.BasePrice)
-                .HasPrecision(10, 0)
-                .IsRequired(false);
 
             modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Title)
                 .HasMaxLength(50);
+
             modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Description)
                 .HasMaxLength(2000);
@@ -147,76 +102,61 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .HasMaxLength(50);
 
 
+            modelBuilder.Entity<ServiceFile>()
+                .HasOne(x => x.Service)
+                .WithMany(x => x.ServiceFiles)
+                .HasForeignKey(x => x.ServiceId);
 
-            modelBuilder.Entity<CategoryTagGroup>()
-                .HasOne(x => x.Category)
-                .WithMany(x => x.CategoryTagGroups)
-                .HasForeignKey(x => x.CategoryId)
-                .IsRequired();
+            modelBuilder.Entity<ServiceFile>()
+                .HasOne(x => x.File)
+                .WithMany(x => x.ServiceFiles)
+                .HasForeignKey(x => x.FileId);
 
-            modelBuilder.Entity<CategoryTagGroup>()
-                .HasOne(x => x.TagGroup)
-                .WithMany(x => x.CategoryTagGroups)
-                .HasForeignKey(x => x.TagGroupId)
-                .IsRequired();
-
-            modelBuilder.Entity<PhysicalFile>()
-                .HasOne(x => x.Expert)
-                .WithMany(x => x.PhysicalFiles)
-                .HasForeignKey(x => x.ExpertId)
-                .IsRequired(false);
-
-            modelBuilder.Entity<PhysicalFile>()
+            modelBuilder.Entity<OrderFile>()
                 .HasOne(x => x.Order)
-                .WithMany(x => x.PhysicalFiles)
-                .HasForeignKey(x => x.OrderId)
-                .IsRequired(false);
+                .WithMany(x => x.OrderFiles)
+                .HasForeignKey(x => x.OrderId);
+
+            modelBuilder.Entity<OrderFile>()
+                .HasOne(x => x.File)
+                .WithMany(x => x.OrderFiles)
+                .HasForeignKey(x => x.FileId);
+
+            modelBuilder.Entity<UserFile>()
+                .HasOne(x => x.User)
+                .WithMany(x => x.UserFiles)
+                .HasForeignKey(x => x.UserId);
+
+            modelBuilder.Entity<UserFile>()
+                .HasOne(x => x.File)
+                .WithMany(x => x.UserFiles)
+                .HasForeignKey(x => x.FileId);
+
 
             modelBuilder.Entity<PhysicalFile>()
                 .Property(x => x.Path)
                 .HasMaxLength(500);
 
-
-            modelBuilder.Entity<Brand>()
-                .Property(x => x.Name)
-                .HasMaxLength(50);
-
-            modelBuilder.Entity<Brand>()
-                .HasMany(x => x.BrandCategories)
-                .WithOne(x=>x.Brand)
-                .HasForeignKey(x=>x.BrandId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<Category>()
-                .HasMany(x => x.BrandCategories)
-                .WithOne(x => x.Category)
-                .HasForeignKey(x => x.CategoryId)
-                .OnDelete(DeleteBehavior.Cascade);
         }
         #region User Aggregate DbSets
-        public virtual DbSet<Admin> Admins { get; set; } = null!;
-        public virtual DbSet<Expert> Experts { get; set; } = null!;
-        public virtual DbSet<Customer> Customers { get; set; } = null!;
+        public virtual DbSet<AppUser> AppUsers { get; set; } = null!;
+        public virtual DbSet<UserFile> UserFiles { get; set; } = null!;
         #endregion
 
         #region BaseData Aggregate Dbsets
-        public virtual DbSet<Status> Statuses { get; set; } = null!;        
+        public virtual DbSet<Status> Statuses { get; set; } = null!;
         public virtual DbSet<PhysicalFile> Files { get; set; } = null!;
         #endregion
 
         #region MainWork Aggreagate Dbsets
-        public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<Tag> Tags { get; set; } = null!;
-        public virtual DbSet<OrderTag> OrderTags { get; set; } = null!;
-        public virtual DbSet<CategoryTagGroup> CategorySpecifications { get; set; } = null!;
-        public virtual DbSet<TagGroup> TagGroups { get; set; } = null!;
-        public virtual DbSet<ExpertCategory> ExpertCategories { get; set; } = null!;
-        public virtual DbSet<CategoryTagGroup> CategoryTagGroups { get; set; } = null!;
-        public virtual DbSet<Suggest> ExpertSuggests { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
+        public virtual DbSet<ExpertCategory> ExpertCategories { get; set; } = null!;
+        public virtual DbSet<Order> Orders { get; set; } = null!;
+        public virtual DbSet<OrderFile> OrderFiles { get; set; } = null!;
+        public virtual DbSet<Service> Services { get; set; } = null!;
         public virtual DbSet<ServiceComment> Comments { get; set; } = null!;
-        public virtual DbSet<BrandCategory> BrandCategories { get; set; } = null!;
-        public virtual DbSet<Brand> Brands { get; set; } = null!;
+        public virtual DbSet<ServiceFile> ServiceFiles { get; set; } = null!;
+        public virtual DbSet<Suggest> Suggests { get; set; } = null!;
         #endregion
     }
 }

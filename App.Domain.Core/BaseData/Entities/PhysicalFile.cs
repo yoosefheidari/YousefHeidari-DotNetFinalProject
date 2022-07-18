@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.Operator.Entities;
+﻿using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,8 @@ namespace App.Domain.Core.BaseData.Entities
 
 
 
-        public virtual Expert Expert { get; set; }
-        public virtual Order Order { get; set; }
+        public virtual List<UserFile> UserFiles { get; set; }
+        public virtual List<ServiceFile> ServiceFiles { get; set; }
+        public virtual List<OrderFile> OrderFiles { get; set; }
     }
 }

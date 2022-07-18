@@ -19,5 +19,6 @@ namespace App.Domain.Core.Work.Entities
         public virtual List<Order> Orders { get; set; }
         public virtual List<ServiceComment> ServiceComments { get; set; }
         public virtual List<ServiceFile> ServiceFiles { get; set; }
+
     }
 }
