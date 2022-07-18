@@ -11,17 +11,11 @@ namespace App.Domain.Core.Work.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int? DisplayOrder { get; set; }
-        public int? ParentCategoryId { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
-        public decimal? BasePrice { get; set; }
 
 
-        public virtual List<Order> Orders { get; set; }
+        public virtual List<Service> Services { get; set; }
         public virtual List<ExpertCategory> ExpertCategories { get; set; }
-        //public virtual List<BrandCategory> BrandCategories { get; set; }
-        public virtual List<CategoryTagGroup> CategoryTagGroups { get; set; }
     }
 }
