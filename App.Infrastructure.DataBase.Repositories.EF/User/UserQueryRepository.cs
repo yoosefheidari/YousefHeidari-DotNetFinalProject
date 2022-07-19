@@ -12,9 +12,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
 {
     public class UserQueryRepository : IUserQueryRepository
     {
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public UserQueryRepository(UserManager<IdentityUser<int>> userManager)
+        public UserQueryRepository(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }

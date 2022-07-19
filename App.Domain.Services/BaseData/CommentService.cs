@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace App.Domain.Services.BaseData
 {
-    public class CategoryService
+    public class CommentService
     {
     }
 }

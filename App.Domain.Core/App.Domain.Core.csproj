@@ -10,8 +10,8 @@
     <Folder Include="BaseData\Contracts\AppServices\" />
     <Folder Include="BaseData\Contracts\Services\" />
     <Folder Include="BaseData\Enums\" />
-    <Folder Include="User\Contracts\Services\" />
     <Folder Include="User\Contracts\AppServices\" />
+    <Folder Include="User\Contracts\Services\" />
     <Folder Include="User\Enums\" />
     <Folder Include="Permission\Contracts\Services\" />
     <Folder Include="Permission\Contracts\NewFolder2\" />
@@ -19,8 +19,6 @@
     <Folder Include="Permission\Entities\" />
     <Folder Include="Permission\DTOs\" />
     <Folder Include="Permission\Enums\" />
-    <Folder Include="Work\Contracts\Services\" />
-    <Folder Include="Work\Contracts\AppServices\" />
     <Folder Include="Work\Enums\" />
   </ItemGroup>
 

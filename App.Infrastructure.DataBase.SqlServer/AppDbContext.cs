@@ -36,13 +36,13 @@ namespace App.Infrastructure.DataBase.SqlServer
 
             modelBuilder.Entity<Order>()
                 .HasOne(x => x.Customer)
-                .WithMany(x => x.Orders)
+                .WithMany(x => x.CustomerOrders)
                 .HasForeignKey(x => x.CustomerId)
-                .IsRequired();
+                .IsRequired();            
 
             modelBuilder.Entity<Order>()
                 .HasOne(x => x.Expert)
-                .WithMany(x => x.Orders)
+                .WithMany(x => x.ExpertOrders)
                 .HasForeignKey(x => x.ConfirmedExpertId)
                 .IsRequired(false);
 
@@ -95,6 +95,11 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Description)
                 .HasMaxLength(2000);
+            modelBuilder.Entity<ServiceComment>()
+                .HasOne(x => x.Service)
+                .WithMany(x => x.ServiceComments)
+                .HasForeignKey(x => x.ServiceId)
+                .IsRequired(false);
 
 
             modelBuilder.Entity<Status>()

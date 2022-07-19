@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "_AnonymosLayout";
+}
+@model UserDTO
+<!-- Sign Up Start -->
+<form asp-action="Register" method="post">
+    <div class="container-fluid">
+        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3>فرم ثبت نام</h3>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری">
+                        <label asp-for="UserName"></label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="email" class="form-control" asp-for="Email" placeholder="ایمیل">
+                        <label asp-for="Email"></label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" asp-for="FirstName" placeholder="نام">
+                        <label asp-for="FirstName"></label>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
+                        <label for="floatingPassword">رمز عبور</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">ثبت نام</button>
+                    <p class="text-center mb-0">
+                        از قبل اکانت دارید؟
+                        <a asp-area="Admin" asp-controller="Account" asp-action="Login">ورود</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Sign Up End -->

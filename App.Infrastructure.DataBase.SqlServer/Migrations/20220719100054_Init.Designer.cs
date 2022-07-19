@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.DataBase.SqlServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220714125341_Init")]
+    [Migration("20220719100054_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,76 +23,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("DisplayOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("ParentCategoryId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Opinion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("DoesRecomended")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Opinions");
-                });
 
             modelBuilder.Entity("App.Domain.Core.BaseData.Entities.PhysicalFile", b =>
                 {
@@ -121,10 +51,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExpertId");
-
-                    b.HasIndex("OrderId");
-
                     b.ToTable("Files");
                 });
 
@@ -152,7 +78,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.ToTable("Statuses");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Operator.Entities.Admin", b =>
+            modelBuilder.Entity("App.Domain.Core.User.Entities.UserFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -160,157 +86,72 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Family")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdentityUserId")
+                    b.Property<int>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Admins");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Operator.Entities.Customer", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Family")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdentityUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NationalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Customers");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Operator.Entities.Expert", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Family")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("IdentityUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Mobile")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NationalCode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Experts");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertSkill", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"), 1L, 1);
-
-                    b.Property<int>("ExpertId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("ExpertId");
-
-                    b.HasIndex("SkillId");
-
-                    b.ToTable("ExpertSkills");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertSuggest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("ExpertId")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsConfirmedByCustomer")
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("Price")
-                        .HasPrecision(10)
-                        .HasColumnType("decimal(10,0)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserFiles");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ExpertId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("ExpertId");
 
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("ExpertSuggests");
+                    b.ToTable("ExpertCategories");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Order", b =>
@@ -334,28 +175,20 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .HasMaxLength(2000)
                         .HasColumnType("nvarchar(2000)");
 
-                    b.Property<decimal?>("FinalPrice")
-                        .HasPrecision(10)
-                        .HasColumnType("decimal(10,0)");
-
-                    b.Property<DateTimeOffset?>("FinalizedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<int?>("FinalPrice")
+                        .HasColumnType("int");
 
                     b.Property<bool?>("IsConfirmedByCustomer")
                         .HasColumnType("bit");
 
-                    b.Property<DateTimeOffset>("RequestedDate")
-                        .HasColumnType("datetimeoffset");
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
-                    b.Property<int>("SkillId")
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
                     b.Property<int>("StatusId")
                         .HasColumnType("int");
-
-                    b.Property<string>("SuggestedWorkTimeByExpert")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
 
                     b.HasKey("Id");
 
@@ -363,14 +196,14 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("ServiceId");
 
                     b.HasIndex("StatusId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.OrderTag", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.OrderFile", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -378,22 +211,25 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("FileId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TagId")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FileId");
+
                     b.HasIndex("OrderId");
 
-                    b.HasIndex("TagId");
-
-                    b.ToTable("OrderTags");
+                    b.ToTable("OrderFiles");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Skill", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -407,42 +243,24 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShortDescription")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Skills");
+                    b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.SkillTagGroup", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("SkillId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagGroupId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SkillId");
-
-                    b.HasIndex("TagGroupId");
-
-                    b.ToTable("SkillTagGroup");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Tag", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -453,28 +271,61 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
-                    b.Property<bool?>("HasValue")
-                        .HasColumnType("bit");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
+                    b.Property<int>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ServiceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int>("TagGroupId")
+                    b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("FileId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("TagGroupId");
+                    b.HasIndex("FileId");
 
-                    b.ToTable("Tag");
+                    b.HasIndex("ServiceId");
+
+                    b.ToTable("ServiceFiles");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.TagGroup", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Suggest", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -485,17 +336,28 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<DateTimeOffset>("CreationDate")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<int>("ExpertId")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsConfirmedByCustomer")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int?>("OrderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SuggestedPrice")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("TagGroups");
+                    b.HasIndex("ExpertId");
+
+                    b.HasIndex("OrderId");
+
+                    b.ToTable("Suggests");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<int>", b =>
@@ -567,6 +429,10 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -618,6 +484,8 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser<int>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -699,83 +567,86 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Opinion", b =>
+            modelBuilder.Entity("App.Domain.Core.User.Entities.AppUser", b =>
                 {
-                    b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
-                        .WithOne("Opinion")
-                        .HasForeignKey("App.Domain.Core.BaseData.Entities.Opinion", "OrderId")
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser<int>");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Mobile")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NationalCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("AppUser");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.User.Entities.UserFile", b =>
+                {
+                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                        .WithMany("UserFiles")
+                        .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Order");
+                    b.HasOne("App.Domain.Core.User.Entities.AppUser", "User")
+                        .WithMany("UserFiles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.PhysicalFile", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertCategory", b =>
                 {
-                    b.HasOne("App.Domain.Core.Operator.Entities.Expert", "Expert")
-                        .WithMany("PhysicalFiles")
-                        .HasForeignKey("ExpertId");
+                    b.HasOne("App.Domain.Core.Work.Entities.Category", "Category")
+                        .WithMany("ExpertCategories")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
-                        .WithMany("PhysicalFiles")
-                        .HasForeignKey("OrderId");
-
-                    b.Navigation("Expert");
-
-                    b.Navigation("Order");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertSkill", b =>
-                {
-                    b.HasOne("App.Domain.Core.Operator.Entities.Expert", "Expert")
-                        .WithMany("ExpertSkills")
+                    b.HasOne("App.Domain.Core.User.Entities.AppUser", "Expert")
+                        .WithMany("ExpertCategories")
                         .HasForeignKey("ExpertId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.Skill", "Skill")
-                        .WithMany("ExpertSkills")
-                        .HasForeignKey("SkillId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Category");
 
                     b.Navigation("Expert");
-
-                    b.Navigation("Skill");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.ExpertSuggest", b =>
-                {
-                    b.HasOne("App.Domain.Core.Operator.Entities.Expert", "Expert")
-                        .WithMany("ExpertSuggests")
-                        .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
-                        .WithMany("ExpertSuggests")
-                        .HasForeignKey("OrderId");
-
-                    b.Navigation("Expert");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Order", b =>
                 {
-                    b.HasOne("App.Domain.Core.Operator.Entities.Expert", "Expert")
-                        .WithMany("Orders")
+                    b.HasOne("App.Domain.Core.User.Entities.AppUser", "Expert")
+                        .WithMany("ExpertOrders")
                         .HasForeignKey("ConfirmedExpertId");
 
-                    b.HasOne("App.Domain.Core.Operator.Entities.Customer", "Customer")
-                        .WithMany("Orders")
+                    b.HasOne("App.Domain.Core.User.Entities.AppUser", "Customer")
+                        .WithMany("CustomerOrders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.Skill", "Skill")
+                    b.HasOne("App.Domain.Core.Work.Entities.Service", "Service")
                         .WithMany("Orders")
-                        .HasForeignKey("SkillId")
+                        .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -789,34 +660,34 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
                     b.Navigation("Expert");
 
-                    b.Navigation("Skill");
+                    b.Navigation("Service");
 
                     b.Navigation("Status");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.OrderTag", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.OrderFile", b =>
                 {
+                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                        .WithMany("OrderFiles")
+                        .HasForeignKey("FileId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
-                        .WithMany("OrderTags")
+                        .WithMany("OrderFiles")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.Tag", "Tag")
-                        .WithMany("OrderTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("File");
 
                     b.Navigation("Order");
-
-                    b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Skill", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
-                    b.HasOne("App.Domain.Core.BaseData.Entities.Category", "Category")
-                        .WithMany("Skills")
+                    b.HasOne("App.Domain.Core.Work.Entities.Category", "Category")
+                        .WithMany("Services")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -824,34 +695,57 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.SkillTagGroup", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceComment", b =>
                 {
-                    b.HasOne("App.Domain.Core.Work.Entities.Skill", "Skill")
-                        .WithMany("SkillTagGroups")
-                        .HasForeignKey("SkillId")
+                    b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
+                        .WithMany("Comments")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.TagGroup", "TagGroup")
-                        .WithMany("SkillTagGroups")
-                        .HasForeignKey("TagGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("App.Domain.Core.Work.Entities.Service", "Service")
+                        .WithMany("ServiceComments")
+                        .HasForeignKey("ServiceId");
 
-                    b.Navigation("Skill");
+                    b.Navigation("Order");
 
-                    b.Navigation("TagGroup");
+                    b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Tag", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceFile", b =>
                 {
-                    b.HasOne("App.Domain.Core.Work.Entities.TagGroup", "TagGroup")
-                        .WithMany("Tags")
-                        .HasForeignKey("TagGroupId")
+                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                        .WithMany("ServiceFiles")
+                        .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("TagGroup");
+                    b.HasOne("App.Domain.Core.Work.Entities.Service", "Service")
+                        .WithMany("ServiceFiles")
+                        .HasForeignKey("ServiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("File");
+
+                    b.Navigation("Service");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Suggest", b =>
+                {
+                    b.HasOne("App.Domain.Core.User.Entities.AppUser", "Expert")
+                        .WithMany("Suggests")
+                        .HasForeignKey("ExpertId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
+                        .WithMany("ExpertSuggests")
+                        .HasForeignKey("OrderId");
+
+                    b.Navigation("Expert");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -905,9 +799,13 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Category", b =>
+            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.PhysicalFile", b =>
                 {
-                    b.Navigation("Skills");
+                    b.Navigation("OrderFiles");
+
+                    b.Navigation("ServiceFiles");
+
+                    b.Navigation("UserFiles");
                 });
 
             modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Status", b =>
@@ -915,53 +813,42 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Navigation("Orders");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Operator.Entities.Customer", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Category", b =>
                 {
-                    b.Navigation("Orders");
-                });
+                    b.Navigation("ExpertCategories");
 
-            modelBuilder.Entity("App.Domain.Core.Operator.Entities.Expert", b =>
-                {
-                    b.Navigation("ExpertSkills");
-
-                    b.Navigation("ExpertSuggests");
-
-                    b.Navigation("Orders");
-
-                    b.Navigation("PhysicalFiles");
+                    b.Navigation("Services");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Order", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("ExpertSuggests");
 
-                    b.Navigation("Opinion")
-                        .IsRequired();
-
-                    b.Navigation("OrderTags");
-
-                    b.Navigation("PhysicalFiles");
+                    b.Navigation("OrderFiles");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Skill", b =>
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
-                    b.Navigation("ExpertSkills");
-
                     b.Navigation("Orders");
 
-                    b.Navigation("SkillTagGroups");
+                    b.Navigation("ServiceComments");
+
+                    b.Navigation("ServiceFiles");
                 });
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.Tag", b =>
+            modelBuilder.Entity("App.Domain.Core.User.Entities.AppUser", b =>
                 {
-                    b.Navigation("OrderTags");
-                });
+                    b.Navigation("CustomerOrders");
 
-            modelBuilder.Entity("App.Domain.Core.Work.Entities.TagGroup", b =>
-                {
-                    b.Navigation("SkillTagGroups");
+                    b.Navigation("ExpertCategories");
 
-                    b.Navigation("Tags");
+                    b.Navigation("ExpertOrders");
+
+                    b.Navigation("Suggests");
+
+                    b.Navigation("UserFiles");
                 });
 #pragma warning restore 612, 618
         }

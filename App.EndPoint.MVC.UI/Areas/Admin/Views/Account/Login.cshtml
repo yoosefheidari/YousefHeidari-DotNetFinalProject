@@ -1,0 +1,50 @@
+﻿<!-- Sign In Start -->
+@{
+    Layout = "_AnonymosLayout";
+}
+<form asp-action="Login" method="post">
+    <div class="container-fluid">
+        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
+                <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
+                    <div class="d-flex align-items-center justify-content-between mb-3">
+                        <h3>فرم ورود</h3>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="userName" type="text" class="form-control" id="floatingInput" placeholder="نام کاربری">
+                        <label for="floatingInput">نام کاربری</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input name="password" type="password" class="form-control" id="floatingPassword" placeholder="رمز ورود">
+                        <label for="floatingPassword">رمز ورود</label>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <div class="form-check">
+                            <input name="remember" value="false" onchange="isPersistent()" type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label" for="remember">مرا به خاطر بسپار</label>
+                        </div>
+                    </div>
+                    <a href="">رمز عبور خود را فراموش کرده اید؟</a>
+                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">ورود</button>
+                    <p class="text-center mb-0">
+                        آیا اکانت ندارید؟
+                        <a asp-area="Admin" asp-controller="Account" asp-action="Register">ثبت نام</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<!-- Sign In End -->
+<script>
+    function isPersistent(){
+        var result = document.getElementById("remember").value;
+        if(result=="false"){
+            document.getElementById("remember").value=true;
+        }
+        else{
+            document.getElementById("remember").value=false;
+        }
+    }
+</script>

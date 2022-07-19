@@ -1,6 +1,12 @@
+using App.Domain.AppServices.Work;
 using App.Domain.Core.BaseData.Contracts.Repositories;
 using App.Domain.Core.User.Contracts.Repositories;
+using App.Domain.Core.User.Entities;
+using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Repositories;
+using App.Domain.Core.Work.Contracts.Services;
+using App.Domain.Services.BaseData;
+using App.Domain.Services.Work;
 using App.Infrastructure.DataBase.Repositories.EF.BaseData;
 using App.Infrastructure.DataBase.Repositories.EF.User.Admin;
 using App.Infrastructure.DataBase.Repositories.EF.Work;
@@ -50,6 +56,18 @@ builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 #endregion
 
+#region WorkServices
+
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+
+#endregion
+
+#region WorkAppServices
+
+builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
+
+#endregion
+
 
 builder.Services.AddControllersWithViews();
 
@@ -58,11 +76,16 @@ builder.Services.AddDbContext<AppDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("MainConnectionString"));
 });
 
-builder.Services.AddIdentity<IdentityUser<int>, IdentityRole<int>>(option =>
+builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
  {
      option.SignIn.RequireConfirmedEmail = false;
      option.SignIn.RequireConfirmedPhoneNumber = false;
      option.SignIn.RequireConfirmedAccount = false;
+
+     option.Password.RequireUppercase = false;
+     option.Password.RequireDigit = false;
+     option.Password.RequireNonAlphanumeric = false;
+     option.Password.RequireLowercase = false;
 
  }).AddEntityFrameworkStores<AppDbContext>();
 

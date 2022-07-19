@@ -11,9 +11,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
 {
     public class UserCommandRepository : IUserCommandRepository
     {
-        private readonly UserManager<IdentityUser<int>> _userManager;
+        private readonly UserManager<AppUser> _userManager;
 
-        public UserCommandRepository(UserManager<IdentityUser<int>> userManager)
+        public UserCommandRepository(UserManager<AppUser> userManager)
         {
             _userManager = userManager;
         }

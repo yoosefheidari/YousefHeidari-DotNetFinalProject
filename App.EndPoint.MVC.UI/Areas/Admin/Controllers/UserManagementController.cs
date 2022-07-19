@@ -2,8 +2,7 @@
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
-    [Area("Admin")]
-    public class BrandController : Controller
+    public class UserManagementController : Controller
     {
         public IActionResult Index()
         {

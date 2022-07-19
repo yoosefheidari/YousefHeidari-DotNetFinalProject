@@ -10,23 +10,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Admins",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityUserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Family = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Admins", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
                 {
@@ -60,7 +43,13 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     TwoFactorEnabled = table.Column<bool>(type: "bit", nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     LockoutEnabled = table.Column<bool>(type: "bit", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "int", nullable: false)
+                    AccessFailedCount = table.Column<int>(type: "int", nullable: false),
+                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -74,11 +63,8 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: true),
-                    ParentCategoryId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -86,40 +72,20 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Customers",
+                name: "Files",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityUserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Family = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Path = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    ExpertId = table.Column<int>(type: "int", nullable: true),
+                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Experts",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    IdentityUserId = table.Column<int>(type: "int", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Family = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Experts", x => x.Id);
+                    table.PrimaryKey("PK_Files", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -135,21 +101,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Statuses", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TagGroups",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TagGroups", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -259,20 +210,26 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Skills",
+                name: "ExpertCategories",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false),
-                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    ExpertId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Skills", x => x.Id);
+                    table.PrimaryKey("PK_ExpertCategories", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Skills_Categories_CategoryId",
+                        name: "FK_ExpertCategories_AspNetUsers_ExpertId",
+                        column: x => x.ExpertId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ExpertCategories_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
                         principalColumn: "Id",
@@ -280,50 +237,51 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tag",
+                name: "Services",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    TagGroupId = table.Column<int>(type: "int", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    HasValue = table.Column<bool>(type: "bit", nullable: true)
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Price = table.Column<int>(type: "int", nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tag", x => x.Id);
+                    table.PrimaryKey("PK_Services", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tag_TagGroups_TagGroupId",
-                        column: x => x.TagGroupId,
-                        principalTable: "TagGroups",
+                        name: "FK_Services_Categories_CategoryId",
+                        column: x => x.CategoryId,
+                        principalTable: "Categories",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExpertSkills",
+                name: "UserFiles",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ExpertId = table.Column<int>(type: "int", nullable: false),
-                    SkillId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ExpertSkills", x => x.id);
+                    table.PrimaryKey("PK_UserFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ExpertSkills_Experts_ExpertId",
-                        column: x => x.ExpertId,
-                        principalTable: "Experts",
+                        name: "FK_UserFiles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ExpertSkills_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
+                        name: "FK_UserFiles_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -334,36 +292,34 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
-                    SkillId = table.Column<int>(type: "int", nullable: false),
+                    ConfirmedExpertId = table.Column<int>(type: "int", nullable: true),
                     StatusId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    FinalPrice = table.Column<decimal>(type: "decimal(10,0)", precision: 10, scale: 0, nullable: true),
-                    ConfirmedExpertId = table.Column<int>(type: "int", nullable: true),
+                    FinalPrice = table.Column<int>(type: "int", nullable: true),
                     IsConfirmedByCustomer = table.Column<bool>(type: "bit", nullable: true),
-                    SuggestedWorkTimeByExpert = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    FinalizedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    RequestedDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Orders_Customers_CustomerId",
+                        name: "FK_Orders_AspNetUsers_ConfirmedExpertId",
+                        column: x => x.ConfirmedExpertId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Orders_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
-                        principalTable: "Customers",
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Orders_Experts_ConfirmedExpertId",
-                        column: x => x.ConfirmedExpertId,
-                        principalTable: "Experts",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Orders_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
+                        name: "FK_Orders_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -375,133 +331,115 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SkillTagGroup",
+                name: "ServiceFiles",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SkillId = table.Column<int>(type: "int", nullable: false),
-                    TagGroupId = table.Column<int>(type: "int", nullable: false)
+                    ServiceId = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SkillTagGroup", x => x.Id);
+                    table.PrimaryKey("PK_ServiceFiles", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SkillTagGroup_Skills_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skills",
+                        name: "FK_ServiceFiles_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SkillTagGroup_TagGroups_TagGroupId",
-                        column: x => x.TagGroupId,
-                        principalTable: "TagGroups",
+                        name: "FK_ServiceFiles_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ExpertSuggests",
+                name: "Comments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    ServiceId = table.Column<int>(type: "int", nullable: true),
+                    Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comments", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comments_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Comments_Services_ServiceId",
+                        column: x => x.ServiceId,
+                        principalTable: "Services",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "OrderFiles",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
+                    FileId = table.Column<int>(type: "int", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderFiles", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderFiles_Files_FileId",
+                        column: x => x.FileId,
+                        principalTable: "Files",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_OrderFiles_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Suggests",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: true),
                     ExpertId = table.Column<int>(type: "int", nullable: false),
-                    Price = table.Column<decimal>(type: "decimal(10,0)", precision: 10, scale: 0, nullable: false),
-                    IsConfirmedByCustomer = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExpertSuggests", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExpertSuggests_Experts_ExpertId",
-                        column: x => x.ExpertId,
-                        principalTable: "Experts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ExpertSuggests_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Path = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ExpertId = table.Column<int>(type: "int", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    SuggestedPrice = table.Column<int>(type: "int", nullable: false),
+                    IsConfirmedByCustomer = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Files", x => x.Id);
+                    table.PrimaryKey("PK_Suggests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Files_Experts_ExpertId",
+                        name: "FK_Suggests_AspNetUsers_ExpertId",
                         column: x => x.ExpertId,
-                        principalTable: "Experts",
-                        principalColumn: "Id");
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Files_Orders_OrderId",
+                        name: "FK_Suggests_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Opinions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Title = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
-                    CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    Rating = table.Column<int>(type: "int", nullable: true),
-                    DoesRecomended = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Opinions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Opinions_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderTags",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: false),
-                    TagId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderTags", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderTags_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderTags_Tag_TagId",
-                        column: x => x.TagId,
-                        principalTable: "Tag",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -544,40 +482,34 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExpertSkills_ExpertId",
-                table: "ExpertSkills",
-                column: "ExpertId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExpertSkills_SkillId",
-                table: "ExpertSkills",
-                column: "SkillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExpertSuggests_ExpertId",
-                table: "ExpertSuggests",
-                column: "ExpertId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ExpertSuggests_OrderId",
-                table: "ExpertSuggests",
+                name: "IX_Comments_OrderId",
+                table: "Comments",
                 column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_ExpertId",
-                table: "Files",
+                name: "IX_Comments_ServiceId",
+                table: "Comments",
+                column: "ServiceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpertCategories_CategoryId",
+                table: "ExpertCategories",
+                column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ExpertCategories_ExpertId",
+                table: "ExpertCategories",
                 column: "ExpertId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Files_OrderId",
-                table: "Files",
-                column: "OrderId");
+                name: "IX_OrderFiles_FileId",
+                table: "OrderFiles",
+                column: "FileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Opinions_OrderId",
-                table: "Opinions",
-                column: "OrderId",
-                unique: true);
+                name: "IX_OrderFiles_OrderId",
+                table: "OrderFiles",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ConfirmedExpertId",
@@ -590,9 +522,9 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Orders_SkillId",
+                name: "IX_Orders_ServiceId",
                 table: "Orders",
-                column: "SkillId");
+                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_StatusId",
@@ -600,41 +532,43 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 column: "StatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderTags_OrderId",
-                table: "OrderTags",
-                column: "OrderId");
+                name: "IX_ServiceFiles_FileId",
+                table: "ServiceFiles",
+                column: "FileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderTags_TagId",
-                table: "OrderTags",
-                column: "TagId");
+                name: "IX_ServiceFiles_ServiceId",
+                table: "ServiceFiles",
+                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Skills_CategoryId",
-                table: "Skills",
+                name: "IX_Services_CategoryId",
+                table: "Services",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkillTagGroup_SkillId",
-                table: "SkillTagGroup",
-                column: "SkillId");
+                name: "IX_Suggests_ExpertId",
+                table: "Suggests",
+                column: "ExpertId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SkillTagGroup_TagGroupId",
-                table: "SkillTagGroup",
-                column: "TagGroupId");
+                name: "IX_Suggests_OrderId",
+                table: "Suggests",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tag_TagGroupId",
-                table: "Tag",
-                column: "TagGroupId");
+                name: "IX_UserFiles_FileId",
+                table: "UserFiles",
+                column: "FileId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserFiles_UserId",
+                table: "UserFiles",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Admins");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -651,49 +585,40 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ExpertSkills");
+                name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "ExpertSuggests");
+                name: "ExpertCategories");
 
             migrationBuilder.DropTable(
-                name: "Files");
+                name: "OrderFiles");
 
             migrationBuilder.DropTable(
-                name: "Opinions");
+                name: "ServiceFiles");
 
             migrationBuilder.DropTable(
-                name: "OrderTags");
+                name: "Suggests");
 
             migrationBuilder.DropTable(
-                name: "SkillTagGroup");
+                name: "UserFiles");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Tag");
+                name: "Files");
 
             migrationBuilder.DropTable(
-                name: "Customers");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Experts");
-
-            migrationBuilder.DropTable(
-                name: "Skills");
+                name: "Services");
 
             migrationBuilder.DropTable(
                 name: "Statuses");
-
-            migrationBuilder.DropTable(
-                name: "TagGroups");
 
             migrationBuilder.DropTable(
                 name: "Categories");
