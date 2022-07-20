@@ -20,6 +20,7 @@ namespace App.Domain.Core.Work.DTOs
         public string? ShortDescription { get; set; }
         [Display(Name = ("قیمت سرویس"))]
         public int Price { get; set; }
+        [Display(Name = ("تاریخ ثبت"))]
         public DateTimeOffset CreationDate { get; set; }
     }
 }

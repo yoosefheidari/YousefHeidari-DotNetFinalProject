@@ -63,6 +63,7 @@ builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
 
 #endregion
 
@@ -76,6 +77,7 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
+builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 
 #endregion
 

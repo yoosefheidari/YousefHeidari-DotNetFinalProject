@@ -30,9 +30,10 @@
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-comment me-2"></i> نظرات</a>
                 <div class="dropdown-menu bg-transparent border-0">
-                    <a href="button.html" class="dropdown-item">تایید شده ها</a>
-                    <a href="typography.html" class="dropdown-item">تایید نشده ها</a>
-                    <a href="typography.html" class="dropdown-item">همه</a>
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="1" class="dropdown-item">همه</a>
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="2" class="dropdown-item">تایید شده ها</a>
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="3" class="dropdown-item">در انتظار تایید</a>
+                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="4" class="dropdown-item">رد شده ها</a>
                 </div>
             </div>
             

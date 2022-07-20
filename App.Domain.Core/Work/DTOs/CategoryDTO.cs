@@ -16,7 +16,7 @@ namespace App.Domain.Core.Work.DTOs
         [Required(ErrorMessage = "لطفا نام را وارد کنید")]
         public string Name { get; set; }
 
-        [Display(Name = ("تاریخ ایجاد"))]
+        [Display(Name = ("تاریخ ثبت"))]
         [DataType(DataType.Date)]
         public DateTimeOffset CreationDate { get; set; }
 

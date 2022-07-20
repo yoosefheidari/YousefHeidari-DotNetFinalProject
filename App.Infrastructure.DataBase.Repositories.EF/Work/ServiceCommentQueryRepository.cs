@@ -33,6 +33,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 ServiceId = comment.ServiceId,
                 OrderId = comment.OrderId,
                 IsDeleted = comment.IsDeleted,
+                IsApproved = comment.IsApproved,
             };
             return opinionDto;
         }
@@ -50,13 +51,19 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 ServiceId = comment.ServiceId,
                 OrderId = comment.OrderId,
                 IsDeleted = comment.IsDeleted,
+                IsApproved = comment.IsApproved,
             };
             return commentDto;
         }
 
-        public async Task<List<CommentDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<CommentDTO>> GetAll(int approve, CancellationToken cancellationToken)
         {
-            var comments = await _appDbContext.Comments
+            IQueryable<ServiceComment> query = _appDbContext.Comments;
+            if(approve == 1) { }
+            if(approve == 2) { query = query.Where(x => x.IsApproved==true); }
+            if (approve == 3) { query = query.Where(x => x.IsApproved==null); }
+            if (approve == 4) { query = query.Where(x => x.IsApproved == false); }
+            var comments = await query
                 .Select(x => new CommentDTO()
                 {
                     Id = x.Id,
@@ -66,6 +73,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     ServiceId = x.ServiceId,                    
                     IsDeleted = x.IsDeleted,
                     Title = x.Title,
+                    IsApproved= x.IsApproved,
                 })
                 .ToListAsync(cancellationToken);
             return comments;

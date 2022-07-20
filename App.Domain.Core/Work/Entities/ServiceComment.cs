@@ -14,6 +14,7 @@ namespace App.Domain.Core.Work.Entities
         public int? ServiceId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public bool? IsApproved { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
 

@@ -5,10 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.Work.Contracts.Repositories
+namespace App.Domain.Core.Work.Contracts.Services
 {
-    public interface IServiceCommentQueryRepository
+    public interface ICommentService
     {
+        Task<int> Add(CommentDTO comment, CancellationToken cancellationToken);
+        Task Update(CommentDTO comment, CancellationToken cancellationToken);
+        Task Delete(int id, CancellationToken cancellationToken);
         Task<List<CommentDTO>> GetAll(int approve, CancellationToken cancellationToken);
         Task<CommentDTO> Get(int id, CancellationToken cancellationToken);
         Task<CommentDTO> GetByOrderId(int orderId, CancellationToken cancellationToken);

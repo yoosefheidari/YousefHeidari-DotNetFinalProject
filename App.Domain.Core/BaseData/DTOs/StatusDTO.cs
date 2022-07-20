@@ -15,7 +15,7 @@ namespace App.Domain.Core.BaseData.DTOs
         [Display(Name = ("نام"))]
         public string Name { get; set; }
 
-        [Display(Name = ("تاریخ ایجاد"))]
+        [Display(Name = ("تاریخ ثبت"))]
         public DateTimeOffset CreationDate { get; set; }
 
         public bool IsDeleted { get; set; }
