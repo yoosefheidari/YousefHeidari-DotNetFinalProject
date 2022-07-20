@@ -1,5 +1,8 @@
+using App.Domain.AppServices.BaseData;
 using App.Domain.AppServices.Work;
+using App.Domain.Core.BaseData.Contracts.AppServices;
 using App.Domain.Core.BaseData.Contracts.Repositories;
+using App.Domain.Core.BaseData.Contracts.Services;
 using App.Domain.Core.User.Contracts.Repositories;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.AppServices;
@@ -59,17 +62,36 @@ builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 #region WorkServices
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
+
+#endregion
+
+#region BaseDataServices
+
+builder.Services.AddScoped<IStatusService, StatusService>();
 
 #endregion
 
 #region WorkAppServices
 
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
+builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
+
+#endregion
+
+#region BaseDataAppServices
+
+builder.Services.AddScoped<IStatusAppServcie, StatusAppService>();
+
 
 #endregion
 
 
 builder.Services.AddControllersWithViews();
+
+
+
+
 
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
@@ -81,13 +103,15 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
      option.SignIn.RequireConfirmedEmail = false;
      option.SignIn.RequireConfirmedPhoneNumber = false;
      option.SignIn.RequireConfirmedAccount = false;
-
+     
      option.Password.RequireUppercase = false;
      option.Password.RequireDigit = false;
      option.Password.RequireNonAlphanumeric = false;
      option.Password.RequireLowercase = false;
 
  }).AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.ConfigureApplicationCookie(x => x.LoginPath = "/Admin/Account/Login");
 
 
 

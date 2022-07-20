@@ -1,9 +1,12 @@
-﻿@model Category
+﻿@model CategoryDTO
 
-<div class="alert alert-danger" role="alert">
-  <h4 class="alert-heading"> حذف دسته بندی <strong> @Model.Name</strong></h4>
-  <p>ایا از حذف دسته بندی  <strong> @Model.Name</strong> مطمئن هستید؟</p>
-  <hr>
-  <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-success">خیر</a>
-  <a asp-area="Admin" asp-controller="Category" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">بله</a>
-</div>
+<form asp-area="Admin" asp-controller="Category" asp-action="Delete" method="post">
+    <div class="alert alert-danger" role="alert">
+        <div><input asp-for="Id" style="display:none" /></div>
+        <h4 class="alert-heading"> حذف دسته بندی <strong> @Model.Name</strong></h4>
+        <p>ایا از حذف دسته بندی  <strong> @Model.Name</strong> مطمئن هستید؟</p>
+        <hr>
+        <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-success">خیر</a>
+        <button type="submit" class="btn btn-danger">بله</button>
+    </div>
+</form>

@@ -2,7 +2,7 @@
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
         <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>پنل مدیریت</h3>
+            <h3 class="text-primary"><i class="fa fa-user me-2 p-1"></i>پنل مدیریت  </h3>
         </a>
 
         <div class="d-flex align-items-center ms-4 mb-4">
@@ -11,28 +11,36 @@
                 <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
             </div>
             <div class="ms-3">
-                <h6 class="mb-0">یوسف حیدری</h6>
-                <span>مدیریت</span>
+                <h6 class="mb-0 p-1">یوسف حیدری</h6>
             </div>
         </div>
 
         <div class="navbar-nav w-100">
+
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>خانه</a>
             <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-laptop me-2"></i>مدیریت سفارشات</a>
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-hand-holding-usd me-2"></i> سفارشات</a>
                 <div class="dropdown-menu bg-transparent border-0">
                     <a href="button.html" class="dropdown-item">تازه ها</a>
                     <a href="typography.html" class="dropdown-item">در حال انجام</a>
                     <a href="element.html" class="dropdown-item">پایان یافته ها</a>
                 </div>
             </div>
-            <a asp-area="Admin" asp-controller="Brand" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i>مدیریت برند ها</a>
-            <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i>مدیریت دسته بندی ها</a>
-            <a asp-area="Admin" asp-controller="Tag" asp-action="Index" class="nav-item nav-link"><i class="fa fa-keyboard me-2"></i>مدیریت تگ ها</a>
-            <a asp-area="Admin" asp-controller="TagGroup" asp-action="Index" class="nav-item nav-link"><i class="fa fa-table me-2"></i>مدیریت دسته بندی تگ ها</a>
-            <a asp-area="Admin" asp-controller="Status" asp-action="Index" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>مدیریت وضعیت ها</a>
-            <a asp-area="Admin" asp-controller="File" asp-action="Index" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>مدیریت فایل ها</a>
-            <a asp-area="Admin" asp-controller="Comment" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i>مدیریت نظرات</a>
+
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-comment me-2"></i> نظرات</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a href="button.html" class="dropdown-item">تایید شده ها</a>
+                    <a href="typography.html" class="dropdown-item">تایید نشده ها</a>
+                    <a href="typography.html" class="dropdown-item">همه</a>
+                </div>
+            </div>
+            
+            <a asp-area="Admin" asp-controller="Service" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> خدمات </a>
+            <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> دسته بندی ها</a>
+            <a asp-area="Admin" asp-controller="Status" asp-action="Index" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> وضعیت ها</a>
+            <a asp-area="Admin" asp-controller="File" asp-action="Index" class="nav-item nav-link"><i class="fa fa-file me-2"></i> فایل ها</a>
+            
 
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>سایر</a>

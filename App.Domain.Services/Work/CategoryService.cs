@@ -27,6 +27,8 @@ namespace App.Domain.Services.Work
         }
         public async Task<int> Add(CategoryDTO category, CancellationToken cancellationToken)
         {
+            category.CreationDate=DateTimeOffset.Now;
+            category.IsDeleted = false;
             var result=await _categoryCommandRepository.Add(category, cancellationToken);
             return result;
         }

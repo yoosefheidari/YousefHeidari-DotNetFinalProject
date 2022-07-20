@@ -31,6 +31,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(string userName, string password, bool remember)
         {
+            
             var user = await _userManager.FindByNameAsync(userName);
             var result = await _userManager.CheckPasswordAsync(user, password);
             if (result)
@@ -63,6 +64,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var user = new AppUser();
             user.UserName= userDTO.UserName;
             user.Email= userDTO.Email;
+            await _userManager.AddToRoleAsync(user, "Customer");
             var result = await _userManager.CreateAsync(user, password);
             await _signInManager.SignInAsync(user, isPersistent: true);
             return RedirectToAction(nameof(HomeController.Index), "Home");

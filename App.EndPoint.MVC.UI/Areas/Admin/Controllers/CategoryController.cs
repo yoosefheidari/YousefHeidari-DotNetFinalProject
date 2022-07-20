@@ -1,6 +1,7 @@
 ﻿
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
+using App.EndPoint.MVC.UI.CustomAttribute;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;
@@ -9,7 +10,6 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
     [Authorize]
-    
     public class CategoryController : Controller
     {
         private readonly ICategoryAppService _categoryAppService;
@@ -49,16 +49,17 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete()
+        public async Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
         {
-            return View();
+            var category = await _categoryAppService.Get(id, cancellationToken);
+            return View(category);
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(CategoryDTO categoryDTO,CancellationToken cancellationToken)
         {
-            await _categoryAppService.Delete(id, cancellationToken);
+            await _categoryAppService.Delete(categoryDTO.Id, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
     }

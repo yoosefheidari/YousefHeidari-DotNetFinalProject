@@ -7,18 +7,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     {
         public IActionResult Index()
         {
-
-            if (HttpContext.User.Identity.IsAuthenticated)
-            {
-                ViewBag.UserName = User.Identity.Name;
-                return View();
-            }
-
-            else
-            {
-                return RedirectToAction(nameof(AccountController.Login), "Account");
-            }
-
+            return View();
         }
     }
 }

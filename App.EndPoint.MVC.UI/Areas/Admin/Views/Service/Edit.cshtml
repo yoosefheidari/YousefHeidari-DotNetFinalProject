@@ -1,8 +1,6 @@
 ﻿@model ServiceDTO
 
-@if (@ViewBag.Categories != null)
-{
-    <form asp-area="Admin" asp-controller="Service" asp-action="Create" method="post">
+<form asp-area="Admin" asp-controller="Service" asp-action="Edit" method="post">
         <div asp-validation-summary="All"></div>
 
         <div class="mb-3">
@@ -24,22 +22,12 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="CategoryId" class="form-label"></label>
-            <select class="form-select" asp-for="CategoryId" asp-items=@ViewBag.Categories>
+            <label asp-for="Price" class="form-label"></label>
+            <select asp-for="CategoryId" asp-items=@ViewBag.Categories>
                 <option value="0">انتخاب دسته بندی</option>
             </select>
-            <span asp-validation-for="CategoryId" class="text-danger"></span>
+            <span asp-validation-for="Price" class="text-danger"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">ایجاد</button>
+        <button type="submit" class="btn btn-primary">آپدیت</button>
     </form>
-}
-else
-{
-    <div class="alert alert-danger" role="alert"><div><input asp-for="Id" style="display:none" /></div>
-        <h4 class="alert-heading"> خطا </h4>
-        <p>ابتدا دسته بندی جدید اضافه کنید</p>
-        <hr>
-        <a asp-area="Admin" asp-controller="Service" asp-action="Create" class="btn btn-success">ایجاد خدمت جدید</a>
-    </div>
-}

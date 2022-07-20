@@ -11,9 +11,12 @@ namespace App.EndPoint.MVC.UI.CustomAttribute
             var isAuthenticated = context.HttpContext.User.Identity.IsAuthenticated;
             if (!isAuthenticated)
             {
-                context.Result = new UnauthorizedResult();
-                return ;
+                
+                context.Result = new RedirectToRouteResult(
+                    new RouteValueDictionary(new { controller = "Error", action = "AccessDenied", area = "Admin" }));
+                return;
             }
+            
 
             
         }
