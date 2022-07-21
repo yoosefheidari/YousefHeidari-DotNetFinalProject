@@ -1,6 +1,8 @@
-﻿using App.Domain.Core.Work.Contracts.AppServices;
+﻿using App.Domain.Core.BaseData.Contracts.AppServices;
+using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
@@ -8,21 +10,29 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     public class OrderController : Controller
     {
         private readonly IOrderAppService _orderAppService;
+        private readonly IStatusAppServcie _statusAppServcie;
 
-        public OrderController(IOrderAppService orderAppService)
+        public OrderController(IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
         {
             _orderAppService = orderAppService;
+            _statusAppServcie = statusAppServcie;
         }
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
-            var comments = await _orderAppService.GetAll(cancellationToken);
-            return View(comments);
+            var orders = await _orderAppService.GetAll(cancellationToken);
+            return View(orders);
         }
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
-            var comment = await _orderAppService.Get(id, cancellationToken);
-            return View(comment);
+            var statuses=await _statusAppServcie.GetAll(cancellationToken);
+            ViewBag.Statuses = statuses.Select(c => new SelectListItem()
+            {
+                Value = c.Id.ToString(),
+                Text = c.Name
+            });
+            var order = await _orderAppService.Get(id, cancellationToken);
+            return View(order);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(OrderDTO orderDTO, CancellationToken cancellationToken)
@@ -33,8 +43,8 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {
-            var comment = await _orderAppService.Get(id, cancellationToken);
-            return View(comment);
+            var order = await _orderAppService.Get(id, cancellationToken);
+            return View(order);
         }
         [HttpPost]
         public async Task<IActionResult> Delete(OrderDTO orderDTO, CancellationToken cancellationToken)

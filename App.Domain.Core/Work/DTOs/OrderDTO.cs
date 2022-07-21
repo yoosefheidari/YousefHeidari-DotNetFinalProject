@@ -13,6 +13,8 @@ namespace App.Domain.Core.Work.DTOs
         public int CustomerId { get; set; }
         public int? ConfirmedExpertId { get; set; }
         public int StatusId { get; set; }
+        public string StatusName { get; set; }
+        public int? StatusValue { get; set; }
         public string? Description { get; set; }
         public int? FinalPrice { get; set; }
         //public int ServiceBasePrice { get; set; }

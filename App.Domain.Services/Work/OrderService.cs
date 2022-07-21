@@ -25,6 +25,8 @@ namespace App.Domain.Services.Work
             order.CreationDate = DateTimeOffset.Now;
             order.IsDeleted = false;
             order.StatusId = 1;
+            order.ConfirmedExpertId = null;
+            order.IsConfirmedByCustomer = null;
 
             var result = await _orderCommandRepository.Add(order, cancellationToken);
             return result;

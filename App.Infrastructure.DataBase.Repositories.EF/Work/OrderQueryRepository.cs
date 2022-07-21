@@ -22,21 +22,39 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var order = await _appDbContext.Orders
-                .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var orderDto = new OrderDTO()
-            {
-                Id = id,
-                Description = order.Description,
-                IsDeleted = order.IsDeleted,
-                FinalPrice = order.FinalPrice,
-                ConfirmedExpertId = order.ConfirmedExpertId,
-                CreationDate = order.CreationDate,
-                CustomerId = order.CustomerId,
-                IsConfirmedByCustomer = order.IsConfirmedByCustomer,
-                StatusId = order.StatusId,
-                ServiceId = order.ServiceId,
-            };
+            var orderDto = await _appDbContext.Orders
+                .Where(x => x.Id == id)
+                .Select(d=>new OrderDTO()
+                {
+                    Id = id,
+                    Description = d.Description,
+                    IsDeleted = d.IsDeleted,
+                    FinalPrice = d.FinalPrice,
+                    ConfirmedExpertId = d.ConfirmedExpertId,
+                    CreationDate = d.CreationDate,
+                    CustomerId = d.CustomerId,
+                    IsConfirmedByCustomer = d.IsConfirmedByCustomer,
+                    StatusId = d.StatusId,
+                    ServiceId = d.ServiceId,
+                    StatusName = d.Status.Name,
+                    StatusValue=d.Status.StatusValue,
+                })
+                .SingleAsync(cancellationToken);
+            //var orderDto = new OrderDTO()
+            //{
+            //    Id = id,
+            //    Description = order.Description,
+            //    IsDeleted = order.IsDeleted,
+            //    FinalPrice = order.FinalPrice,
+            //    ConfirmedExpertId = order.ConfirmedExpertId,
+            //    CreationDate = order.CreationDate,
+            //    CustomerId = order.CustomerId,
+            //    IsConfirmedByCustomer = order.IsConfirmedByCustomer,
+            //    StatusId = order.StatusId,
+            //    ServiceId = order.ServiceId,
+            //    StatusName=order.Status.Name,
+                
+            //};
             return orderDto;
         }
 
@@ -56,6 +74,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     StatusId = x.StatusId,
                     ServiceId = x.ServiceId,
                     IsDeleted = x.IsDeleted,
+                    StatusName = x.Status.Name,
+                    StatusValue = x.Status.StatusValue,
                 })
                 .ToListAsync(cancellationToken);
             return orders;
