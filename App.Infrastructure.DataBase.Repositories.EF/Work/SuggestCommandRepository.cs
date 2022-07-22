@@ -29,6 +29,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 OrderId = expertSuggest.OrderId,
                 SuggestedPrice = expertSuggest.SuggestedPrice,
                 CreationDate = expertSuggest.CreationDate,
+                Description = expertSuggest.Description,
             };
             await _appDbContext.Suggests.AddAsync(newExpertSuggest, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -49,6 +50,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             expertSuggest1.OrderId = expertSuggest.OrderId;
             expertSuggest1.SuggestedPrice = expertSuggest.SuggestedPrice;
             expertSuggest1.ExpertId = expertSuggest.ExpertId;
+            expertSuggest.Description = expertSuggest1.Description;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

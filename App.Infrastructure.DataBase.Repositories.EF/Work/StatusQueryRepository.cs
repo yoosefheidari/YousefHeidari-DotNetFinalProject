@@ -1,5 +1,5 @@
-﻿using App.Domain.Core.BaseData.Contracts.Repositories;
-using App.Domain.Core.BaseData.DTOs;
+﻿using App.Domain.Core.Work.Contracts.Repositories;
+using App.Domain.Core.Work.DTOs;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
+namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
     public class StatusQueryRepository : IStatusQueryRepository
     {
@@ -27,7 +27,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
             {
                 Id = id,
                 IsDeleted = status.IsDeleted,
-                Name = status.Name,                
+                Name = status.Name,
                 CreationDate = status.CreationDate
             };
             return statusDto;
@@ -54,8 +54,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
                 {
                     Id = x.Id,
                     CreationDate = x.CreationDate,
-                    IsDeleted=x.IsDeleted,
-                    Name=x.Name
+                    IsDeleted = x.IsDeleted,
+                    Name = x.Name
                 })
                 .ToListAsync(cancellationToken);
             return statuses;

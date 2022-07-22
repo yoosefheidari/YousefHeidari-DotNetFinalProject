@@ -1,0 +1,33 @@
+﻿@model SuggestDTO
+
+<form asp-area="Admin" asp-controller="Suggest" asp-action="Edit" method="post">
+    <div asp-validation-summary="All"></div>
+
+    <div><input asp-for="Id" style="display:none" /></div>
+    <div><input asp-for="OrderId" style="display:none" /></div>
+    <div><input asp-for="ExpertId" style="display:none" /></div>
+    <div><input asp-for="IsConfirmedByCustomer" style="display:none" /></div>
+    <div><input asp-for="ExpertName" style="display:none" /></div>
+
+    <div class="mb-3">
+        <label asp-for="SuggestedPrice" class="form-label"></label>
+        <select asp-for="SuggestedPrice" class="form-select" asp-items="@ViewBag.Statuses">
+            <option value="@Model.SuggestedPrice">تغییر وضعیت</option>
+        </select>
+        <span asp-validation-for="SuggestedPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="SuggestedPrice" class="form-label"></label>
+        <input asp-for="SuggestedPrice" class="form-control">
+        <span asp-validation-for="SuggestedPrice" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">آپدیت</button>
+</form>

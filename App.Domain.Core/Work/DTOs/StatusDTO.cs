@@ -5,17 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Core.BaseData.DTOs
+namespace App.Domain.Core.Work.DTOs
 {
     public class StatusDTO
     {
-        [Display(Name = ("شناسه"))]
+        [Display(Name = "شناسه")]
         public int Id { get; set; }
 
-        [Display(Name = ("نام"))]
+        [Display(Name = "نام")]
         public string Name { get; set; }
 
-        [Display(Name = ("تاریخ ثبت"))]
+        [Display(Name = "تاریخ ثبت")]
         public DateTimeOffset CreationDate { get; set; }
 
         public bool IsDeleted { get; set; }

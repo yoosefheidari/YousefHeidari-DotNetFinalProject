@@ -1,17 +1,11 @@
-using App.Domain.AppServices.BaseData;
 using App.Domain.AppServices.Work;
-using App.Domain.Core.BaseData.Contracts.AppServices;
-using App.Domain.Core.BaseData.Contracts.Repositories;
-using App.Domain.Core.BaseData.Contracts.Services;
 using App.Domain.Core.User.Contracts.Repositories;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
-using App.Domain.Services.BaseData;
 using App.Domain.Services.Work;
-using App.Infrastructure.DataBase.Repositories.EF.BaseData;
-using App.Infrastructure.DataBase.Repositories.EF.User.Admin;
+using App.Infrastructure.DataBase.Repositories.EF.User;
 using App.Infrastructure.DataBase.Repositories.EF.Work;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Identity;
@@ -65,6 +59,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ISuggestService, SuggestService>();
 
 #endregion
 
@@ -80,6 +75,7 @@ builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 builder.Services.AddScoped<IOrderAppService, OrderAppService>();
+builder.Services.AddScoped<ISuggestAppService, SuggestAppService>();
 
 #endregion
 

@@ -1,7 +1,8 @@
-﻿using App.Domain.Core.BaseData.Contracts.Repositories;
-using App.Domain.Core.BaseData.DTOs;
-using App.Domain.Core.BaseData.Entities;
+﻿using App.Domain.Core.Work.Contracts.Repositories;
+using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
 using App.Infrastructure.DataBase.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
+namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
     public class FileCommandRepository : IFileCommandRepository
     {
@@ -35,6 +36,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
             return newFile.Id;
         }
 
+        public Task<int> Add(List<IFormFile> files, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
             var file = await _appDbContext.Files.SingleAsync(x => x.Id == id, cancellationToken);
@@ -48,7 +54,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
             file1.IsDeleted = file.IsDeleted;
             file1.OrderId = file.OrderId;
             file1.Path = file.Path;
-            file1.ExpertId = file.ExpertId;            
+            file1.ExpertId = file.ExpertId;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

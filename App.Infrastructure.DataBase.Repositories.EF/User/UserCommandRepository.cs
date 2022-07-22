@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
+namespace App.Infrastructure.DataBase.Repositories.EF.User
 {
     public class UserCommandRepository : IUserCommandRepository
     {
@@ -18,21 +18,21 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
             _userManager = userManager;
         }
 
-        public async Task<int> Add(AppUser user,List<string> roles,string password)
+        public async Task<int> Add(AppUser user, List<string> roles, string password)
         {
-            var newUser=new AppUser();
+            var newUser = new AppUser();
             newUser.UserName = user.UserName;
             newUser.Email = user.Email;
-            newUser.FirstName=user.FirstName;
+            newUser.FirstName = user.FirstName;
             newUser.LastName = user.LastName;
             newUser.Address = user.Address;
             newUser.NationalCode = user.NationalCode;
             newUser.Mobile = user.Mobile;
             newUser.PhoneNumber = user.PhoneNumber;
-            var result=await _userManager.CreateAsync(newUser,password);
-            roles.ForEach(async x=>await _userManager.AddToRoleAsync(newUser,x));        
+            var result = await _userManager.CreateAsync(newUser, password);
+            roles.ForEach(async x => await _userManager.AddToRoleAsync(newUser, x));
             return newUser.Id;
-            
+
 
         }
 

@@ -30,14 +30,15 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 ExpertId = expertSuggest.Id,
                 IsConfirmedByCustomer = expertSuggest.IsConfirmedByCustomer,
                 OrderId = expertSuggest.OrderId,
-                SuggestedPrice = expertSuggest.SuggestedPrice
+                SuggestedPrice = expertSuggest.SuggestedPrice,
+                Description = expertSuggest.Description,
             };
             return expertSuggestDto;
         }
 
         public async Task<List<SuggestDTO>> GetAll(CancellationToken cancellationToken)
         {
-            var expertSuggests = await _appDbContext.Suggests
+            var expertSuggests = await _appDbContext.Suggests                
                 .Select(x => new SuggestDTO()
                 {
                     Id = x.Id,
@@ -46,7 +47,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     IsConfirmedByCustomer= x.IsConfirmedByCustomer,
                     OrderId= x.OrderId,
                     SuggestedPrice = x.SuggestedPrice
-                })
+                })                
                 .ToListAsync(cancellationToken);
             return expertSuggests;
         }
@@ -62,7 +63,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     ExpertId = x.ExpertId,
                     IsConfirmedByCustomer = x.IsConfirmedByCustomer,
                     OrderId = x.OrderId,
-                    SuggestedPrice = x.SuggestedPrice
+                    SuggestedPrice = x.SuggestedPrice,
+                    Description=x.Description,
+                    ExpertName=x.Expert.FirstName,
+                    
                 })
                 .ToListAsync(cancellationToken);
             return expertSuggests;

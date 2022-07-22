@@ -1,5 +1,4 @@
-﻿using App.Domain.Core.BaseData.Contracts.AppServices;
-using App.Domain.Core.Work.Contracts.AppServices;
+﻿using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -11,11 +10,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     {
         private readonly IOrderAppService _orderAppService;
         private readonly IStatusAppServcie _statusAppServcie;
-
         public OrderController(IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
         {
             _orderAppService = orderAppService;
-            _statusAppServcie = statusAppServcie;
+            _statusAppServcie = statusAppServcie;            
         }
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
@@ -52,5 +50,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             await _orderAppService.Delete(orderDTO.Id, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
+
+        
     }
 }

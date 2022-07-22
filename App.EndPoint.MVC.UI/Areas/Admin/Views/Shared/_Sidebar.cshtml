@@ -18,6 +18,7 @@
         <div class="navbar-nav w-100">
 
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>خانه</a>
+
             <div class="nav-item dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-hand-holding-usd me-2"></i> سفارشات</a>
                 <div class="dropdown-menu bg-transparent border-0">
@@ -36,22 +37,23 @@
                     <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="4" class="dropdown-item">رد شده ها</a>
                 </div>
             </div>
-            
+
+            <div class="nav-item dropdown">
+                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>فایل ها</a>
+                <div class="dropdown-menu bg-transparent border-0">
+                    <a asp-area="Admin" asp-controller="File" asp-action="Index" asp-route-id="1" class="dropdown-item">متخصصین</a>
+                    <a asp-area="Admin" asp-controller="File" asp-action="Index" asp-route-id="2" class="dropdown-item">کاربران</a>
+                    <a asp-area="Admin" asp-controller="File" asp-action="Index" asp-route-id="3" class="dropdown-item">سفارشات</a>
+                    <a asp-area="Admin" asp-controller="File" asp-action="Index" asp-route-id="4" class="dropdown-item">سرویس ها</a>
+                </div>
+            </div>
+
             <a asp-area="Admin" asp-controller="Service" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> خدمات </a>
             <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> دسته بندی ها</a>
             <a asp-area="Admin" asp-controller="Status" asp-action="Index" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> وضعیت ها</a>
-            <a asp-area="Admin" asp-controller="File" asp-action="Index" class="nav-item nav-link"><i class="fa fa-file me-2"></i> فایل ها</a>
-            
+            <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" class="nav-item nav-link"><i class="fa fa-file me-2"></i> پیشنهادات</a>
 
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="far fa-file-alt me-2"></i>سایر</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a href="signin.html" class="dropdown-item">ورود</a>
-                    <a href="signup.html" class="dropdown-item">ثبت نام</a>
-                    <a href="404.html" class="dropdown-item">خطاها</a>
-                    <a href="blank.html" class="dropdown-item">اخبار</a>
-                </div>
-            </div>
+
         </div>
     </nav>
 </div>

@@ -1,5 +1,5 @@
-﻿using App.Domain.Core.BaseData.Contracts.AppServices;
-using App.Domain.Core.BaseData.DTOs;
+﻿using App.Domain.Core.Work.Contracts.AppServices;
+using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers

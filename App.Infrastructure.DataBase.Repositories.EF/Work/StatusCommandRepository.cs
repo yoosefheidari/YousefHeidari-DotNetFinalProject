@@ -1,6 +1,6 @@
-﻿using App.Domain.Core.BaseData.Contracts.Repositories;
-using App.Domain.Core.BaseData.DTOs;
-using App.Domain.Core.BaseData.Entities;
+﻿using App.Domain.Core.Work.Contracts.Repositories;
+using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
+namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
     public class StatusCommandRepository : IStatusCommandRepository
     {
@@ -45,7 +45,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.BaseData
             var status1 = await _appDbContext.Statuses.SingleAsync(x => x.Id == status.Id, cancellationToken);
             status1.IsDeleted = status.IsDeleted;
             status1.Name = status.Name;
-            status1.CreationDate = status.CreationDate;            
+            status1.CreationDate = status.CreationDate;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

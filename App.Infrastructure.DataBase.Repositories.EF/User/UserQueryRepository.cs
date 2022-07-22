@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
+namespace App.Infrastructure.DataBase.Repositories.EF.User
 {
     public class UserQueryRepository : IUserQueryRepository
     {
@@ -21,19 +21,19 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User.Admin
 
         public async Task<AppUser> Get(int id)
         {
-            var user =(AppUser) await _userManager.FindByIdAsync(id.ToString());
+            var user = await _userManager.FindByIdAsync(id.ToString());
             return user;
         }
 
         public async Task<AppUser> Get(string name)
         {
-            var user = (AppUser)await _userManager.FindByNameAsync(name);
+            var user = await _userManager.FindByNameAsync(name);
             return user;
         }
 
         public async Task<List<AppUser>> GetAll()
         {
-            var users = await _userManager.Users.Select(x=>(AppUser)x).ToListAsync();
+            var users = await _userManager.Users.Select(x => x).ToListAsync();
             return users;
         }
     }

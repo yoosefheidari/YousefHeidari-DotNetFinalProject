@@ -1,0 +1,36 @@
+﻿@model List<SuggestDTO>
+
+<table class="table table-hover table-striped">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>شناسه سفارش</th>
+            <th>شناسه متخصص</th>
+            <th>نام متخصص</th>
+            <th>قیمت پیشنهادی</th>
+            <th>توضیحات</th>
+            <th>قبول شده؟</th>
+            <th>تاریخ ثبت</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var suggest in Model)
+        {
+            <tr>
+                <td>@suggest.Id</td>
+                <td>@suggest.OrderId</td>
+                <td>@suggest.ExpertId</td>
+                <td>@suggest.ExpertName</td>
+                <td>@suggest.SuggestedPrice</td>
+                <td>@suggest.Description</td>
+                <td>@suggest.IsConfirmedByCustomer</td>
+                <td>@suggest.CreationDate</td>
+                <td>
+                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Delete" asp-route-id="@suggest.Id" class="btn btn-danger">حذف</a>
+                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Edit" asp-route-id="@suggest.Id" class="btn btn-primary">ویرایش</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-﻿using App.Domain.Core.BaseData.Entities;
+﻿using App.Domain.Core.Work.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

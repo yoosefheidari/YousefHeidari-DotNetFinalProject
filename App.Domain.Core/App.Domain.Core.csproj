@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BaseData\Enums\" />
     <Folder Include="User\Contracts\AppServices\" />
     <Folder Include="User\Contracts\Services\" />
     <Folder Include="User\Enums\" />
@@ -21,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="5.0.17" />
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
   </ItemGroup>
 
