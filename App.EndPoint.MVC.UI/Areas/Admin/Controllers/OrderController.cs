@@ -1,11 +1,13 @@
 ﻿using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class OrderController : Controller
     {
         private readonly IOrderAppService _orderAppService;

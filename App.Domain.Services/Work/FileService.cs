@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -14,16 +15,29 @@ namespace App.Domain.Services.Work
     {
         private readonly IFileQueryRepository _fileQueryRepository;
         private readonly IFileCommandRepository _fileCommandRepository;
+        private readonly IOrderFileCommandRepository _orderFileCommandRepository;
 
-        public FileService(IFileCommandRepository fileCommandRepository, IFileQueryRepository fileQueryRepository)
+        private readonly IOrderFileQueryRepository _orderFileQueryRepository;
+        private readonly IServiceFileCommandRepository _serviceFileCommandRepository;   
+        private readonly IServiceFileQueryRepository _serviceFileQueryRepository;
+
+        public FileService(IFileCommandRepository fileCommandRepository, IFileQueryRepository fileQueryRepository, IOrderFileCommandRepository orderFileCommandRepository, IOrderFileQueryRepository orderFileQueryRepository, IServiceFileCommandRepository serviceFileCommandRepository, IServiceFileQueryRepository serviceFileQueryRepository)
         {
             _fileCommandRepository = fileCommandRepository;
             _fileQueryRepository = fileQueryRepository;
+            _orderFileCommandRepository = orderFileCommandRepository;
+            _orderFileQueryRepository = orderFileQueryRepository;
+            _serviceFileCommandRepository = serviceFileCommandRepository;
+            _serviceFileQueryRepository = serviceFileQueryRepository;
         }
 
-        public Task<int> Add(List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var result= await _fileCommandRepository.Add(file, cancellationToken);
+            OrderFile b = new() { FileId = result, OrderId = 2 };
+            await _orderFileCommandRepository.Add(b, cancellationToken);
+            return result;
+               
         }
 
         public Task Delete(int id, CancellationToken cancellationToken)
@@ -41,9 +55,10 @@ namespace App.Domain.Services.Work
             throw new NotImplementedException();
         }
 
-        public Task<List<PhysicalFileDTO>> GetAll(int id,CancellationToken cancellationToken)
+        public async Task<List<PhysicalFileDTO>> GetAll(int id,CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var files=await _fileQueryRepository.GetAll(id, cancellationToken);
+            return files;
         }
 
         public Task Update(PhysicalFileDTO file, CancellationToken cancellationToken)

@@ -22,63 +22,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.PhysicalFile", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("ExpertId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Path")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Files");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Status", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTimeOffset>("CreationDate")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int?>("StatusValue")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Statuses");
-                });
-
             modelBuilder.Entity("App.Domain.Core.User.Entities.UserFile", b =>
                 {
                     b.Property<int>("Id")
@@ -230,6 +173,30 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.ToTable("OrderFiles");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.PhysicalFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Files");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -327,6 +294,33 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.HasIndex("ServiceId");
 
                     b.ToTable("ServiceFiles");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTimeOffset>("CreationDate")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int?>("StatusValue")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Suggest", b =>
@@ -598,7 +592,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
             modelBuilder.Entity("App.Domain.Core.User.Entities.UserFile", b =>
                 {
-                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                    b.HasOne("App.Domain.Core.Work.Entities.PhysicalFile", "File")
                         .WithMany("UserFiles")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -652,7 +646,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.BaseData.Entities.Status", "Status")
+                    b.HasOne("App.Domain.Core.Work.Entities.Status", "Status")
                         .WithMany("Orders")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -669,7 +663,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.OrderFile", b =>
                 {
-                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                    b.HasOne("App.Domain.Core.Work.Entities.PhysicalFile", "File")
                         .WithMany("OrderFiles")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -716,7 +710,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceFile", b =>
                 {
-                    b.HasOne("App.Domain.Core.BaseData.Entities.PhysicalFile", "File")
+                    b.HasOne("App.Domain.Core.Work.Entities.PhysicalFile", "File")
                         .WithMany("ServiceFiles")
                         .HasForeignKey("FileId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -801,20 +795,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.PhysicalFile", b =>
-                {
-                    b.Navigation("OrderFiles");
-
-                    b.Navigation("ServiceFiles");
-
-                    b.Navigation("UserFiles");
-                });
-
-            modelBuilder.Entity("App.Domain.Core.BaseData.Entities.Status", b =>
-                {
-                    b.Navigation("Orders");
-                });
-
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Category", b =>
                 {
                     b.Navigation("ExpertCategories");
@@ -831,6 +811,15 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Navigation("OrderFiles");
                 });
 
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.PhysicalFile", b =>
+                {
+                    b.Navigation("OrderFiles");
+
+                    b.Navigation("ServiceFiles");
+
+                    b.Navigation("UserFiles");
+                });
+
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
                     b.Navigation("Orders");
@@ -838,6 +827,11 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Navigation("ServiceComments");
 
                     b.Navigation("ServiceFiles");
+                });
+
+            modelBuilder.Entity("App.Domain.Core.Work.Entities.Status", b =>
+                {
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("App.Domain.Core.User.Entities.AppUser", b =>

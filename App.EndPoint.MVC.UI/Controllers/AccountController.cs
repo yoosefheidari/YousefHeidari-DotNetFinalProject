@@ -1,12 +1,14 @@
 ﻿
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    
     public class AccountController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
@@ -28,6 +30,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         {
             return View();
         }
+        
         [HttpPost]
         public async Task<IActionResult> Login(string userName, string password, bool remember)
         {

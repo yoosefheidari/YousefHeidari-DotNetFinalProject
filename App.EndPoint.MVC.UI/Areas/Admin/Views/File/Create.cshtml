@@ -1,0 +1,12 @@
+﻿
+<form asp-area="Admin" asp-controller="File" asp-action="Create" method="post" enctype="multipart/form-data">
+    <div class="form-group row p-3">
+        <div class="col-4">
+            Image
+        </div>
+        <div class="col-8">
+            <input name="files" class="form-control" type="file" multiple />
+        </div>
+    </div>
+    <input type="submit" value="send" />
+</form>

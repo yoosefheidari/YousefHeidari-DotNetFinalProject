@@ -26,9 +26,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             var newFile = new PhysicalFile()
             {
                 CreationDate = file.CreationDate,
-                ExpertId = file.ExpertId,
+                
                 IsDeleted = file.IsDeleted,
-                OrderId = file.OrderId,
+                
                 Path = file.Path
             };
             await _appDbContext.Files.AddAsync(newFile, cancellationToken);
@@ -36,10 +36,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return newFile.Id;
         }
 
-        public Task<int> Add(List<IFormFile> files, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
+        
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
@@ -52,9 +49,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var file1 = await _appDbContext.Files.SingleAsync(x => x.Id == file.Id, cancellationToken);
             file1.IsDeleted = file.IsDeleted;
-            file1.OrderId = file.OrderId;
+            
             file1.Path = file.Path;
-            file1.ExpertId = file.ExpertId;
+            
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

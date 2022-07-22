@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IFileCommandRepository
     {
-        Task<int> Add(List<IFormFile> files, CancellationToken cancellationToken);
+        Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken);
         Task Update(PhysicalFileDTO file, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }

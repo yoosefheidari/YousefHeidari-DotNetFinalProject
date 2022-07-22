@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,8 +29,6 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = id,
                 IsDeleted = file.IsDeleted,
                 CreationDate = file.CreationDate,
-                ExpertId = file.ExpertId,
-                OrderId = file.OrderId,
                 Path = file.Path
             };
             return fileDto;
@@ -44,8 +43,6 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = file.Id,
                 IsDeleted = file.IsDeleted,
                 CreationDate = file.CreationDate,
-                ExpertId = file.ExpertId,
-                OrderId = file.OrderId,
                 Path = file.Path
             };
             return fileDto;
@@ -53,12 +50,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task<List<PhysicalFileDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
+            var query = _appDbContext.OrderFiles.Include(x=>x.File).Include(x=>x.Order).ToList();
+            var result=_appDbContext.Orders.Include(x=>x.OrderFiles).SelectMany(x=>x.OrderFiles).ToList();
+
             var files = await _appDbContext.Files
                 .Select(x => new PhysicalFileDTO()
                 {
                     Id = x.Id,
-                    ExpertId = x.ExpertId,
-                    OrderId = x.OrderId,
                     Path = x.Path,
                     CreationDate = x.CreationDate,
                     IsDeleted = x.IsDeleted,

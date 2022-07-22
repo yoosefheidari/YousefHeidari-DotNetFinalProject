@@ -60,6 +60,7 @@ builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ISuggestService, SuggestService>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 #endregion
 
@@ -76,6 +77,7 @@ builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 builder.Services.AddScoped<IOrderAppService, OrderAppService>();
 builder.Services.AddScoped<ISuggestAppService, SuggestAppService>();
+builder.Services.AddScoped<IFileAppService, FileAppService>();
 
 #endregion
 
@@ -111,7 +113,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
 
  }).AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.ConfigureApplicationCookie(x => x.LoginPath = "/Admin/Account/Login");
+//builder.Services.ConfigureApplicationCookie(x => x.LoginPath = "/Admin/Account/Login");
 
 
 

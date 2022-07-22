@@ -10,8 +10,6 @@ namespace App.Domain.Core.Work.DTOs
     {
         public int Id { get; set; }
         public string Path { get; set; }
-        public int? ExpertId { get; set; }
-        public int? OrderId { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
     }

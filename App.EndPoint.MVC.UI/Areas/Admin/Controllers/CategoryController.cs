@@ -1,7 +1,6 @@
 ﻿
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
-using App.EndPoint.MVC.UI.CustomAttribute;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.InteropServices;

@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Services
 {
     public interface IFileService
     {
-        Task<int> Add(List<IFormFile> files, CancellationToken cancellationToken);
+        Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken);
         Task Update(PhysicalFileDTO file, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task<List<PhysicalFileDTO>> GetAll(int id, CancellationToken cancellationToken);
