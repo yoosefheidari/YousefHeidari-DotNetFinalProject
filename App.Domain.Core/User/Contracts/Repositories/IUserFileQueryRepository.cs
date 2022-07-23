@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App.Domain.Services.User
+namespace App.Domain.Core.User.Contracts.Repositories
 {
-    public class ExpertService
+    public interface IUserFileQueryRepository
     {
     }
 }

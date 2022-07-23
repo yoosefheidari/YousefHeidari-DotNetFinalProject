@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.User.Contracts.Repositories;
+using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
@@ -11,14 +12,16 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 {
     public class UserCommandRepository : IUserCommandRepository
     {
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
 
-        public UserCommandRepository(UserManager<AppUser> userManager)
+        public UserCommandRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        public async Task<int> Add(AppUser user, List<string> roles, string password)
+        public async Task<int> Add(UserDTO user, string password, List<string>? roles)
         {
             var newUser = new AppUser();
             newUser.UserName = user.UserName;
@@ -30,16 +33,47 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             newUser.Mobile = user.Mobile;
             newUser.PhoneNumber = user.PhoneNumber;
             var result = await _userManager.CreateAsync(newUser, password);
-            roles.ForEach(async x => await _userManager.AddToRoleAsync(newUser, x));
+            if (roles != null)
+                roles.ForEach(async x => await _userManager.AddToRoleAsync(newUser, x));
             return newUser.Id;
 
 
         }
 
+
+
         public async Task Delete(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             await _userManager.DeleteAsync(user);
+        }
+
+        public async Task<bool> LoginUser(string userName, string password, bool remember)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            var result = await _userManager.CheckPasswordAsync(user, password);
+            if (result)
+            {
+                await _signInManager.SignInAsync(user, remember);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
+        }
+
+        public async Task SignInUserById(int id, bool isPersistent)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            await _signInManager.SignInAsync(user, isPersistent);
+
+        }
+
+        public async Task SignoutUser()
+        {
+            await _signInManager.SignOutAsync();
         }
 
         public async Task Update(AppUser user, List<string> roles, string password)

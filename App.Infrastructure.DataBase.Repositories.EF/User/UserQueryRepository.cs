@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.User.Contracts.Repositories;
+using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,29 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         {
             var users = await _userManager.Users.Select(x => x).ToListAsync();
             return users;
+        }
+
+        public Task<AppUser> GetUserByEmail(string email)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<UserDTO> GetUserByUserName(string username)
+        {
+            var user=await _userManager.FindByNameAsync(username);
+            var userDto = new UserDTO()
+            {
+                Id = user.Id,
+                UserName = username,
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Address = user.Address,
+                Mobile = user.Mobile,
+                NationalCode = user.NationalCode,
+                PhoneNumber = user.PhoneNumber,
+            };
+            return userDto;
         }
     }
 }

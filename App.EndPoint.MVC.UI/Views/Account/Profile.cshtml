@@ -1,0 +1,30 @@
+﻿@model UserDTO
+
+<div class="d-flex w-100 justify-content-center align-content-center align-items-center">
+    <img class="rounded-circle" src="~/AdminAreaTemplate/img/yousef.jpg" width="200px" />
+</div>
+<div class="d-flex w-100 justify-content-center align-content-start align-items-start">
+
+    <table class="text-center table table-hover table-striped table-bordered  w-50 justify-content-center">
+        <tr>
+            <td>@Model.FirstName 1 @Model.LastName 1</td>
+            
+        </tr>
+        <tr>
+            <td>ایمیل : @Model.Email</td>
+            
+        </tr>
+        <tr>
+            <td>شماره تماس : @Model.Mobile</td>
+            
+        </tr>
+        <tr>
+            <td>کد ملی : @Model.NationalCode</td>
+            
+        </tr>
+        <tr>
+            <td>ادرس : @Model.Address</td>
+            
+        </tr>
+    </table>
+</div>

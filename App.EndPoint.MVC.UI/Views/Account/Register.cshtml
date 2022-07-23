@@ -3,7 +3,7 @@
 }
 @model UserDTO
 <!-- Sign Up Start -->
-<form asp-action="Register" method="post">
+<form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
     <div class="container-fluid">
         <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
             <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
@@ -30,6 +30,14 @@
                     <div class="form-floating mb-4">
                         <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">
                         <label for="floatingPassword">رمز عبور</label>
+                    </div>
+                    <div class="form-group row p-3">
+                        <div class="col-4">
+                            تصاویر
+                        </div>
+                        <div class="col-8">
+                            <input name="files" class="form-control" type="file" multiple />
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary py-3 w-100 mb-4">ثبت نام</button>

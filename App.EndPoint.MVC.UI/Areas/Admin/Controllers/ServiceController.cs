@@ -42,9 +42,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ServiceDTO serviceDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(ServiceDTO serviceDTO,List<IFormFile> files, CancellationToken cancellationToken)
         {
-            var result = await _serviceAppService.Add(serviceDTO, cancellationToken);
+            var result = await _serviceAppService.Add(serviceDTO,files, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 

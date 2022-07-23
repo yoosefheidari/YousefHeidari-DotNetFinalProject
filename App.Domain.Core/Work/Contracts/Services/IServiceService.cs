@@ -14,5 +14,6 @@ namespace App.Domain.Core.Work.Contracts.Services
         Task<ServiceDTO> Get(int id, CancellationToken cancellationToken);
         Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
+        Task<bool> AddServiceFiles(int ServiceId, List<int> fileIds, CancellationToken cancellationToken);
     }
 }

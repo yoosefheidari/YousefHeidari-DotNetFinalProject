@@ -2,6 +2,7 @@
 using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,17 +14,21 @@ namespace App.Domain.AppServices.Work
     public class ServcieAppServcie : IServiceAppService
     {
         private readonly IServiceService _serviceService;
+        private readonly IUploadService _uploadService;
 
-        public ServcieAppServcie(IServiceService serviceService)
+        public ServcieAppServcie(IServiceService serviceService, IUploadService uploadService)
         {
             _serviceService = serviceService;
+            _uploadService = uploadService;
         }
 
-        public async Task<int> Add(ServiceDTO serviceDTO, CancellationToken cancellationToken)
+        public async Task<int> Add(ServiceDTO serviceDTO,List<IFormFile> files, CancellationToken cancellationToken)
         {
             serviceDTO.CreationDate=DateTimeOffset.Now;
-            var result=await _serviceService.Add(serviceDTO,cancellationToken);
-            return result;
+            var serviceId=await _serviceService.Add(serviceDTO,cancellationToken);
+            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var result=await _serviceService.AddServiceFiles(serviceId, fileIds, cancellationToken);
+            return serviceId;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)

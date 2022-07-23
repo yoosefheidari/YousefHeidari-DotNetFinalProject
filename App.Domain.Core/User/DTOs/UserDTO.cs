@@ -23,6 +23,8 @@ namespace App.Domain.Core.User.DTOs
         public string? Address { get; set; }
         public string? NationalCode { get; set; }
         public string? Mobile { get; set; }
+        public string? PhoneNumber { get; set; }
+        public string? ProfilePicture { get; set; }
 
     }
 }

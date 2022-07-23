@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IServiceFileCommandRepository
     {
-        Task<int> Add(ServiceFile serviceFile, CancellationToken cancellationToken);
+        Task<int> Add(ServiceFileDTO serviceFile, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

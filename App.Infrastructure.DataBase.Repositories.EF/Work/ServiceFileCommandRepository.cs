@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.Work.Entities;
 using Microsoft.EntityFrameworkCore;
+using App.Domain.Core.Work.DTOs;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
@@ -18,11 +19,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             _appDbContext = appDbContext;
         }
-        public async Task<int> Add(ServiceFile serviceFile, CancellationToken cancellationToken)
+        public async Task<int> Add(ServiceFileDTO serviceFile, CancellationToken cancellationToken)
         {
-            await _appDbContext.ServiceFiles.AddAsync(serviceFile, cancellationToken);
+            ServiceFile file = new()
+            {
+                FileId = serviceFile.FileId,
+                ServiceId = serviceFile.ServiceId,
+                IsDeleted = serviceFile.IsDeleted,
+            };
+            await _appDbContext.ServiceFiles.AddAsync(file, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
-            return serviceFile.Id;
+            return file.Id;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)

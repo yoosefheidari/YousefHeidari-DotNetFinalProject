@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.User.Entities;
+﻿using App.Domain.Core.User.DTOs;
+using App.Domain.Core.User.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace App.Domain.Core.User.Contracts.Repositories
     {
         Task<List<AppUser>> GetAll();
         Task<AppUser> Get(int id);
-        Task<AppUser> Get(string name);
+        Task<UserDTO> GetUserByUserName(string username);
+        Task<AppUser> GetUserByEmail(string email);
     }
 }

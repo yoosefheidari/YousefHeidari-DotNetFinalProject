@@ -1,45 +1,38 @@
-﻿
+﻿using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.User.DTOs;
-using App.Domain.Core.User.Entities;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
+namespace App.EndPoint.MVC.UI.Controllers
 {
-    [Area("Admin")]
-    
+    [AllowAnonymous]
     public class AccountController : Controller
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
+        private readonly IUserAppService _userAppService;
 
-        public AccountController(SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
+        public AccountController(IUserAppService userAppService)
         {
-            _signInManager = signInManager;
-            _userManager = userManager;
+            _userAppService = userAppService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Profile(string name)
         {
-
-            return View();
+            var user = await _userAppService.GetUserByUserName(name);
+            return View(user);
         }
 
         public IActionResult Login()
         {
             return View();
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Login(string userName, string password, bool remember)
         {
-            
-            var user = await _userManager.FindByNameAsync(userName);
-            var result = await _userManager.CheckPasswordAsync(user, password);
+            var result = await _userAppService.LoginUser(userName, password, remember);
+
             if (result)
             {
-                await _signInManager.SignInAsync(user, remember);
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
             else
@@ -52,8 +45,8 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(Login));
+            await _userAppService.SignoutUser();
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -61,15 +54,14 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDTO, string password)
+        public async Task<IActionResult> Register(UserDTO userDTO, string password, List<IFormFile> files,CancellationToken cancellationToken, List<string>? roles = null)
+
         {
-            var user = new AppUser();
-            user.UserName= userDTO.UserName;
-            user.Email= userDTO.Email;
-            await _userManager.AddToRoleAsync(user, "Customer");
-            var result = await _userManager.CreateAsync(user, password);
-            await _signInManager.SignInAsync(user, isPersistent: true);
+            var id = await _userAppService.RegisterUser(userDTO, password,files,cancellationToken, roles);
+            await _userAppService.SignInUserById(id);
+
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }

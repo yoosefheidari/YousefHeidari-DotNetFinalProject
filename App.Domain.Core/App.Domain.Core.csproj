@@ -7,8 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="User\Contracts\AppServices\" />
-    <Folder Include="User\Contracts\Services\" />
     <Folder Include="User\Enums\" />
     <Folder Include="Permission\Contracts\Services\" />
     <Folder Include="Permission\Contracts\NewFolder2\" />

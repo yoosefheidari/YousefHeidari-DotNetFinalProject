@@ -1,9 +1,13 @@
+using App.Domain.AppServices.User;
 using App.Domain.AppServices.Work;
+using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.User.Contracts.Repositories;
+using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
+using App.Domain.Services.User;
 using App.Domain.Services.Work;
 using App.Infrastructure.DataBase.Repositories.EF.User;
 using App.Infrastructure.DataBase.Repositories.EF.Work;
@@ -15,16 +19,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-#region BaseDataRepositories
-
-
-builder.Services.AddScoped<IStatusCommandRepository, StatusCommandRepository>();
-builder.Services.AddScoped<IStatusQueryRepository, StatusQueryRepository>();
-
-builder.Services.AddScoped<IFileCommandRepository, FileCommandRepository>();
-builder.Services.AddScoped<IFileQueryRepository, FileQueryRepository>();
-
-#endregion
 
 #region WorkRepositories
 builder.Services.AddScoped<ICategoryCommandRepository, CategoryCommandRepository>();
@@ -43,6 +37,11 @@ builder.Services.AddScoped<ISuggestCommandRepository, SuggestCommandRepository>(
 builder.Services.AddScoped<ISuggestQueryRepository, SuggestQueryRepository>();
 builder.Services.AddScoped<IServiceFileCommandRepository, ServiceFileCommandRepository>();
 builder.Services.AddScoped<IServiceFileQueryRepository, ServiceFileQueryRepository>();
+builder.Services.AddScoped<IStatusCommandRepository, StatusCommandRepository>();
+builder.Services.AddScoped<IStatusQueryRepository, StatusQueryRepository>();
+builder.Services.AddScoped<IFileCommandRepository, FileCommandRepository>();
+builder.Services.AddScoped<IFileQueryRepository, FileQueryRepository>();
+builder.Services.AddScoped<IUserFileCommandRepository, UserFileCommandRepository>();
 
 #endregion
 
@@ -53,7 +52,7 @@ builder.Services.AddScoped<IUserQueryRepository, UserQueryRepository>();
 
 #endregion
 
-#region WorkServices
+#region Services
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
@@ -61,16 +60,15 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<ISuggestService, SuggestService>();
 builder.Services.AddScoped<IFileService, FileService>();
-
-#endregion
-
-#region BaseDataServices
-
 builder.Services.AddScoped<IStatusService, StatusService>();
+builder.Services.AddScoped<IUserService, UserSerivce>();
+builder.Services.AddScoped<IUploadService, UploadService>();
 
 #endregion
 
-#region WorkAppServices
+
+
+#region AppServices
 
 builder.Services.AddScoped<ICategoryAppService, CategoryAppService>();
 builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
@@ -78,15 +76,12 @@ builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 builder.Services.AddScoped<IOrderAppService, OrderAppService>();
 builder.Services.AddScoped<ISuggestAppService, SuggestAppService>();
 builder.Services.AddScoped<IFileAppService, FileAppService>();
-
-#endregion
-
-#region BaseDataAppServices
-
 builder.Services.AddScoped<IStatusAppServcie, StatusAppService>();
-
+builder.Services.AddScoped<IUserAppService, UserAppService>();
 
 #endregion
+
+
 
 
 builder.Services.AddControllersWithViews();
