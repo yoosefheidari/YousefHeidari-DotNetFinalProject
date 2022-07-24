@@ -25,7 +25,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> GetAllOrderComments(int id, CancellationToken cancellationToken)
         {
             var comments = await _commentAppService.GetAllOrderComments(id, cancellationToken);
-            return View(comments);
+            return View("OrderComments",comments);
         }
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
@@ -39,6 +39,23 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             await _commentAppService.Update(commentDTO, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
+
+
+        public async Task<IActionResult> EditOrderComments(int id, CancellationToken cancellationToken)
+        {
+            var comment = await _commentAppService.Get(id, cancellationToken);
+            
+            return View("EditOrderComment", comment);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditOrderComments(CommentDTO commentDTO, CancellationToken cancellationToken)
+        {
+            await _commentAppService.Update(commentDTO, cancellationToken);
+            string tid = commentDTO.OrderId.ToString();
+            return RedirectToAction("GetAllOrderComments", new {id=tid});
+        }
+
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
         {

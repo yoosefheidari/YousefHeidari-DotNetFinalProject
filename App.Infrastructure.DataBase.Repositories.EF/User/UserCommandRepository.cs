@@ -90,18 +90,26 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             user1.Email = user.Email;
             user1.FirstName = user.FirstName;
             user1.LastName = user.LastName;
+            user1.Mobile = user.Mobile;
+            user1.PhoneNumber = user.PhoneNumber;
+            user1.Address = user.Address;
+            user1.NationalCode = user.NationalCode;
+            user1.ProfilePicture = user.ProfilePicture;
+
             var roles = await _userManager.GetRolesAsync(user1);
-            foreach (var role in roles)
-            {
-                if (user.Roles.Any(x => x != role))
-                {
-                    await _userManager.RemoveFromRoleAsync(user1, role);
-                }
-            }
-            foreach (var role in user.Roles)
-            {
-                await _userManager.AddToRoleAsync(user1, role);
-            }
+            await _userManager.RemoveFromRolesAsync(user1, roles);
+            await _userManager.AddToRolesAsync(user1, user.Roles);
+            //foreach (var role in roles)
+            //{
+            //    if (user.Roles.Any(x => x != role))
+            //    {
+            //        await _userManager.RemoveFromRoleAsync(user1, role);
+            //    }
+            //}
+            //foreach (var role in user.Roles)
+            //{
+            //    await _userManager.AddToRoleAsync(user1, role);
+            //}
             await _userManager.UpdateAsync(user1);
         }
     }

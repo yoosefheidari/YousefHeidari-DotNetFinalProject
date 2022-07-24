@@ -24,7 +24,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var comment = await _appDbContext.Comments
                 .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var opinionDto = new CommentDTO()
+            var commentDto = new CommentDTO()
             {
                 Id = id,
                 Description = comment.Description,
@@ -35,7 +35,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 IsDeleted = comment.IsDeleted,
                 IsApproved = comment.IsApproved,
             };
-            return opinionDto;
+            return commentDto;
         }
 
         public async Task<CommentDTO> GetByOrderId(int orderId, CancellationToken cancellationToken)

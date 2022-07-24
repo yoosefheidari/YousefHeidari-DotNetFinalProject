@@ -32,10 +32,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UserDTO userDTO,string oldPassword,string newPassword CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(UserDTO userDTO,string oldPassword,string newPassword ,CancellationToken cancellationToken)
         {
-            await _userAppService.Update(userDTO,"");
-            return LocalRedirect("~/");
+            await _userAppService.Update(userDTO,oldPassword,newPassword);
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
