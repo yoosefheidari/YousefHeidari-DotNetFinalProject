@@ -10,9 +10,9 @@ namespace App.Domain.Core.User.Contracts.Repositories
 {
     public interface IUserQueryRepository
     {
-        Task<List<AppUser>> GetAll();
-        Task<AppUser> Get(int id);
+        Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken);
+        Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByUserName(string username);
-        Task<AppUser> GetUserByEmail(string email);
+        Task<UserDTO> GetUserByEmail(string email);
     }
 }

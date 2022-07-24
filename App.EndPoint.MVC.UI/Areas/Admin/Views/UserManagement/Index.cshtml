@@ -1,0 +1,39 @@
+﻿@model List<UserDTO>
+<br />
+<form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="UserManagement" asp-action="Index">
+    <input class="form-control border-0" type="search" placeholder="جستجوی کاربر" name="search">
+    <input class="btn btn-primary" type="submit" value="جستجو" />
+</form>
+<br />
+<table class="table table-hover table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>شناسه</th>
+            <th>یوزرنیم</th>
+            <th>ایمیل</th>
+            <th>رول ها</th>
+            <th>عملیات</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.UserName</td>
+                <td>@item.Email</td>
+                <td>
+                    @foreach (var role in item.Roles)
+                    {
+                        <p>@role</p>
+                    }
+                </td>
+                <td>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">حذف</a>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-warning">جزئیات</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

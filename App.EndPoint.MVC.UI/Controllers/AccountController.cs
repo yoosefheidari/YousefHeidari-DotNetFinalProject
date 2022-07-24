@@ -56,10 +56,10 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDTO, string password, List<IFormFile> files,CancellationToken cancellationToken, List<string>? roles = null)
+        public async Task<IActionResult> Register(UserDTO userDTO, string password, List<IFormFile> files,CancellationToken cancellationToken)
 
         {
-            var id = await _userAppService.RegisterUser(userDTO, password,files,cancellationToken, roles);
+            var id = await _userAppService.RegisterUser(userDTO, password,files,cancellationToken);
             await _userAppService.SignInUserById(id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryAppService _categoryAppService;
@@ -19,7 +19,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var categories = await _categoryAppService.GetAll(cancellationToken);
+            var categories = await _categoryAppService.GetAllWithServices(cancellationToken);
             return View(categories);
         }
 

@@ -48,5 +48,11 @@ namespace App.Domain.Services.Work
         {
             await _categoryCommandRepository.Delete(id, cancellationToken);
         }
+
+        public async Task<List<CategoryDTO>> GetAllWithServices(CancellationToken cancellationToken)
+        {
+            var categories = await _categoryQueryRepository.GetAllWithServices(cancellationToken);
+            return categories;
+        }
     }
 }

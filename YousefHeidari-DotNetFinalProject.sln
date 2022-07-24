@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.EndPoint.MVC.UI", "App.EndPoint.MVC.UI\App.EndPoint.MVC.UI.csproj", "{9D8144F4-8557-4AD0-BAA8-5C57F8471C46}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.EndPoint.MVC.UI", "App.EndPoint.MVC.UI\App.EndPoint.MVC.UI.csproj", "{9D8144F4-8557-4AD0-BAA8-5C57F8471C46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SRC", "SRC", "{E5214F01-CA0C-41C0-BC99-6C3652D8776B}"
 EndProject
@@ -17,15 +17,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F2FCF515-4
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{5143969A-9950-4AB1-BA85-E7A05D0AEF23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Domain.Core", "App.Domain.Core\App.Domain.Core.csproj", "{90FB1E19-6215-4D96-BA8F-A0836EA53A70}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Domain.Core", "App.Domain.Core\App.Domain.Core.csproj", "{90FB1E19-6215-4D96-BA8F-A0836EA53A70}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Domain.Services", "App.Domain.Services\App.Domain.Services.csproj", "{22F34369-044B-43F9-AFFF-6BB48DF1968A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Domain.Services", "App.Domain.Services\App.Domain.Services.csproj", "{22F34369-044B-43F9-AFFF-6BB48DF1968A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Domain.AppServices", "App.Domain.AppServices\App.Domain.AppServices.csproj", "{787E8D7D-EA5F-4CAA-8F00-A21CEE916FC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Domain.AppServices", "App.Domain.AppServices\App.Domain.AppServices.csproj", "{787E8D7D-EA5F-4CAA-8F00-A21CEE916FC1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infrastructure.DataBase.SqlServer", "App.Infrastructure.DataBase.SqlServer\App.Infrastructure.DataBase.SqlServer.csproj", "{2AFE038A-A07E-4B1E-94F6-64198B5BB5DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Infrastructure.DataBase.SqlServer", "App.Infrastructure.DataBase.SqlServer\App.Infrastructure.DataBase.SqlServer.csproj", "{2AFE038A-A07E-4B1E-94F6-64198B5BB5DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App.Infrastructure.DataBase.Repositories.EF", "App.Infrastructure.DataBase.Repositories.EF\App.Infrastructure.DataBase.Repositories.EF.csproj", "{F6D0A344-92FB-430A-B21C-2672319542C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Infrastructure.DataBase.Repositories.EF", "App.Infrastructure.DataBase.Repositories.EF\App.Infrastructure.DataBase.Repositories.EF.csproj", "{F6D0A344-92FB-430A-B21C-2672319542C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

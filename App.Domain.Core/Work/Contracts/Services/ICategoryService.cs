@@ -10,6 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Services
     public interface ICategoryService
     {
         Task<List<CategoryDTO>> GetAll(CancellationToken cancellationToken);
+        Task<List<CategoryDTO>> GetAllWithServices(CancellationToken cancellationToken);
         Task<int> Add(CategoryDTO category, CancellationToken cancellationToken);
         Task<CategoryDTO> Get(int id, CancellationToken cancellationToken);
         Task Update(CategoryDTO category, CancellationToken cancellationToken);

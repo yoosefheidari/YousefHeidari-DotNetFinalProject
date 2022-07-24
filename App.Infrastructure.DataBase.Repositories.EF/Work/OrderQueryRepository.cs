@@ -76,6 +76,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     IsDeleted = x.IsDeleted,
                     StatusName = x.Status.Name,
                     StatusValue = x.Status.StatusValue,
+                    CustomerName=x.Customer.UserName,
+                    ExpertName=x.Expert.UserName,
+                    ServiceName=x.Service.Title,
                 })
                 .ToListAsync(cancellationToken);
             return orders;

@@ -21,7 +21,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             _signInManager = signInManager;
         }
 
-        public async Task<int> Add(UserDTO user, string password, List<string>? roles)
+        public async Task<int> Add(UserDTO user, string password)
         {
             var newUser = new AppUser();
             newUser.UserName = user.UserName;
@@ -32,9 +32,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             newUser.NationalCode = user.NationalCode;
             newUser.Mobile = user.Mobile;
             newUser.PhoneNumber = user.PhoneNumber;
-            var result = await _userManager.CreateAsync(newUser, password);
-            if (roles != null)
-                roles.ForEach(async x => await _userManager.AddToRoleAsync(newUser, x));
+            var result = await _userManager.CreateAsync(newUser, password);            
+            if (result.Succeeded)
+                await _userManager.AddToRoleAsync(newUser, "Customer");
             return newUser.Id;
 
 
@@ -76,9 +76,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             await _signInManager.SignOutAsync();
         }
 
-        public async Task Update(AppUser user, List<string> roles, string password)
+        public async Task Update(UserDTO user, string password)
         {
-            await _userManager.UpdateAsync(user);
+            var user1 = await _userManager.FindByIdAsync(user.Id.ToString());
+            await _userManager.UpdateAsync(user1);
         }
     }
 }

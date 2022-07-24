@@ -59,6 +59,29 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 .ToListAsync(cancellationToken);
             return categories;
         }
+
+        public async Task<List<CategoryDTO>> GetAllWithServices(CancellationToken cancellationToken)
+        {
+            var categories = await _appDbContext.Categories
+                .Select(x => new CategoryDTO()
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                    CreationDate = x.CreationDate,
+                    IsDeleted = x.IsDeleted,
+                    Services = x.Services.Select(v => new ServiceDTO()
+                    {
+                        Id = v.Id,
+                        Title = v.Title,
+                        Price = v.Price,
+                        ShortDescription = v.ShortDescription,
+                        CategoryId = v.CategoryId,
+                        CreationDate = v.CreationDate,
+                    }).ToList()
+                })
+                .ToListAsync(cancellationToken);
+            return categories;
+        }
     }
 }
 

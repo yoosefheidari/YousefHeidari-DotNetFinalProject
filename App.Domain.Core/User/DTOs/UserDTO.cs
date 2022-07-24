@@ -25,6 +25,7 @@ namespace App.Domain.Core.User.DTOs
         public string? Mobile { get; set; }
         public string? PhoneNumber { get; set; }
         public string? ProfilePicture { get; set; }
+        public List<string> Roles { get; set; }
 
     }
 }

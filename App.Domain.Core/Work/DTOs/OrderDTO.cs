@@ -10,8 +10,11 @@ namespace App.Domain.Core.Work.DTOs
     {
         public int Id { get; set; }
         public int ServiceId { get; set; }
+        public string ServiceName { get; set; }
         public int CustomerId { get; set; }
+        public string CustomerName { get; set; }
         public int? ConfirmedExpertId { get; set; }
+        public string ExpertName { get; set; }
         public int StatusId { get; set; }
         public string StatusName { get; set; }
         public int? StatusValue { get; set; }

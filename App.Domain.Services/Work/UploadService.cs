@@ -28,7 +28,7 @@ namespace App.Domain.Services.Work
             foreach (var file in files)
             {
                 var fileName = file.FileName;
-                var randomName = new Guid().ToString();
+                var randomName = Guid.NewGuid().ToString();
                 var uniqePath = Path.Combine(randomName, fileName);
                 var rootPath = _configuration.GetSection("UploadPath").Value;
                 var fullfilePath = Path.Combine(rootPath, uniqePath);
@@ -41,5 +41,6 @@ namespace App.Domain.Services.Work
             }
             return fileIds;
         }
+
     }
 }

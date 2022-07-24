@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class CommentController : Controller
     {
         private readonly ICommentAppService _commentAppService;

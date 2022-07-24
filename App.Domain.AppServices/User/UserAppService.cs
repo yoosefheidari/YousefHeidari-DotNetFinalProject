@@ -23,30 +23,32 @@ namespace App.Domain.AppServices.User
             _uploadService = uploadService;
         }
 
-        public async Task<int> RegisterUser(UserDTO user, string password, List<IFormFile> files, CancellationToken cancellationToken, List<string>? roles)
+        public async Task<int> RegisterUser(UserDTO user, string password, List<IFormFile> files, CancellationToken cancellationToken)
         {
-            var userId = await _userService.RegisterUser(user, password, roles);
+            var userId = await _userService.RegisterUser(user, password);
             var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
             var result= await _userService.AddUserFiles(userId, fileIds, cancellationToken);
             return userId;
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await _userService.Delete(id);
         }
 
-        public Task<AppUser> Get(int id)
+        public async Task<UserDTO> Get(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userService.Get(id);
+            return user;
         }
 
-        public Task<List<AppUser>> GetAll()
+        public async Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var users = await _userService.GetAll(id,search, cancellationToken);
+            return users;
         }
 
-        public Task<AppUser> GetUserByEmail(string email)
+        public Task<UserDTO> GetUserByEmail(string email)
         {
             throw new NotImplementedException();
         }
@@ -73,7 +75,7 @@ namespace App.Domain.AppServices.User
             await _userService.SignoutUser();
         }
 
-        public Task Update(AppUser user, List<string> roles, string password)
+        public Task Update(UserDTO user, string password)
         {
             throw new NotImplementedException();
         }

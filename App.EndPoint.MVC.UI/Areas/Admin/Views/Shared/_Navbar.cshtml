@@ -82,12 +82,12 @@
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                 @if (User.Identity.IsAuthenticated)
                 {
-                    <a asp-area="Admin" asp-controller="Account" asp-action="Index" class="dropdown-item">پروفایل من</a>
-                    <a asp-area="Admin" asp-controller="Account" asp-action="Logout" class="dropdown-item">خروج از حساب کاربری</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Profile" asp-route-name="@User.Identity.Name" class="dropdown-item">پروفایل من</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Logout" class="dropdown-item">خروج از حساب کاربری</a>
                 }
                 else
                 {
-                    <a asp-area="Admin" asp-controller="Account" asp-action="Login" class="dropdown-item">ورود به حساب کاربری</a>
+                    <a asp-area="" asp-controller="Account" asp-action="Login" class="dropdown-item">ورود به حساب کاربری</a>
                 }
 
             </div>

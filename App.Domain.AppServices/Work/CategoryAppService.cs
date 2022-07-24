@@ -44,5 +44,11 @@ namespace App.Domain.AppServices.Work
         {
             await _categoryService.Delete(id, cancellationToken);
         }
+
+        public async Task<List<CategoryDTO>> GetAllWithServices(CancellationToken cancellationToken)
+        {
+            var categories = await _categoryService.GetAllWithServices(cancellationToken);
+            return categories;
+        }
     }
 }

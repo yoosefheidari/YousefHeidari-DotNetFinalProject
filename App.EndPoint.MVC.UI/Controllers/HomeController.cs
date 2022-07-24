@@ -1,4 +1,5 @@
-﻿using App.EndPoint.MVC.UI.Models;
+﻿using App.Domain.Core.Work.Contracts.AppServices;
+using App.EndPoint.MVC.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -9,15 +10,18 @@ namespace App.EndPoint.MVC.UI.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICategoryAppService _categoryAppService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICategoryAppService categoryAppService)
         {
             _logger = logger;
+            _categoryAppService = categoryAppService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            return View();
+            var categories = await _categoryAppService.GetAllWithServices(cancellationToken);
+            return View(categories);
         }
 
         public IActionResult Privacy()

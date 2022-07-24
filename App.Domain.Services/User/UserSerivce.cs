@@ -23,45 +23,44 @@ namespace App.Domain.Services.User
             _userFileCommandRepository = userFileCommandRepository;
         }
 
-        public async Task<int> RegisterUser(UserDTO user, string password, List<string>? roles)
+        public async Task<int> RegisterUser(UserDTO user, string password)
         {
-            var roleResult = roles.Any(x => x == "Customer");
-            if (!roleResult)
-                roles.Add("Customer");
 
-            var result=await _userCommandRepository.Add(user, password, roles);
+            var result = await _userCommandRepository.Add(user, password);
             return result;
         }
 
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            await _userCommandRepository.Delete(id);
         }
 
-        public Task<AppUser> Get(int id)
+        public async Task<UserDTO> Get(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userQueryRepository.Get(id);
+            return user;
         }
 
-        public Task<List<AppUser>> GetAll()
+        public async Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var users = await _userQueryRepository.GetAll(id, search, cancellationToken);
+            return users;
         }
 
-        public Task<AppUser> GetUserByEmail(string email)
+        public Task<UserDTO> GetUserByEmail(string email)
         {
             throw new NotImplementedException();
         }
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
-            var user=await _userQueryRepository.GetUserByUserName(username);
+            var user = await _userQueryRepository.GetUserByUserName(username);
             return user;
         }
 
         public async Task<bool> LoginUser(string userName, string password, bool remember)
         {
-            var result=await _userCommandRepository.LoginUser(userName, password, remember);
+            var result = await _userCommandRepository.LoginUser(userName, password, remember);
             return result;
         }
 
@@ -76,14 +75,14 @@ namespace App.Domain.Services.User
             await _userCommandRepository.SignoutUser();
         }
 
-        public Task Update(AppUser user, List<string> roles, string password)
+        public Task Update(UserDTO user, string password)
         {
             throw new NotImplementedException();
         }
 
         public async Task<bool> AddUserFiles(int userId, List<int> files, CancellationToken cancellationToken)
         {
-            foreach(var fileId in files)
+            foreach (var fileId in files)
             {
                 UserFileDTO userFile = new()
                 {
