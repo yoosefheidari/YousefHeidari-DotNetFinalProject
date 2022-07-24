@@ -59,9 +59,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         public async Task<List<CommentDTO>> GetAll(int approve, CancellationToken cancellationToken)
         {
             IQueryable<ServiceComment> query = _appDbContext.Comments;
-            if(approve == 1) { }
-            if(approve == 2) { query = query.Where(x => x.IsApproved==true); }
-            if (approve == 3) { query = query.Where(x => x.IsApproved==null); }
+            if (approve == 1) { }
+            if (approve == 2) { query = query.Where(x => x.IsApproved == true); }
+            if (approve == 3) { query = query.Where(x => x.IsApproved == null); }
             if (approve == 4) { query = query.Where(x => x.IsApproved == false); }
             var comments = await query
                 .Select(x => new CommentDTO()
@@ -70,10 +70,29 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     OrderId = x.OrderId,
                     CreationDate = x.CreationDate,
                     Description = x.Description,
-                    ServiceId = x.ServiceId,                    
+                    ServiceId = x.ServiceId,
                     IsDeleted = x.IsDeleted,
                     Title = x.Title,
-                    IsApproved= x.IsApproved,
+                    IsApproved = x.IsApproved,
+                })
+                .ToListAsync(cancellationToken);
+            return comments;
+        }
+
+        public async Task<List<CommentDTO>> GetAllOrderComments(int OrderId, CancellationToken cancellationToken)
+        {
+            var comments = await _appDbContext.Orders.Where(x => x.Id == OrderId)
+                .SelectMany(s => s.Comments)
+                .Select(x => new CommentDTO()
+                {
+                    Id = x.Id,
+                    Title = x.Title,
+                    OrderId = x.OrderId,
+                    ServiceId=x.ServiceId,
+                    Description=x.Description,
+                    CreationDate = x.CreationDate,
+                    IsDeleted=x.IsDeleted,
+                    IsApproved=x.IsApproved,
                 })
                 .ToListAsync(cancellationToken);
             return comments;

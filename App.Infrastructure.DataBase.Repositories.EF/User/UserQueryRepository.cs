@@ -15,19 +15,20 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
     public class UserQueryRepository : IUserQueryRepository
     {
         private readonly UserManager<AppUser> _userManager;
-        //private readonly RoleManager<int> _roleManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly AppDbContext _appDbContext;
 
-        public UserQueryRepository(UserManager<AppUser> userManager, AppDbContext appDbContext/*, RoleManager<AppUser> roleManager*/)
+        public UserQueryRepository(UserManager<AppUser> userManager, AppDbContext appDbContext, RoleManager<IdentityRole<int>> roleManager)
         {
             _userManager = userManager;
             _appDbContext = appDbContext;
-            //_roleManager = roleManager;
+            _roleManager = roleManager;
         }
 
         public async Task<UserDTO> Get(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+
             UserDTO userDto = new()
             {
                 Id = user.Id,
@@ -41,7 +42,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 ProfilePicture = user.ProfilePicture,
                 UserName = user.UserName,
 
-            }; var roles = await _userManager.GetRolesAsync(user);
+            }; 
+            var roles = await _userManager.GetRolesAsync(user);
             userDto.Roles = roles.ToList();
             return userDto;
         }
@@ -115,6 +117,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 return users;
             }
 
+        }
+
+        public async Task<List<RoleDTO>> GetRoles()
+        {
+            var roles = await _roleManager.Roles.ToListAsync();
+            var roleDtos = roles.Select(x => new RoleDTO() { Id = x.Id, Name = x.Name, }).ToList();
+            return roleDtos;
         }
 
         public Task<UserDTO> GetUserByEmail(string email)

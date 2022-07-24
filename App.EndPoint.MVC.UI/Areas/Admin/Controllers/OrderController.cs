@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize]
+    [Authorize(Roles =("Admin"))]
     public class OrderController : Controller
     {
         private readonly IOrderAppService _orderAppService;

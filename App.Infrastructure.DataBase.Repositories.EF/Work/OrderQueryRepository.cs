@@ -79,6 +79,18 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     CustomerName=x.Customer.UserName,
                     ExpertName=x.Expert.UserName,
                     ServiceName=x.Service.Title,
+                    Comments=x.Comments.Select(x=>new CommentDTO()
+                    {
+                        CreationDate = x.CreationDate,
+                        Description=x.Description,
+                        Id=x.Id,
+                        IsApproved=x.IsApproved,
+                        IsDeleted=x.IsDeleted,
+                        OrderId=x.OrderId,
+                        ServiceId=x.ServiceId,
+                        Title=x.Title,
+                        
+                    }).ToList(),                    
                 })
                 .ToListAsync(cancellationToken);
             return orders;

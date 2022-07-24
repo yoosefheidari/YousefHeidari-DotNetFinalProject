@@ -46,6 +46,12 @@ namespace App.Domain.Services.Work
             return comments;
         }
 
+        public async Task<List<CommentDTO>> GetAllOrderComments(int OrderId, CancellationToken cancellationToken)
+        {
+            var comments=await _serviceCommentQueryRepository.GetAllOrderComments(OrderId, cancellationToken);
+            return comments;
+        }
+
         public async Task<CommentDTO> GetByOrderId(int orderId, CancellationToken cancellationToken)
         {
             var comment = await _serviceCommentQueryRepository.GetByOrderId(orderId, cancellationToken);

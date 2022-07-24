@@ -15,5 +15,6 @@ namespace App.Domain.Core.Work.Contracts.Services
         Task<List<CommentDTO>> GetAll(int approve, CancellationToken cancellationToken);
         Task<CommentDTO> Get(int id, CancellationToken cancellationToken);
         Task<CommentDTO> GetByOrderId(int orderId, CancellationToken cancellationToken);
+        Task<List<CommentDTO>> GetAllOrderComments(int OrderId, CancellationToken cancellationToken);
     }
 }

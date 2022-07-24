@@ -22,6 +22,10 @@
     <link href="~/AdminAreaTemplate/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="~/AdminAreaTemplate/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
 
+    <link href="~/chosen/chosen.css" rel="stylesheet" />
+
+
+
 
 
     <!-- Customized Bootstrap Stylesheet -->
@@ -77,8 +81,10 @@
     </div>
 
     <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminAreaTemplate/js/Select-Chosen/chosen.jquery.js"></script>
     <script src="~/AdminAreaTemplate/lib/chart/chart.min.js"></script>
     <script src="~/AdminAreaTemplate/lib/easing/easing.min.js"></script>
     <script src="~/AdminAreaTemplate/lib/waypoints/waypoints.min.js"></script>
@@ -86,6 +92,11 @@
     <script src="~/AdminAreaTemplate/lib/tempusdominus/js/moment.min.js"></script>
     <script src="~/AdminAreaTemplate/lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="~/AdminAreaTemplate/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+
+    <script src="~/chosen/chosen.jquery.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 
     <!-- Template Javascript -->
     <script src="~/AdminAreaTemplate/js/main.js"></script>

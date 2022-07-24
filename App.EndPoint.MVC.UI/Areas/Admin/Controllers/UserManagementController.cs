@@ -2,6 +2,7 @@
 using App.Domain.Core.User.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
@@ -25,11 +26,13 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
+            var roles = await _userAppService.GetRoles();            
             var user = await _userAppService.Get(id);
+            ViewBag.Roles = roles.Where(t => !user.Roles.Contains(t.Name)).Select(x => new SelectListItem() { Value = x.Name, Text = x.Name }).ToList();
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(UserDTO userDTO,string oldPassword,string newPassword CancellationToken cancellationToken)
         {
             await _userAppService.Update(userDTO,"");
             return LocalRedirect("~/");
@@ -52,6 +55,11 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var user = await _userAppService.Get(id);
             return View(user);
         }
+        //public async Task<IActionResult> SeedData(int id, CancellationToken cancellationToken)
+        //{
+        //    var user = await _userAppService.Get(id);
+        //    return View(user);
+        //}
 
 
     }

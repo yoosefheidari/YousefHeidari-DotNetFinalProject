@@ -75,9 +75,15 @@ namespace App.Domain.AppServices.User
             await _userService.SignoutUser();
         }
 
-        public Task Update(UserDTO user, string password)
+        public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            await _userService.Update(user, oldPassword, newPassword);
+        }
+
+        public async Task<List<RoleDTO>> GetRoles()
+        {
+            var roles = await _userService.GetRoles();
+            return roles;
         }
     }
 }

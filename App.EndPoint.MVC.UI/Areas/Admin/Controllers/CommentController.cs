@@ -22,6 +22,12 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(comments);
         }
 
+        public async Task<IActionResult> GetAllOrderComments(int id, CancellationToken cancellationToken)
+        {
+            var comments = await _commentAppService.GetAllOrderComments(id, cancellationToken);
+            return View(comments);
+        }
+
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
             var comment =await _commentAppService.Get(id, cancellationToken);

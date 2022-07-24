@@ -32,7 +32,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             newUser.NationalCode = user.NationalCode;
             newUser.Mobile = user.Mobile;
             newUser.PhoneNumber = user.PhoneNumber;
-            var result = await _userManager.CreateAsync(newUser, password);            
+            var result = await _userManager.CreateAsync(newUser, password);
             if (result.Succeeded)
                 await _userManager.AddToRoleAsync(newUser, "Customer");
             return newUser.Id;
@@ -76,9 +76,32 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             await _signInManager.SignOutAsync();
         }
 
-        public async Task Update(UserDTO user, string password)
+        public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
             var user1 = await _userManager.FindByIdAsync(user.Id.ToString());
+            if (!string.IsNullOrWhiteSpace(newPassword))
+            {
+                var result = await _userManager.CheckPasswordAsync(user1, oldPassword);
+                if (result)
+                    await _userManager.ChangePasswordAsync(user1, oldPassword, newPassword);
+
+            }
+
+            user1.Email = user.Email;
+            user1.FirstName = user.FirstName;
+            user1.LastName = user.LastName;
+            var roles = await _userManager.GetRolesAsync(user1);
+            foreach (var role in roles)
+            {
+                if (user.Roles.Any(x => x != role))
+                {
+                    await _userManager.RemoveFromRoleAsync(user1, role);
+                }
+            }
+            foreach (var role in user.Roles)
+            {
+                await _userManager.AddToRoleAsync(user1, role);
+            }
             await _userManager.UpdateAsync(user1);
         }
     }

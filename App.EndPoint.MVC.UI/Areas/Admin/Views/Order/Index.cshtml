@@ -41,6 +41,7 @@ else
                 <a asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger">حذف</a>
                 <a asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success">ویرایش</a>
                 <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" asp-route-id="@order.Id" class="btn btn-success">مشاهده پیشنهادات</a>
+                <a asp-area="Admin" asp-controller="Comments" asp-action="Index" asp-route-id="@order.Id" class="btn btn-success">مشاهده نظرات</a>
             </div>
         </div>
     }

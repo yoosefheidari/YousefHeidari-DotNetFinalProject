@@ -14,5 +14,6 @@ namespace App.Domain.Core.User.Contracts.Repositories
         Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByUserName(string username);
         Task<UserDTO> GetUserByEmail(string email);
+        Task<List<RoleDTO>> GetRoles();
     }
 }

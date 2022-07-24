@@ -1,5 +1,98 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@model UserDTO
+
+<form asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" method="post">
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label"></label>
+        <input asp-for="Id" readonly class="form-control" />
+        <span asp-validation-for="Id"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="UserName" class="form-label"></label>
+        <input asp-for="UserName" class="form-control" />
+        <span asp-validation-for="UserName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Email" class="form-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="FirstName" class="form-label"></label>
+        <input asp-for="FirstName" class="form-control" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="LastName" class="form-label"></label>
+        <input asp-for="LastName" class="form-control" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Mobile" class="form-label"></label>
+        <input asp-for="Mobile" readonly class="form-control" />
+        <span asp-validation-for="Mobile"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="PhoneNumber" class="form-label"></label>
+        <input asp-for="PhoneNumber" class="form-control" />
+        <span asp-validation-for="PhoneNumber"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="NationalCode" class="form-label"></label>
+        <input asp-for="NationalCode" class="form-control" />
+        <span asp-validation-for="NationalCode"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Address" class="form-label"></label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Roles" class="form-label"></label>
+        <select asp-for="Roles" class="select-chosen form-select" tabindex="8" multiple style="width:350px;" data-placeholder="رول ها" asp-items="@ViewBag.Roles">
+            <option value=""></option>
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role" selected>@role</option>
+            }
+        </select>
+        <span asp-validation-for="Address"></span>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">پسوورد قدیم</label>
+        <input name="oldPassword" type="password" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">پسوورد جدید</label>
+        <input name="newPassword" type="password" class="form-control" />
+    </div>
+
+
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+    <button type="submit" class="btn btn-primary">آپدیت</button>
+</form>
+
+@section Scripts{
+<script>
+
+    $(function() {
+        $(".select-chosen").chosen({rtl: true});
+    });
+
+
+</script>
 }
+

@@ -75,9 +75,9 @@ namespace App.Domain.Services.User
             await _userCommandRepository.SignoutUser();
         }
 
-        public Task Update(UserDTO user, string password)
+        public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
-            throw new NotImplementedException();
+            await _userCommandRepository.Update(user, oldPassword, newPassword);
         }
 
         public async Task<bool> AddUserFiles(int userId, List<int> files, CancellationToken cancellationToken)
@@ -93,6 +93,12 @@ namespace App.Domain.Services.User
                 var id = await _userFileCommandRepository.Add(userFile, cancellationToken);
             }
             return true;
+        }
+
+        public async Task<List<RoleDTO>> GetRoles()
+        {
+            var roles = await _userQueryRepository.GetRoles();
+            return roles;
         }
     }
 }
