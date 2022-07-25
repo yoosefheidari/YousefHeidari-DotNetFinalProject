@@ -58,10 +58,10 @@ namespace App.Domain.Services.User
             return user;
         }
 
-        public async Task<bool> LoginUser(string userName, string password, bool remember)
+        public async Task<int> LoginUser(string userName, string password, bool remember)
         {
             var result = await _userCommandRepository.LoginUser(userName, password, remember);
-            return result;
+            return result;            
         }
 
         public async Task SignInUserById(int id)

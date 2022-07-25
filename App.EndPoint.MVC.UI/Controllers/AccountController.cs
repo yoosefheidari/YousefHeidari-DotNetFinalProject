@@ -30,14 +30,23 @@ namespace App.EndPoint.MVC.UI.Controllers
         public async Task<IActionResult> Login(string userName, string password, bool remember)
         {
             var result = await _userAppService.LoginUser(userName, password, remember);
+            
 
-            if (result)
+            if (result==0)
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(Login));
             }
             else
             {
-                return RedirectToAction(nameof(Login));
+                var user = await _userAppService.Get(result);
+                if (user.Roles.Count == 1)
+                {
+                    return RedirectToAction(nameof(HomeController.Index));
+                }
+                else
+                {
+                    return View("PanelSelect",user.Roles);
+                }
             }
 
         }

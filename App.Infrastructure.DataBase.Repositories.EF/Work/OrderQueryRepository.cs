@@ -95,5 +95,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 .ToListAsync(cancellationToken);
             return orders;
         }
+
+        public Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

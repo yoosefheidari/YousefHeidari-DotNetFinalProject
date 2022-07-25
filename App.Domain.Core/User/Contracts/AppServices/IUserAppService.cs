@@ -20,7 +20,7 @@ namespace App.Domain.Core.User.Contracts.AppServices
         Task Delete(int id);
         Task SignInUserById(int id);
         Task SignoutUser();
-        Task<bool> LoginUser(string userName, string password, bool remember);
+        Task<int> LoginUser(string userName, string password, bool remember);
         Task<List<RoleDTO>> GetRoles();
     }
 }

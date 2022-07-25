@@ -13,7 +13,7 @@ namespace App.Domain.Core.User.Contracts.Repositories
         Task Update(UserDTO user, string oldPassword, string newPassword);
         Task Delete(int id);
         Task SignInUserById(int id,bool isPersistent);
-        Task<bool> LoginUser(string userName, string password, bool remember);
+        Task<int> LoginUser(string userName, string password, bool remember);
         Task SignoutUser();
     }
 }

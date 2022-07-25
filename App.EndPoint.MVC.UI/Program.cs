@@ -107,9 +107,15 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
      option.Password.RequireLowercase = false;
 
  }).AddEntityFrameworkStores<AppDbContext>();
-
+//builder.Services.AddAuthentication().AddCookie(option =>
+//{
+//    option.Cookie.Name = "YousefProject";
+//});
 //builder.Services.ConfigureApplicationCookie(x => x.LoginPath = "/Admin/Account/Login");
-
+builder.Services.ConfigureApplicationCookie(x =>
+{
+    x.Cookie.Name = "YousefProjectCookie";
+});
 
 
 

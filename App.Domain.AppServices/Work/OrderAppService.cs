@@ -41,6 +41,11 @@ namespace App.Domain.AppServices.Work
             return orders;
         }
 
+        public Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task Update(OrderDTO order, CancellationToken cancellationToken)
         {
             await _orderService.Update(order, cancellationToken);

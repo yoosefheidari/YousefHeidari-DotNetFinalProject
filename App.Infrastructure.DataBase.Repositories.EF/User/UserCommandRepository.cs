@@ -48,18 +48,18 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             await _userManager.DeleteAsync(user);
         }
 
-        public async Task<bool> LoginUser(string userName, string password, bool remember)
+        public async Task<int> LoginUser(string userName, string password, bool remember)
         {
             var user = await _userManager.FindByNameAsync(userName);
             var result = await _userManager.CheckPasswordAsync(user, password);
             if (result)
             {
-                await _signInManager.SignInAsync(user, remember);
-                return true;
+                await _signInManager.SignInAsync(user, remember);           
+                return user.Id;
             }
             else
             {
-                return false;
+                return 0;
             }
 
         }

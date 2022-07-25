@@ -2,6 +2,7 @@
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using App.Infrastructure.DataBase.SqlServer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,7 +29,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task<UserDTO> Get(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
-
+            
             UserDTO userDto = new()
             {
                 Id = user.Id,

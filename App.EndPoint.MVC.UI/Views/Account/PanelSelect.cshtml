@@ -1,0 +1,18 @@
+﻿@model List<string>
+<br />
+    @foreach(var role in Model){
+    if (role == "Admin")
+    {
+        <a class="btn btn-primary" asp-area="Admin" asp-controller="Home" asp-action="Index">پنل مدیریت</a>
+    }
+    <br />
+    if (role == "Customer")
+    {
+        <a class="btn btn-primary" asp-controller="Home" asp-action="Index">صفحه اول سایت</a>
+    }
+    <br />
+    if (role == "Expert")
+    {
+        <a class="btn btn-primary" asp-controller="Expert" asp-action="Index">پنل متخصصین</a>
+    }
+}
