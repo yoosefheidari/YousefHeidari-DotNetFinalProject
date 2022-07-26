@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace App.Domain.Services.Work
     {
         private readonly IOrderCommandRepository _orderCommandRepository;
         private readonly IOrderQueryRepository _orderQueryRepository;
+        private readonly IConfiguration _configuration;
 
-        public OrderService(IOrderQueryRepository orderQueryRepository, IOrderCommandRepository orderCommandRepository)
+        public OrderService(IOrderQueryRepository orderQueryRepository, IOrderCommandRepository orderCommandRepository, IConfiguration configuration)
         {
             _orderQueryRepository = orderQueryRepository;
             _orderCommandRepository = orderCommandRepository;
+            _configuration = configuration;
         }
 
         public async Task<int> Add(OrderDTO order, CancellationToken cancellationToken)
@@ -52,6 +55,17 @@ namespace App.Domain.Services.Work
         public Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken)
+        {
+            var rootPath = _configuration.GetSection("DownloadPath").Value;
+            var paths = await _orderQueryRepository.GetAllFiles(orderId, cancellationToken);
+            foreach (var path in paths)
+            {
+                path.Path = rootPath + "/" + path.Path;
+            }
+            return paths;
         }
 
         public async Task Update(OrderDTO order, CancellationToken cancellationToken)

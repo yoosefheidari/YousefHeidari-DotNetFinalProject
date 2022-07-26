@@ -46,6 +46,12 @@ namespace App.Domain.AppServices.Work
             throw new NotImplementedException();
         }
 
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken)
+        {
+            var paths = await _orderService.GetAllFiles(orderId, cancellationToken);
+            return paths;
+        }
+
         public async Task Update(OrderDTO order, CancellationToken cancellationToken)
         {
             await _orderService.Update(order, cancellationToken);

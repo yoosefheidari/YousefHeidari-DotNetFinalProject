@@ -96,9 +96,52 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return orders;
         }
 
-        public Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            IQueryable<Order> queri = _appDbContext.Orders;
+            if (query == "newest")
+            {
+                queri = queri.Where(x => (x.StatusId == 1 || x.StatusId == 2)&& x.IsConfirmedByCustomer==false);
+            }
+            if (query == "current")
+            {
+                queri = queri.Where(x => x.ConfirmedExpertId == ExperId && x.IsConfirmedByCustomer == true && x.StatusId == 3 || x.StatusId == 4 || x.StatusId == 5);
+            }
+            if (query == "suggest")
+            {
+                queri = queri.Where(x => x.ExpertSuggests.Any(d => d.ExpertId == ExperId) && x.IsConfirmedByCustomer == false && (x.StatusId == 1 || x.StatusId == 2));
+            }
+            if (query == "past")
+            {
+                queri = queri.Where(x => x.ConfirmedExpertId == ExperId && x.IsConfirmedByCustomer == true && x.StatusId == 6);
+            }
+            var orders = queri.Select(x => new OrderDTO()
+            {
+                FinalPrice = x.FinalPrice,
+                ConfirmedExpertId = x.ConfirmedExpertId,
+                StatusId = x.StatusId,
+                CreationDate = x.CreationDate,
+                CustomerId = x.CustomerId,
+                IsConfirmedByCustomer = x.IsConfirmedByCustomer,
+                ServiceId = x.ServiceId,
+                IsDeleted = x.IsDeleted,
+                Id = x.Id,
+                Description = x.Description,
+
+            }).ToList();
+            return orders;
+        }
+
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken)
+        {
+            var files = await _appDbContext.OrderFiles.Where(x => x.OrderId == orderId).Select(x => x.File).Select(x => new PhysicalFileDTO()
+            {
+                Id = x.Id,
+                Path = x.Path,
+                CreationDate = x.CreationDate,
+                IsDeleted = x.IsDeleted,
+            }).ToListAsync(cancellationToken);
+            return files;
         }
     }
 }

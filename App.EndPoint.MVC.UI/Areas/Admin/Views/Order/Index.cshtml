@@ -15,8 +15,8 @@ else
     @foreach (var order in Model)
     {
 
-        <div class="card m-3" style="width: 18rem;">
-            <img class="card-img-top" src="~/AdminAreaTemplate/img/testimonial-1.jpg" height="120px" alt="Card image cap">
+        <div class="card m-1 d-inline-block" style="width: 31%;">
+            <img class="card-img-top" src="~/AdminAreaTemplate/img/download.png" height="150px" width="auto" alt="Card image cap">
             <div class="card-body">
                 <h5 class="card-title">توضیحات سفارش</h5>
                 <p class="card-text">@order.Description</p>
@@ -40,8 +40,10 @@ else
             <div class="card-body">
                 <a asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger">حذف</a>
                 <a asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success">ویرایش</a>
-                <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" asp-route-id="@order.Id" class="btn btn-success">مشاهده پیشنهادات</a>
-                <a asp-area="Admin" asp-controller="Comment" asp-action="GetAllOrderComments" asp-route-id="@order.Id" class="btn btn-success">مشاهده نظرات</a>
+                <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" asp-route-id="@order.Id" class="btn btn-warning">مشاهده پیشنهادات</a>                
+                <hr>
+                <a asp-area="Admin" asp-controller="Comment" asp-action="GetAllOrderComments" asp-route-id="@order.Id" class="btn btn-secondary">مشاهده نظرات</a>
+                <a asp-area="Admin" asp-controller="Order" asp-action="Files" asp-route-id="@order.Id" class="btn btn-info">مشاهده فایل ها</a>
             </div>
         </div>
     }

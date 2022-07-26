@@ -48,6 +48,12 @@ namespace App.Domain.AppServices.Work
             return servcies;
         }
 
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken)
+        {
+            var paths=await _serviceService.GetAllFiles(ServiceId, cancellationToken);
+            return paths;
+        }
+
         public async Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken)
         {
             await _serviceService.Update(serviceDTO,cancellationToken);

@@ -10,10 +10,10 @@ namespace App.EndPoint.MVC.UI.Controllers
     public class ExpertController : Controller
     {
         private readonly IUserAppService _userAppService;
-        private readonly HttpContext _httpContext;
+        private readonly IHttpContextAccessor _httpContext;
         private readonly IOrderAppService _orderAppService;
 
-        public ExpertController(IUserAppService userAppService, HttpContext httpContext, IOrderAppService orderAppService)
+        public ExpertController(IUserAppService userAppService, IHttpContextAccessor httpContext, IOrderAppService orderAppService)
         {
             _userAppService = userAppService;
             _httpContext = httpContext;
@@ -27,10 +27,10 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         public async Task<IActionResult> Orders(string name,CancellationToken cancellationToken)
-        {
+        {            
             string query = name;
             ViewData["Message"] = "Expert";
-            var currentUserUsername = _httpContext.User.Identity.Name;
+            var currentUserUsername = _httpContext.HttpContext.User.Identity.Name;
             var expert =await _userAppService.GetUserByUserName(currentUserUsername);
             var expertId= expert.Id;
             var orders = _orderAppService.GetAllExpertOrders(expertId,query,cancellationToken);

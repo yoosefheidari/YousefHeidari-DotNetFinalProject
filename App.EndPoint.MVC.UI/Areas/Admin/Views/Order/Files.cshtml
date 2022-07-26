@@ -1,0 +1,9 @@
+﻿@model List<PhysicalFileDTO>
+
+    <br />
+
+    @foreach (var img in Model)
+{
+    <img src="@img.Path"  style="width: 33%; height: auto;"/>
+    
+}

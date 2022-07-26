@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace App.Domain.Services.Work
         private readonly IServiceCommandRepository _serviceCommandRepository;
         private readonly IServiceQueryRepository _serviceQueryRepository;
         private readonly IServiceFileCommandRepository _serviceFileCommandRepository;
+        private readonly IConfiguration _configuration;
 
-        public ServiceService(IServiceQueryRepository serviceQueryRepository, IServiceCommandRepository serviceCommandRepository, IServiceFileCommandRepository serviceFileCommandRepository)
+        public ServiceService(IServiceQueryRepository serviceQueryRepository, IServiceCommandRepository serviceCommandRepository, IServiceFileCommandRepository serviceFileCommandRepository, IConfiguration configuration)
         {
             _serviceQueryRepository = serviceQueryRepository;
             _serviceCommandRepository = serviceCommandRepository;
             _serviceFileCommandRepository = serviceFileCommandRepository;
+            _configuration = configuration;
         }
 
         public async Task<int> Add(ServiceDTO serviceDTO, CancellationToken cancellationToken)
@@ -31,7 +34,7 @@ namespace App.Domain.Services.Work
 
         public async Task<bool> AddServiceFiles(int ServiceId, List<int> fileIds, CancellationToken cancellationToken)
         {
-            foreach(var fileId in fileIds)
+            foreach (var fileId in fileIds)
             {
                 ServiceFileDTO serviceFile = new()
                 {
@@ -59,6 +62,17 @@ namespace App.Domain.Services.Work
         {
             var servcies = await _serviceQueryRepository.GetAll(cancellationToken);
             return servcies;
+        }
+
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken)
+        {
+            var rootPath = _configuration.GetSection("DownloadPath").Value;
+            var paths = await _serviceQueryRepository.GetAllFiles(ServiceId, cancellationToken);
+            foreach (var path in paths)
+            {
+                path.Path = rootPath+"/"+path.Path;
+            }
+            return paths;
         }
 
         public async Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken)

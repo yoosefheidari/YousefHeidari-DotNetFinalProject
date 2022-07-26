@@ -42,9 +42,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(ServiceDTO serviceDTO,List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken)
         {
-            var result = await _serviceAppService.Add(serviceDTO,files, cancellationToken);
+            var result = await _serviceAppService.Add(serviceDTO, files, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 
@@ -79,6 +79,13 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         {
             await _serviceAppService.Delete(categoryDTO.Id, cancellationToken);
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Files(int id, CancellationToken cancellationToken)
+        {
+            var files = await _serviceAppService.GetAllFiles(id, cancellationToken);
+            return View(files);
         }
     }
 }

@@ -53,6 +53,12 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
+        public async Task<IActionResult> Files(int id, CancellationToken cancellationToken)
+        {
+            var files = await _orderAppService.GetAllFiles(id, cancellationToken);
+            return View(files);
+        }
+
+
     }
 }

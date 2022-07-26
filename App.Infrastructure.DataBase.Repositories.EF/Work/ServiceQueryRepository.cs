@@ -68,5 +68,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         .ToListAsync(cancellationToken);
             return services;
         }
+
+        public async Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken)
+        {
+            var files = await _appDbContext.ServiceFiles.Where(x => x.ServiceId == ServiceId).Select(x => x.File).Select(x=>new PhysicalFileDTO()
+            {
+                Id = x.Id,
+                Path = x.Path,
+                CreationDate= x.CreationDate,
+                IsDeleted = x.IsDeleted,
+            }).ToListAsync(cancellationToken);
+            return files;
+        }
     }
 }

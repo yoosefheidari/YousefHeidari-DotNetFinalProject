@@ -89,7 +89,7 @@ builder.Services.AddControllersWithViews();
 
 
 
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("MainConnectionString"));

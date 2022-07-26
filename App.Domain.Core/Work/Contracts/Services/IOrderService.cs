@@ -15,5 +15,6 @@ namespace App.Domain.Core.Work.Contracts.Services
         Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken);
         Task<OrderDTO> Get(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken);
+        Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken);
     }
 }
