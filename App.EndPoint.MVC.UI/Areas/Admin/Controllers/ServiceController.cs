@@ -87,5 +87,11 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var files = await _serviceAppService.GetAllFiles(id, cancellationToken);
             return View(files);
         }
+
+        public async Task<IActionResult> DeleteFile(int id, CancellationToken cancellationToken)
+        {
+            await _serviceAppService.DeleteServiceFile(id, cancellationToken);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

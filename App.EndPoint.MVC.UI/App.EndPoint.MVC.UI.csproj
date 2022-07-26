@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.6">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -36,10 +37,6 @@
     <Folder Include="Areas\Admin\Models\Order\" />
     <Folder Include="Areas\Admin\Models\Category\" />
     <Folder Include="Areas\Admin\Services\" />
-    <Folder Include="Areas\Expert\Controllers\" />
-    <Folder Include="Areas\Expert\Data\" />
-    <Folder Include="Areas\Expert\Models\" />
-    <Folder Include="Areas\Expert\Views\" />
     <Folder Include="wwwroot\AdminAreaTemplate\" />
     <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>

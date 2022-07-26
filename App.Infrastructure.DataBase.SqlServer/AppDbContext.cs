@@ -114,7 +114,8 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<ServiceFile>()
                 .HasOne(x => x.File)
                 .WithMany(x => x.ServiceFiles)
-                .HasForeignKey(x => x.FileId);
+                .HasForeignKey(x => x.FileId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderFile>()
                 .HasOne(x => x.Order)

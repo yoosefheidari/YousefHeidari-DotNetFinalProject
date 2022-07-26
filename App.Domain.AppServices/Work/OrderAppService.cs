@@ -29,6 +29,11 @@ namespace App.Domain.AppServices.Work
             await _orderService.Delete(id, cancellationToken);
         }
 
+        public async Task DeleteOrderFile(int id, CancellationToken cancellationToken)
+        {
+            await _orderService.DeleteOrderFile(id, cancellationToken);
+        }
+
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)
         {
             var order = await _orderService.Get(id, cancellationToken);

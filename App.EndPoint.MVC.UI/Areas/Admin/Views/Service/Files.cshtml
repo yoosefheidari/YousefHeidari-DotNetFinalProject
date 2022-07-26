@@ -1,10 +1,14 @@
 ﻿@model List<PhysicalFileDTO>
 
-    <br />
+<br />
 
     @foreach (var img in Model)
 {
-    <img src="@img.Path"  style="width: 33%; height: auto;"/>
+    <div class="card d-inline-block" style="width: 32%;">
+        <img src="@img.Path" class="card-img-top" alt="...">
+        <div class="card-body d-flex justify-content-center">            
+            <a asp-area="Admin" asp-controller="Service" asp-action="DeleteFile" asp-route-id="@img.Id" class="btn btn-danger">حذف فایل </a>
+        </div>
+    </div>
 
-    
 }

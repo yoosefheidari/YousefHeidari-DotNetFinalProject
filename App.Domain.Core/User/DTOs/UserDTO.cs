@@ -13,15 +13,19 @@ namespace App.Domain.Core.User.DTOs
         public int Id { get; set; }
 
         [Display(Name = ("نام کاربری"))]
+        [Required(ErrorMessage =("وارد کردن یوزر نیم الزامیست"))]
         public string UserName { get; set; }
 
         [Display(Name = ("ایمیل"))]
+        [Required(ErrorMessage = ("وارد کردن ایمیل الزامیست"))]
         public string Email { get; set; }
 
         [Display(Name = ("نام"))]
+        [Required(ErrorMessage = ("وارد کردن نام الزامیست"))]
         public string? FirstName { get; set; }
 
         [Display(Name = ("نام خانوادگی"))]
+        [Required(ErrorMessage = ("وارد کردن نام خانوادگی الزامیست"))]
         public string? LastName { get; set; }
 
         [Display(Name = ("آدرس"))]

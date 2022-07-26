@@ -3,6 +3,7 @@ using App.Domain.Core.User.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace App.EndPoint.MVC.UI.Controllers
 {
     [AllowAnonymous]
@@ -66,8 +67,12 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(UserDTO userDTO, string password, List<IFormFile> files,CancellationToken cancellationToken)
-
+                       
         {
+            if (!ModelState.IsValid)
+            {
+                return View(userDTO);
+            }
             var id = await _userAppService.RegisterUser(userDTO, password,files,cancellationToken);
             await _userAppService.SignInUserById(id);
 

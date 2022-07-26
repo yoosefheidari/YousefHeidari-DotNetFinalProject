@@ -47,6 +47,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task DeleteOrderFile(int id, CancellationToken cancellationToken)
+        {
+            var orderFile = await _appDbContext.Files.SingleAsync(x => x.Id == id, cancellationToken);
+            _appDbContext.Remove(orderFile);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task Update(OrderDTO order, CancellationToken cancellationToken)
         {
             var order1 = await _appDbContext.Orders.SingleAsync(x => x.Id == order.Id, cancellationToken);

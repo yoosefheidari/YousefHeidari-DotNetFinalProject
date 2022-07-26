@@ -12,5 +12,6 @@ namespace App.Domain.Core.Work.Contracts.Repositories
         Task<int> Add(OrderDTO order, CancellationToken cancellationToken);
         Task Update(OrderDTO order, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
+        Task DeleteOrderFile(int id, CancellationToken cancellationToken);
     }
 }

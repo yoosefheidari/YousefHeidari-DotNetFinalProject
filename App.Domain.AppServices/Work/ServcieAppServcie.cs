@@ -36,6 +36,11 @@ namespace App.Domain.AppServices.Work
             await _serviceService.Delete(id,cancellationToken);
         }
 
+        public async Task DeleteServiceFile(int id, CancellationToken cancellationToken)
+        {
+            await _serviceService.DeleteServiceFile(id,cancellationToken);
+        }
+
         public async Task<ServiceDTO> Get(int id, CancellationToken cancellationToken)
         {
             var result=await _serviceService.Get(id,cancellationToken);

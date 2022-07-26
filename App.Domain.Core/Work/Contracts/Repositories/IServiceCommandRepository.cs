@@ -12,6 +12,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
     {
         Task<int> Add(ServiceDTO serviceDTO, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
+        Task DeleteServiceFile(int id, CancellationToken cancellationToken);
         Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken);
     }
 }

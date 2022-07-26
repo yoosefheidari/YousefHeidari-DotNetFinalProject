@@ -12,6 +12,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
         Task<int> Add(OrderDTO order, CancellationToken cancellationToken);
         Task Update(OrderDTO order, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
+        Task DeleteOrderFile(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken);
         Task<OrderDTO> Get(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken);

@@ -40,6 +40,11 @@ namespace App.Domain.Services.Work
             await _orderCommandRepository.Delete(id, cancellationToken);
         }
 
+        public async Task DeleteOrderFile(int id, CancellationToken cancellationToken)
+        {
+            await _orderCommandRepository.DeleteOrderFile(id, cancellationToken);
+        }
+
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)
         {
             var order = await _orderQueryRepository.Get(id, cancellationToken);

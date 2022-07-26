@@ -45,7 +45,12 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        
+        public async Task DeleteServiceFile(int id, CancellationToken cancellationToken)
+        {
+            var serviceFile = await _appDbContext.Files.SingleAsync(x => x.Id == id, cancellationToken);
+            _appDbContext.Remove(serviceFile);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
 
         public async Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken)
         {
