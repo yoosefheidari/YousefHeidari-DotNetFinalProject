@@ -11,10 +11,12 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     public class UserManagementController : Controller
     {
         private readonly IUserAppService _userAppService;
+        private readonly ILogger _logger;
 
-        public UserManagementController(IUserAppService userAppService)
+        public UserManagementController(IUserAppService userAppService, ILogger logger)
         {
             _userAppService = userAppService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> Index(int id, string? search, CancellationToken cancellationToken)
@@ -34,7 +36,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(UserDTO userDTO,string oldPassword,string newPassword ,CancellationToken cancellationToken)
         {
+            _logger.LogTrace("start of {actionName} user", "Update");
             await _userAppService.Update(userDTO,oldPassword,newPassword);
+            _logger.LogTrace("end of {actionName} user", "Update");
+            _logger.LogInformation("User {Action} progress done Successfully", "Update");
             return RedirectToAction("Index");
         }
 

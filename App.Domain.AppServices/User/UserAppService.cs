@@ -4,6 +4,7 @@ using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.Services;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,11 +17,13 @@ namespace App.Domain.AppServices.User
     {
         private readonly IUserService _userService;
         private readonly IUploadService _uploadService;
+        private readonly ILogger _logger;
 
-        public UserAppService(IUserService userService, IUploadService uploadService)
+        public UserAppService(IUserService userService, IUploadService uploadService, ILogger logger)
         {
             _userService = userService;
             _uploadService = uploadService;
+            _logger = logger;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password, List<IFormFile> files, CancellationToken cancellationToken)
@@ -77,6 +80,7 @@ namespace App.Domain.AppServices.User
 
         public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
+            _logger.LogTrace("Call update {appServiceName} for user", "update");
             await _userService.Update(user, oldPassword, newPassword);
         }
 

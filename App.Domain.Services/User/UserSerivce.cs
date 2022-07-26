@@ -2,6 +2,7 @@
 using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,12 +16,14 @@ namespace App.Domain.Services.User
         private readonly IUserCommandRepository _userCommandRepository;
         private readonly IUserQueryRepository _userQueryRepository;
         private readonly IUserFileCommandRepository _userFileCommandRepository;
+        private readonly ILogger _logger;
 
-        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository)
+        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository, ILogger logger)
         {
             _userCommandRepository = userCommandRepository;
             _userQueryRepository = userQueryRepository;
             _userFileCommandRepository = userFileCommandRepository;
+            _logger = logger;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password)
@@ -77,6 +80,7 @@ namespace App.Domain.Services.User
 
         public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
+            _logger.LogTrace("Call update {serviceName} for user", "update");
             await _userCommandRepository.Update(user, oldPassword, newPassword);
         }
 
