@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.EntityFrameworkCore;
+using App.Domain.Core.User.DTOs;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
@@ -24,7 +25,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var orderDto = await _appDbContext.Orders
                 .Where(x => x.Id == id)
-                .Select(d=>new OrderDTO()
+                .Select(d => new OrderDTO()
                 {
                     Id = id,
                     Description = d.Description,
@@ -37,7 +38,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     StatusId = d.StatusId,
                     ServiceId = d.ServiceId,
                     StatusName = d.Status.Name,
-                    StatusValue=d.Status.StatusValue,
+                    StatusValue = d.Status.StatusValue,
                 })
                 .SingleAsync(cancellationToken);
             //var orderDto = new OrderDTO()
@@ -53,7 +54,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             //    StatusId = order.StatusId,
             //    ServiceId = order.ServiceId,
             //    StatusName=order.Status.Name,
-                
+
             //};
             return orderDto;
         }
@@ -76,46 +77,46 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     IsDeleted = x.IsDeleted,
                     StatusName = x.Status.Name,
                     StatusValue = x.Status.StatusValue,
-                    CustomerName=x.Customer.UserName,
-                    ExpertName=x.Expert.UserName,
-                    ServiceName=x.Service.Title,
-                    Comments=x.Comments.Select(x=>new CommentDTO()
+                    CustomerName = x.Customer.UserName,
+                    ExpertName = x.Expert.UserName,
+                    ServiceName = x.Service.Title,
+                    Comments = x.Comments.Select(x => new CommentDTO()
                     {
                         CreationDate = x.CreationDate,
-                        Description=x.Description,
-                        Id=x.Id,
-                        IsApproved=x.IsApproved,
-                        IsDeleted=x.IsDeleted,
-                        OrderId=x.OrderId,
-                        ServiceId=x.ServiceId,
-                        Title=x.Title,
-                        
-                    }).ToList(),                    
+                        Description = x.Description,
+                        Id = x.Id,
+                        IsApproved = x.IsApproved,
+                        IsDeleted = x.IsDeleted,
+                        OrderId = x.OrderId,
+                        ServiceId = x.ServiceId,
+                        Title = x.Title,
+
+                    }).ToList(),
                 })
                 .ToListAsync(cancellationToken);
             return orders;
         }
 
-        public async Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
         {
             IQueryable<Order> queri = _appDbContext.Orders;
             if (query == "newest")
             {
-                queri = queri.Where(x => (x.StatusId == 1 || x.StatusId == 2)&& x.IsConfirmedByCustomer==false);
+                queri = queri.Where(x => expert.expertCategories.Any(d => d.Id == x.Service.CategoryId) && (x.StatusId == 1 || x.StatusId == 2) && x.IsConfirmedByCustomer == false);
             }
             if (query == "current")
             {
-                queri = queri.Where(x => x.ConfirmedExpertId == ExperId && x.IsConfirmedByCustomer == true && x.StatusId == 3 || x.StatusId == 4 || x.StatusId == 5);
+                queri = queri.Where(x => x.ConfirmedExpertId == expert.Id && x.IsConfirmedByCustomer == true && x.StatusId == 3 || x.StatusId == 4 || x.StatusId == 5);
             }
             if (query == "suggest")
             {
-                queri = queri.Where(x => x.ExpertSuggests.Any(d => d.ExpertId == ExperId) && x.IsConfirmedByCustomer == false && (x.StatusId == 1 || x.StatusId == 2));
+                queri = queri.Where(x => x.ExpertSuggests.Any(d => d.ExpertId == expert.Id) && x.IsConfirmedByCustomer == false && (x.StatusId == 1 || x.StatusId == 2));
             }
             if (query == "past")
             {
-                queri = queri.Where(x => x.ConfirmedExpertId == ExperId && x.IsConfirmedByCustomer == true && x.StatusId == 6);
+                queri = queri.Where(x => x.ConfirmedExpertId == expert.Id && x.IsConfirmedByCustomer == true && x.StatusId == 6);
             }
-            var orders = queri.Select(x => new OrderDTO()
+            var orders =await queri.Select(x => new OrderDTO()
             {
                 FinalPrice = x.FinalPrice,
                 ConfirmedExpertId = x.ConfirmedExpertId,
@@ -127,8 +128,12 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 IsDeleted = x.IsDeleted,
                 Id = x.Id,
                 Description = x.Description,
+                CustomerName = x.Customer.FirstName + x.Customer.LastName,
+                ServiceName=x.Service.Title,
+                StatusName=x.Status.Name,
+                StatusValue=x.Status.StatusValue,
 
-            }).ToList();
+            }).ToListAsync(cancellationToken);
             return orders;
         }
 

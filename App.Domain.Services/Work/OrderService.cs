@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Work.Contracts.Repositories;
+﻿using App.Domain.Core.User.DTOs;
+using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.Extensions.Configuration;
@@ -57,7 +58,7 @@ namespace App.Domain.Services.Work
             return orders;
         }
 
-        public Task<List<OrderDTO>> GetAllExpertOrders(int ExperId, string query, CancellationToken cancellationToken)
+        public Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

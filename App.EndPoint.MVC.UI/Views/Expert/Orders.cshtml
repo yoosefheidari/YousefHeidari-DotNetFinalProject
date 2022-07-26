@@ -1,0 +1,49 @@
+﻿@model List<OrderDTO>
+@if (Model.Count == 0)
+{
+    <div class="alert alert-success m-4" role="alert">
+        <div><input style="display:none" /></div>
+        <h4 class="alert-heading">سفارش</h4>
+        <hr>
+        <br>
+        <p>سفارشی در دسته شما وجود ندارد</p>
+        <hr>
+    </div>
+}
+else
+{
+    @foreach (var order in Model)
+    {
+
+        <div class="card m-1 d-inline-block" style="width: 31%;">
+            <img class="card-img-top" src="~/AdminAreaTemplate/img/download.png" height="150px" width="auto" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">توضیحات سفارش</h5>
+                <p class="card-text">@order.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">تاریخ ثبت : @order.CreationDate</li>
+                <li class="list-group-item">دسته بندی : @order.ServiceName</li>
+                <li class="list-group-item">کاربر : @order.CustomerName</li>
+                <li class="list-group-item">متخصص : @order.ExpertName</li>
+                <li class="list-group-item">قیمت : @order.FinalPrice</li>
+                <li class="list-group-item">تایید شده توسط کاربر : @order.IsConfirmedByCustomer</li>
+                <li class="list-group-item">
+                    وضعیت : @order.StatusName
+                    <div class="pg-bar mb-3">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <div class="card-body">                
+                <a asp-area="" asp-controller="Expert" asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success">ویرایش</a>
+                <a asp-area="" asp-controller="Expert" asp-action="Comments" asp-route-id="@order.Id" class="btn btn-warning">مشاهده پیشنهادات</a>
+                <a asp-area="" asp-controller="Expert" asp-action="Suggest" asp-route-id="@order.Id" class="btn btn-warning">ثبت پیشنهاد</a>
+                <hr>                
+                <a asp-area="" asp-controller="Expert" asp-action="Files" asp-route-id="@order.Id" class="btn btn-info">مشاهده فایل ها</a>
+            </div>
+        </div>
+    }
+}

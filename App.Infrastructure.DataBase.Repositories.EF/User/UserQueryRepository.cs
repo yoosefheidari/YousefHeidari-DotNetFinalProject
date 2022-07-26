@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.User.Contracts.Repositories;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using App.Domain.Core.Work.DTOs;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -29,7 +30,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task<UserDTO> Get(int id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
-            
+
             UserDTO userDto = new()
             {
                 Id = user.Id,
@@ -43,7 +44,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 ProfilePicture = user.ProfilePicture,
                 UserName = user.UserName,
 
-            }; 
+            };
             var roles = await _userManager.GetRolesAsync(user);
             userDto.Roles = roles.ToList();
             return userDto;
@@ -135,6 +136,16 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task<UserDTO> GetUserByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
+            var expertCategories =await _appDbContext.ExpertCategories.Where(r => r.ExpertId == user.Id)
+                .Select(x => x.Category)
+                .Select(c => new CategoryDTO()
+                 {
+                     CreationDate = c.CreationDate,
+                     Id = c.Id,
+                     IsDeleted = c.IsDeleted,
+                     Name = c.Name,
+                 }).ToListAsync();
+
             var userDto = new UserDTO()
             {
                 Id = user.Id,
@@ -146,6 +157,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 Mobile = user.Mobile,
                 NationalCode = user.NationalCode,
                 PhoneNumber = user.PhoneNumber,
+                ProfilePicture = user.ProfilePicture,
+                expertCategories = expertCategories,
             };
             return userDto;
         }

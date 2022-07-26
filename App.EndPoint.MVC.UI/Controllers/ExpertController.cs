@@ -32,8 +32,7 @@ namespace App.EndPoint.MVC.UI.Controllers
             ViewData["Message"] = "Expert";
             var currentUserUsername = _httpContext.HttpContext.User.Identity.Name;
             var expert =await _userAppService.GetUserByUserName(currentUserUsername);
-            var expertId= expert.Id;
-            var orders = _orderAppService.GetAllExpertOrders(expertId,query,cancellationToken);
+            var orders = _orderAppService.GetAllExpertOrders(expert, query,cancellationToken);
 
             return View(orders);
         }

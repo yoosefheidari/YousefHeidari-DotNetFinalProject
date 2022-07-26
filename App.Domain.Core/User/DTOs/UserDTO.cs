@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Domain.Core.Work.DTOs;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -45,6 +46,8 @@ namespace App.Domain.Core.User.DTOs
 
         [Display(Name = ("رول ها"))]
         public List<string> Roles { get; set; }
+
+        public List<CategoryDTO>? expertCategories { get; set; }
 
     }
 }
