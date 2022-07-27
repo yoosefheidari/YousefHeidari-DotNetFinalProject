@@ -1,7 +1,11 @@
 ﻿using App.Domain.Core.User.Contracts.Repositories;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
+using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -16,12 +20,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<UserCommandRepository> _logger;
+        private readonly AppDbContext _appDbContext;
 
-        public UserCommandRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserCommandRepository> logger)
+        public UserCommandRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserCommandRepository> logger, AppDbContext appDbContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _appDbContext = appDbContext;
         }
 
         public async Task<int> Add(UserDTO user, string password)
@@ -57,7 +63,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             var result = await _userManager.CheckPasswordAsync(user, password);
             if (result)
             {
-                await _signInManager.SignInAsync(user, remember);           
+                await _signInManager.SignInAsync(user, remember);
                 return user.Id;
             }
             else
@@ -89,11 +95,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 if (result)
                 {
                     await _userManager.ChangePasswordAsync(user1, oldPassword, newPassword);
-                    _logger.LogInformation("{property} Changed Successfully","password");
+                    _logger.LogInformation("{property} Changed Successfully", "password");
                 }
                 else
                 {
-                    _logger.LogWarning("something goes wrong during changing {property} and operation faild","password");
+                    _logger.LogWarning("something goes wrong during changing {property} and operation faild", "password");
                 }
 
             }
@@ -115,7 +121,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             await _userManager.RemoveFromRolesAsync(user1, roles);
             await _userManager.AddToRolesAsync(user1, user.Roles);
             _logger.LogTrace("updating {section} of user ended", "roles");
-            _logger.LogInformation("user {section} Changed successfully","Roles");
+            _logger.LogInformation("user {section} Changed successfully", "Roles");
             //foreach (var role in roles)
             //{
             //    if (user.Roles.Any(x => x != role))
@@ -128,9 +134,29 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             //    await _userManager.AddToRoleAsync(user1, role);
             //}
             await _userManager.UpdateAsync(user1);
-            _logger.LogInformation("user {action} progress done successfully","Update");
+            _logger.LogInformation("user {action} progress done successfully", "Update");
 
             _logger.LogTrace("end of Update {methodName}", "Update");
+        }
+
+        public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
+        {
+            var result = await _appDbContext.ExpertCategories.Where(c => c.ExpertId == userId).ToListAsync();
+            foreach (var item in result)
+            {
+                _appDbContext.ExpertCategories.Remove(item);
+            }
+            foreach (var item in categories)
+            {
+                ExpertCategory skill = new()
+                {
+                    IsDeleted = false,
+                    CategoryId = item,
+                    ExpertId = userId,
+                };
+                await _appDbContext.ExpertCategories.AddAsync(skill, cancellationToken);
+            }
+            await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }
 }

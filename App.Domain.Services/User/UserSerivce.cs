@@ -2,6 +2,7 @@
 using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using App.Domain.Core.Work.DTOs;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -103,6 +104,11 @@ namespace App.Domain.Services.User
         {
             var roles = await _userQueryRepository.GetRoles();
             return roles;
+        }
+
+        public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
+        {
+            await _userCommandRepository.UpdateExpertSkills(userId, categories, cancellationToken);
         }
     }
 }

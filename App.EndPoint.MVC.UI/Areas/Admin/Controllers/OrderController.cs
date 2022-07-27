@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles =("Admin"))]
+    [Authorize(Roles = ("Admin"))]
     public class OrderController : Controller
     {
         private readonly IOrderAppService _orderAppService;
@@ -15,17 +15,17 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public OrderController(IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
         {
             _orderAppService = orderAppService;
-            _statusAppServcie = statusAppServcie;            
+            _statusAppServcie = statusAppServcie;
         }
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
-            var orders = await _orderAppService.GetAll(cancellationToken);
+            var orders = await _orderAppService.GetAll(id, cancellationToken);
             return View(orders);
         }
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
-            var statuses=await _statusAppServcie.GetAll(cancellationToken);
+            var statuses = await _statusAppServcie.GetAll(cancellationToken);
             ViewBag.Statuses = statuses.Select(c => new SelectListItem()
             {
                 Value = c.Id.ToString(),

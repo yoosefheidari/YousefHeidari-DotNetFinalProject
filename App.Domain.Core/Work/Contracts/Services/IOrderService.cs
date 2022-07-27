@@ -14,7 +14,7 @@ namespace App.Domain.Core.Work.Contracts.Services
         Task Update(OrderDTO order, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task DeleteOrderFile(int id, CancellationToken cancellationToken);
-        Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken);
+        Task<List<OrderDTO>> GetAll(int id,CancellationToken cancellationToken);
         Task<OrderDTO> Get(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken);
         Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken);

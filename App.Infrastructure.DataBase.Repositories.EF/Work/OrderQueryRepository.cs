@@ -60,9 +60,18 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         }
 
 
-        public async Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var orders = await _appDbContext.Orders
+            IQueryable<Order> query = _appDbContext.Orders;
+            if (id == 1)
+            {
+                query = query.Where(x => x.StatusId != 5);
+            }
+            if (id == 2)
+            {
+                query = query.Where(x => x.StatusId == 5);
+            }
+            var orders = await query
                 .Select(x => new OrderDTO()
                 {
                     Id = x.Id,
@@ -94,6 +103,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     }).ToList(),
                 })
                 .ToListAsync(cancellationToken);
+
             return orders;
         }
 
@@ -116,7 +126,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             {
                 queri = queri.Where(x => x.ConfirmedExpertId == expert.Id && x.IsConfirmedByCustomer == true && x.StatusId == 6);
             }
-            var orders =await queri.Select(x => new OrderDTO()
+            var orders = await queri.Select(x => new OrderDTO()
             {
                 FinalPrice = x.FinalPrice,
                 ConfirmedExpertId = x.ConfirmedExpertId,
@@ -129,9 +139,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = x.Id,
                 Description = x.Description,
                 CustomerName = x.Customer.FirstName + x.Customer.LastName,
-                ServiceName=x.Service.Title,
-                StatusName=x.Status.Name,
-                StatusValue=x.Status.StatusValue,
+                ServiceName = x.Service.Title,
+                StatusName = x.Status.Name,
+                StatusValue = x.Status.StatusValue,
 
             }).ToListAsync(cancellationToken);
             return orders;

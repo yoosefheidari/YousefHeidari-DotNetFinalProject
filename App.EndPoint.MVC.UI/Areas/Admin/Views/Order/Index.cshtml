@@ -12,24 +12,34 @@
 }
 else
 {
+    <br />
     @foreach (var order in Model)
     {
 
         <div class="card m-1 d-inline-block" style="width: 31%;">
             <img class="card-img-top" src="~/AdminAreaTemplate/img/download.png" height="150px" width="auto" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title">توضیحات سفارش</h5>
+                <h5 class="card-title">توضیحات سفارش : </h5>
                 <p class="card-text">@order.Description</p>
             </div>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">تاریخ ثبت : @order.CreationDate</li>
+                <li class="list-group-item">تاریخ ثبت : @order.CreationDate.Date</li>
                 <li class="list-group-item">دسته بندی : @order.ServiceName</li>
-                <li class="list-group-item">کاربر : @order.CustomerName</li>
-                <li class="list-group-item">متخصص : @order.ExpertName</li>
-                <li class="list-group-item">قیمت : @order.FinalPrice</li>
-                <li class="list-group-item">تایید شده توسط کاربر : @order.IsConfirmedByCustomer</li>
+                <li class="list-group-item">نام مشتری : @order.CustomerName</li>
+                <li class="list-group-item">نام متخصص : @order.ExpertName</li>
+                <li class="list-group-item">قیمت نهایی : @order.FinalPrice تومان</li>
+                <li class="list-group-item">تایید شده توسط مشتری : 
+                    @if (order.IsConfirmedByCustomer==false)
+                    {
+                        <span>تایید نشده</span>
+                    }
+                    else
+                    {
+                        <span>تایید شده</span>
+                    }
+                </li>
                 <li class="list-group-item">
-                    وضعیت : @order.StatusName
+                    وضعیت سفارش : @order.StatusName
                     <div class="pg-bar mb-3">
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100"></div>

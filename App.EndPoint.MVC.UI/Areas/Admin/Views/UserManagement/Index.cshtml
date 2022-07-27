@@ -12,26 +12,49 @@
             <th>یوزرنیم</th>
             <th>ایمیل</th>
             <th>رول ها</th>
+            <th>مهارت ها (متخصص)</th>
             <th>عملیات</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var user in Model)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.UserName</td>
-                <td>@item.Email</td>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
                 <td>
-                    @foreach (var role in item.Roles)
+                    @foreach (var role in user.Roles)
                     {
                         <p>@role</p>
                     }
                 </td>
                 <td>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">حذف</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success">ویرایش</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Detail" asp-route-id="@item.Id" class="btn btn-warning">جزئیات</a>
+                    @if (user.Roles.Count == 1)
+                    {
+                        <p>مشتری که تخصص نداره!</p>
+                    }
+                    @if (user.Roles.Count == 2)
+                    {
+                        foreach (var skill in user.expertCategories)
+                        {
+                            <p>@skill.Name</p>
+                        }
+                    }
+                    @if (user.Roles.Count == 3)
+                    {
+                        <p>ادمین جان!</p>
+                    }
+
+                </td>
+                <td>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">حذف</a>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-success">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Detail" asp-route-id="@user.Id" class="btn btn-warning">جزئیات</a>
+                    @if (user.Roles.Count == 2)
+                    {
+                        <a asp-area="Admin" asp-controller="UserManagement" asp-action="EditExpertSkill" asp-route-id="@user.Id" class="btn btn-info">ویرایش مهارت</a>
+                    }
                 </td>
             </tr>
         }

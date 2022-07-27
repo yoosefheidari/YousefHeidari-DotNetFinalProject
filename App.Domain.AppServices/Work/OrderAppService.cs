@@ -46,13 +46,13 @@ namespace App.Domain.AppServices.Work
             return order;
         }
 
-        public async Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var orders = await _orderService.GetAll(cancellationToken);
+            var orders = await _orderService.GetAll(id, cancellationToken);
             return orders;
         }
 
-        public Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert , string query, CancellationToken cancellationToken)
+        public Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

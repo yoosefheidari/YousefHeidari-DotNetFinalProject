@@ -52,9 +52,9 @@ namespace App.Domain.Services.Work
             return order;
         }
 
-        public async Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var orders = await _orderQueryRepository.GetAll(cancellationToken);
+            var orders = await _orderQueryRepository.GetAll(id, cancellationToken);
             return orders;
         }
 

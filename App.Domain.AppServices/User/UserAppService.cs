@@ -3,6 +3,7 @@ using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.Services;
+using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
@@ -45,7 +46,7 @@ namespace App.Domain.AppServices.User
 
         public async Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken)
         {
-            var users = await _userService.GetAll(id,search, cancellationToken);
+            var users = await _userService.GetAll(id, search, cancellationToken);
             return users;
         }
 
@@ -86,6 +87,11 @@ namespace App.Domain.AppServices.User
         {
             var roles = await _userService.GetRoles();
             return roles;
+        }
+
+        public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
+        {
+            await _userService.UpdateExpertSkills(userId, categories, cancellationToken);
         }
     }
 }

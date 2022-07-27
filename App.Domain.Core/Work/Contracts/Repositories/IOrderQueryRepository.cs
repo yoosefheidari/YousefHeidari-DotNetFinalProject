@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IOrderQueryRepository
     {
-        Task<List<OrderDTO>> GetAll(CancellationToken cancellationToken);
+        Task<List<OrderDTO>> GetAll(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken);
         Task<OrderDTO> Get(int id, CancellationToken cancellationToken);
         Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken);
