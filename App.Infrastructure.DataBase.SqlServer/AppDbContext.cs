@@ -17,72 +17,7 @@ namespace App.Infrastructure.DataBase.SqlServer
         {
             base.OnModelCreating(modelBuilder);
 
-            #region Order
-            modelBuilder.Entity<Order>()
-                .Property(x => x.Description)
-                .IsRequired(false)
-                .HasMaxLength(2000);
 
-            modelBuilder.Entity<Order>()
-                .Property(x => x.FinalPrice)
-                .IsRequired(false);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(x => x.Service)
-                .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.ServiceId)
-                .IsRequired();
-
-            modelBuilder.Entity<Order>()
-                .HasOne(x => x.Customer)
-                .WithMany(x => x.CustomerOrders)
-                .HasForeignKey(x => x.CustomerId)
-                .IsRequired();            
-
-            modelBuilder.Entity<Order>()
-                .HasOne(x => x.Expert)
-                .WithMany(x => x.ExpertOrders)
-                .HasForeignKey(x => x.ConfirmedExpertId)
-                .IsRequired(false);
-
-            modelBuilder.Entity<Order>()
-                .HasOne(x => x.Status)
-                .WithMany(x => x.Orders)
-                .HasForeignKey(x => x.StatusId)
-                .IsRequired();
-
-            #endregion
-
-
-            modelBuilder.Entity<Suggest>()
-                .HasOne(x => x.Expert)
-                .WithMany(x => x.Suggests)
-                .HasForeignKey(x => x.ExpertId)
-                .IsRequired();
-
-            modelBuilder.Entity<Suggest>()
-                .HasOne(x => x.Order)
-                .WithMany(x => x.ExpertSuggests)
-                .HasForeignKey(x => x.OrderId)
-                .IsRequired(false);
-
-            
-
-
-            modelBuilder.Entity<ExpertCategory>()
-                .HasOne(x => x.Expert)
-                .WithMany(x => x.ExpertCategories)
-                .HasForeignKey(x => x.ExpertId)
-                .IsRequired();
-
-            modelBuilder.Entity<ExpertCategory>()
-                .HasOne(x => x.Category)
-                .WithMany(x => x.ExpertCategories)
-                .HasForeignKey(x => x.CategoryId)
-                .IsRequired();
-
-
-            
             modelBuilder.Entity<Category>()
                 .Property(x => x.Name)
                 .HasMaxLength(50);
@@ -94,22 +29,120 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<ServiceComment>()
                 .Property(x => x.Description)
                 .HasMaxLength(2000);
-            modelBuilder.Entity<ServiceComment>()
-                .HasOne(x => x.Service)
-                .WithMany(x => x.ServiceComments)
-                .HasForeignKey(x => x.ServiceId)
-                .IsRequired(false);
-
 
             modelBuilder.Entity<Status>()
                 .Property(x => x.Name)
                 .HasMaxLength(50);
 
+            modelBuilder.Entity<PhysicalFile>()
+                .Property(x => x.Path)
+                .HasMaxLength(500);
+
+            #region Order
+
+            modelBuilder.Entity<Order>()
+                .Property(x => x.Description)
+                .IsRequired(false)
+                .HasMaxLength(2000);
+
+            modelBuilder.Entity<Order>()
+                .Property(x => x.FinalPrice)
+                .IsRequired(false);
+
+            //--------------------------------------------------
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Service)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.ServiceId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ServiceComment>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.Comments)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);            
+
+            modelBuilder.Entity<Suggest>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.Suggests)
+                .HasForeignKey(x => x.ExpertId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
+            
+
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Status)
+                .WithMany(x => x.Orders)
+                .HasForeignKey(x => x.StatusId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            //------------------------------------------------------------------------
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Customer)
+                .WithMany(x => x.CustomerOrders)
+                .HasForeignKey(x => x.CustomerId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.ClientCascade);
+
+            modelBuilder.Entity<Order>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.ExpertOrders)
+                .HasForeignKey(x => x.ConfirmedExpertId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.SetNull);
+            //--------------------------------------------------------------------------
+
+            #endregion
+
+            modelBuilder.Entity<ExpertCategory>()
+                .HasOne(x => x.Expert)
+                .WithMany(x => x.ExpertCategories)
+                .HasForeignKey(x => x.ExpertId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ExpertCategory>()
+                .HasOne(x => x.Category)
+                .WithMany(x => x.ExpertCategories)
+                .HasForeignKey(x => x.CategoryId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            
+
+
+            modelBuilder.Entity<Suggest>()
+                .HasOne(x => x.Order)
+                .WithMany(x => x.ExpertSuggests)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(x => x.ExpertSuggests)
+                .WithOne(x => x.Order)
+                .HasForeignKey(x => x.OrderId)
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            //modelBuilder.Entity<ServiceComment>()
+            //    .HasOne(x => x.Service)
+            //    .WithMany(x => x.ServiceComments)
+            //    .HasForeignKey(x => x.ServiceId)
+            //    .IsRequired(false);
+
+
+
+
 
             modelBuilder.Entity<ServiceFile>()
                 .HasOne(x => x.Service)
                 .WithMany(x => x.ServiceFiles)
-                .HasForeignKey(x => x.ServiceId);
+                .HasForeignKey(x => x.ServiceId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<ServiceFile>()
                 .HasOne(x => x.File)
@@ -120,28 +153,26 @@ namespace App.Infrastructure.DataBase.SqlServer
             modelBuilder.Entity<OrderFile>()
                 .HasOne(x => x.Order)
                 .WithMany(x => x.OrderFiles)
-                .HasForeignKey(x => x.OrderId);
+                .HasForeignKey(x => x.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderFile>()
                 .HasOne(x => x.File)
                 .WithMany(x => x.OrderFiles)
-                .HasForeignKey(x => x.FileId);
+                .HasForeignKey(x => x.FileId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserFile>()
                 .HasOne(x => x.User)
                 .WithMany(x => x.UserFiles)
-                .HasForeignKey(x => x.UserId);
+                .HasForeignKey(x => x.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<UserFile>()
                 .HasOne(x => x.File)
                 .WithMany(x => x.UserFiles)
-                .HasForeignKey(x => x.FileId);
-
-
-            modelBuilder.Entity<PhysicalFile>()
-                .Property(x => x.Path)
-                .HasMaxLength(500);
-
+                .HasForeignKey(x => x.FileId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
         #region User Aggregate DbSets
         public virtual DbSet<AppUser> AppUsers { get; set; } = null!;

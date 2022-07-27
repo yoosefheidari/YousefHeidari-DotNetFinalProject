@@ -11,9 +11,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     public class UserManagementController : Controller
     {
         private readonly IUserAppService _userAppService;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserManagementController> _logger;
 
-        public UserManagementController(IUserAppService userAppService, ILogger logger)
+        public UserManagementController(IUserAppService userAppService, ILogger<UserManagementController> logger)
         {
             _userAppService = userAppService;
             _logger = logger;
@@ -52,7 +52,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(UserDTO userDTO, CancellationToken cancellationToken)
         {
             await _userAppService.Delete(userDTO.Id);
-            return LocalRedirect("~/");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Detail(int id, CancellationToken cancellationToken)

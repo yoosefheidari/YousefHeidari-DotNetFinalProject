@@ -88,7 +88,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                         IsApproved = x.IsApproved,
                         IsDeleted = x.IsDeleted,
                         OrderId = x.OrderId,
-                        ServiceId = x.ServiceId,
+                        //ServiceId = x.ServiceId,
                         Title = x.Title,
 
                     }).ToList(),

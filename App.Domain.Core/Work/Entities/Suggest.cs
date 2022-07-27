@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Entities
     public class Suggest
     {
         public int Id { get; set; }
-        public int? OrderId { get; set; }
+        public int OrderId { get; set; }
         public int ExpertId { get; set; }
         public int SuggestedPrice { get; set; }
         public string? Description { get; set; }

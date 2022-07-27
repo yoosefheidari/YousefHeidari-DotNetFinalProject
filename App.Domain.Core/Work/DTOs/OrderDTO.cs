@@ -15,7 +15,7 @@ namespace App.Domain.Core.Work.DTOs
         public string CustomerName { get; set; }
         public int? ConfirmedExpertId { get; set; }
         public string ExpertName { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         public string StatusName { get; set; }
         public int? StatusValue { get; set; }
         public string? Description { get; set; }

@@ -13,13 +13,13 @@ namespace App.Domain.Core.Work.Entities
         public int ServiceId { get; set; }
         public  int CustomerId { get; set; }
         public int? ConfirmedExpertId { get; set; }
-        public int StatusId { get; set; }
+        public int? StatusId { get; set; }
         public string? Description { get; set; }
         public int? FinalPrice { get; set; }
-        //public int ServiceBasePrice { get; set; }
         public bool? IsConfirmedByCustomer { get; set; }
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }
+        //public int ServiceBasePrice { get; set; }
 
 
         public virtual Service Service  { get; set; }

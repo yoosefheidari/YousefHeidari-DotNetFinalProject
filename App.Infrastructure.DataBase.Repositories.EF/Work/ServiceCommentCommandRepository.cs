@@ -28,7 +28,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 OrderId = comment.OrderId,
                 Title = comment.Title,
                 CreationDate = comment.CreationDate,
-                ServiceId = comment.ServiceId,
+                //ServiceId = comment.ServiceId,
                 IsApproved = comment.IsApproved,
             };
             await _appDbContext.Comments.AddAsync(newComment, cancellationToken);
@@ -49,7 +49,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             comment1.Title = comment.Title;
             comment1.Description = comment.Description;
             comment1.OrderId = comment.OrderId;
-            comment1.ServiceId = comment.ServiceId;
+            //comment1.ServiceId = comment.ServiceId;
             comment1.IsApproved = comment.IsApproved;
 
             await _appDbContext.SaveChangesAsync(cancellationToken);

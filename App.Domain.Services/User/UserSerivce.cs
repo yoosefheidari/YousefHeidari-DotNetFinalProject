@@ -16,9 +16,9 @@ namespace App.Domain.Services.User
         private readonly IUserCommandRepository _userCommandRepository;
         private readonly IUserQueryRepository _userQueryRepository;
         private readonly IUserFileCommandRepository _userFileCommandRepository;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserSerivce> _logger;
 
-        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository, ILogger logger)
+        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository, ILogger<UserSerivce> logger)
         {
             _userCommandRepository = userCommandRepository;
             _userQueryRepository = userQueryRepository;

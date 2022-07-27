@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace App.Infrastructure.DataBase.SqlServer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220722162345_appuserprofilepicture")]
-    partial class appuserprofilepicture
+    [Migration("20220727072707_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -133,7 +133,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int?>("StatusId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -255,9 +255,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ServiceId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -266,8 +263,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("ServiceId");
 
                     b.ToTable("Comments");
                 });
@@ -348,7 +343,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("OrderId")
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("SuggestedPrice")
@@ -637,12 +632,13 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 {
                     b.HasOne("App.Domain.Core.User.Entities.AppUser", "Expert")
                         .WithMany("ExpertOrders")
-                        .HasForeignKey("ConfirmedExpertId");
+                        .HasForeignKey("ConfirmedExpertId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("App.Domain.Core.User.Entities.AppUser", "Customer")
                         .WithMany("CustomerOrders")
                         .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Work.Entities.Service", "Service")
@@ -654,8 +650,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.HasOne("App.Domain.Core.Work.Entities.Status", "Status")
                         .WithMany("Orders")
                         .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Customer");
 
@@ -704,13 +699,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("App.Domain.Core.Work.Entities.Service", "Service")
-                        .WithMany("ServiceComments")
-                        .HasForeignKey("ServiceId");
-
                     b.Navigation("Order");
-
-                    b.Navigation("Service");
                 });
 
             modelBuilder.Entity("App.Domain.Core.Work.Entities.ServiceFile", b =>
@@ -737,12 +726,13 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     b.HasOne("App.Domain.Core.User.Entities.AppUser", "Expert")
                         .WithMany("Suggests")
                         .HasForeignKey("ExpertId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("App.Domain.Core.Work.Entities.Order", "Order")
                         .WithMany("ExpertSuggests")
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Expert");
 
@@ -828,8 +818,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
             modelBuilder.Entity("App.Domain.Core.Work.Entities.Service", b =>
                 {
                     b.Navigation("Orders");
-
-                    b.Navigation("ServiceComments");
 
                     b.Navigation("ServiceFiles");
                 });

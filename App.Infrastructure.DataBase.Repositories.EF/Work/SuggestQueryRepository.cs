@@ -27,7 +27,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             {
                 Id = id,
                 CreationDate = expertSuggest.CreationDate,
-                ExpertId = expertSuggest.Id,
+                ExpertId = expertSuggest.ExpertId,
                 IsConfirmedByCustomer = expertSuggest.IsConfirmedByCustomer,
                 OrderId = expertSuggest.OrderId,
                 SuggestedPrice = expertSuggest.SuggestedPrice,

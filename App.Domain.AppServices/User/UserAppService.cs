@@ -17,9 +17,9 @@ namespace App.Domain.AppServices.User
     {
         private readonly IUserService _userService;
         private readonly IUploadService _uploadService;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserAppService> _logger;
 
-        public UserAppService(IUserService userService, IUploadService uploadService, ILogger logger)
+        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger)
         {
             _userService = userService;
             _uploadService = uploadService;

@@ -26,14 +26,14 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
             var suggest = await _suggestAppService.Get(id, cancellationToken);
-
             return View(suggest);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(SuggestDTO suggestDTO, CancellationToken cancellationToken)
         {
+            var id = suggestDTO.OrderId;
             await _suggestAppService.Update(suggestDTO, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new {id=id});
         }
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
@@ -44,8 +44,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(SuggestDTO suggestdto, CancellationToken cancellationToken)
         {
-            await _suggestAppService.Delete(suggestdto.Id, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            var id = suggestdto.OrderId;
+            await _suggestAppService.Delete(suggestdto.Id, cancellationToken);            
+            return RedirectToAction("Index", new {id=id});
         }
     }
 }

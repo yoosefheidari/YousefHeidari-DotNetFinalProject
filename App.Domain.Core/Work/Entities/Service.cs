@@ -17,7 +17,7 @@ namespace App.Domain.Core.Work.Entities
 
         public virtual Category Category { get; set; } = null!;
         public virtual List<Order> Orders { get; set; }
-        public virtual List<ServiceComment> ServiceComments { get; set; }
+        //public virtual List<ServiceComment> ServiceComments { get; set; }
         public virtual List<ServiceFile> ServiceFiles { get; set; }
 
     }

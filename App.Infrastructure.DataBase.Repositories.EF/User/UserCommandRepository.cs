@@ -15,9 +15,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
     {
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
-        private readonly ILogger _logger;
+        private readonly ILogger<UserCommandRepository> _logger;
 
-        public UserCommandRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger logger)
+        public UserCommandRepository(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, ILogger<UserCommandRepository> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;

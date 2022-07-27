@@ -125,7 +125,7 @@ builder.Services.ConfigureApplicationCookie(x =>
 
 
 
-
+//builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 
 var app = builder.Build();
 

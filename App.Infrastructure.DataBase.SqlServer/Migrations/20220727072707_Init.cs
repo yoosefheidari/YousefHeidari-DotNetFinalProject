@@ -49,7 +49,8 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NationalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ProfilePicture = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,8 +79,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Path = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
-                    ExpertId = table.Column<int>(type: "int", nullable: true),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -95,6 +94,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    StatusValue = table.Column<int>(type: "int", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -295,7 +295,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     ServiceId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     ConfirmedExpertId = table.Column<int>(type: "int", nullable: true),
-                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    StatusId = table.Column<int>(type: "int", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
                     FinalPrice = table.Column<int>(type: "int", nullable: true),
                     IsConfirmedByCustomer = table.Column<bool>(type: "bit", nullable: true),
@@ -309,13 +309,13 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         name: "FK_Orders_AspNetUsers_ConfirmedExpertId",
                         column: x => x.ConfirmedExpertId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                     table.ForeignKey(
                         name: "FK_Orders_AspNetUsers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Orders_Services_ServiceId",
                         column: x => x.ServiceId,
@@ -327,7 +327,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         column: x => x.StatusId,
                         principalTable: "Statuses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -364,9 +364,9 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    ServiceId = table.Column<int>(type: "int", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    IsApproved = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -379,11 +379,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         principalTable: "Orders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Comments_Services_ServiceId",
-                        column: x => x.ServiceId,
-                        principalTable: "Services",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -419,9 +414,10 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    OrderId = table.Column<int>(type: "int", nullable: true),
+                    OrderId = table.Column<int>(type: "int", nullable: false),
                     ExpertId = table.Column<int>(type: "int", nullable: false),
                     SuggestedPrice = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsConfirmedByCustomer = table.Column<bool>(type: "bit", nullable: true),
                     CreationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
@@ -434,7 +430,7 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                         column: x => x.ExpertId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Suggests_Orders_OrderId",
                         column: x => x.OrderId,
@@ -485,11 +481,6 @@ namespace App.Infrastructure.DataBase.SqlServer.Migrations
                 name: "IX_Comments_OrderId",
                 table: "Comments",
                 column: "OrderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_ServiceId",
-                table: "Comments",
-                column: "ServiceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ExpertCategories_CategoryId",
