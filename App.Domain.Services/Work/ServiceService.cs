@@ -16,6 +16,7 @@ namespace App.Domain.Services.Work
         private readonly IServiceQueryRepository _serviceQueryRepository;
         private readonly IServiceFileCommandRepository _serviceFileCommandRepository;
         private readonly IConfiguration _configuration;
+        
 
         public ServiceService(IServiceQueryRepository serviceQueryRepository, IServiceCommandRepository serviceCommandRepository, IServiceFileCommandRepository serviceFileCommandRepository, IConfiguration configuration)
         {

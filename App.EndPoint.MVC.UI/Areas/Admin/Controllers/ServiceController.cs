@@ -93,5 +93,17 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             await _serviceAppService.DeleteServiceFile(id, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> AddServiceFile(int id, CancellationToken cancellationToken)
+        {
+            
+            return View(id);
+        }
+        [HttpPost]
+        public async Task<IActionResult> AddServiceFile(int id, List<IFormFile> files, CancellationToken cancellationToken)
+        {
+            await _serviceAppService.AddServiceFile(id, files, cancellationToken);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

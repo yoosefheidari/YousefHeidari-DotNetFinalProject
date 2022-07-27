@@ -105,6 +105,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
      option.Password.RequireDigit = false;
      option.Password.RequireNonAlphanumeric = false;
      option.Password.RequireLowercase = false;
+     option.Password.RequiredLength = 3;
 
  }).AddEntityFrameworkStores<AppDbContext>();
 //builder.Services.AddAuthentication().AddCookie(option =>

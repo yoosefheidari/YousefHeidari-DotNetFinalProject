@@ -15,53 +15,64 @@ namespace App.Domain.AppServices.Work
     {
         private readonly IServiceService _serviceService;
         private readonly IUploadService _uploadService;
+        private readonly IFileService _fileService;
 
-        public ServcieAppServcie(IServiceService serviceService, IUploadService uploadService)
+        public ServcieAppServcie(IServiceService serviceService, IUploadService uploadService, IFileService fileService)
         {
             _serviceService = serviceService;
             _uploadService = uploadService;
+            _fileService = fileService;
         }
 
-        public async Task<int> Add(ServiceDTO serviceDTO,List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<int> Add(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken)
         {
-            serviceDTO.CreationDate=DateTimeOffset.Now;
-            var serviceId=await _serviceService.Add(serviceDTO,cancellationToken);
+            serviceDTO.CreationDate = DateTimeOffset.Now;
+            var serviceId = await _serviceService.Add(serviceDTO, cancellationToken);
             var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
-            var result=await _serviceService.AddServiceFiles(serviceId, fileIds, cancellationToken);
+            var result = await _serviceService.AddServiceFiles(serviceId, fileIds, cancellationToken);
             return serviceId;
+        }
+
+        public async Task AddServiceFile(int id, List<IFormFile> files, CancellationToken cancellationToken)
+        {
+            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var result = await _serviceService.AddServiceFiles(id, fileIds, cancellationToken);
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            await _serviceService.Delete(id,cancellationToken);
+            await _serviceService.Delete(id, cancellationToken);
         }
 
         public async Task DeleteServiceFile(int id, CancellationToken cancellationToken)
         {
-            await _serviceService.DeleteServiceFile(id,cancellationToken);
+            var result = await _fileService.Get(id, cancellationToken);
+            var physicalFilePath = result.Path;
+            File.Delete(physicalFilePath);
+            await _serviceService.DeleteServiceFile(id, cancellationToken);
         }
 
         public async Task<ServiceDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var result=await _serviceService.Get(id,cancellationToken);
+            var result = await _serviceService.Get(id, cancellationToken);
             return result;
         }
 
         public async Task<List<ServiceDTO>> GetAll(CancellationToken cancellationToken)
         {
-            var servcies=await _serviceService.GetAll(cancellationToken);
+            var servcies = await _serviceService.GetAll(cancellationToken);
             return servcies;
         }
 
         public async Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken)
         {
-            var paths=await _serviceService.GetAllFiles(ServiceId, cancellationToken);
+            var paths = await _serviceService.GetAllFiles(ServiceId, cancellationToken);
             return paths;
         }
 
         public async Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken)
         {
-            await _serviceService.Update(serviceDTO,cancellationToken);
+            await _serviceService.Update(serviceDTO, cancellationToken);
         }
     }
 }

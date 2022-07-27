@@ -17,5 +17,6 @@ namespace App.Domain.Core.Work.Contracts.AppServices
         Task Delete(int id, CancellationToken cancellationToken);
         Task DeleteServiceFile(int id, CancellationToken cancellationToken);
         Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken);
+        Task AddServiceFile(int id, List<IFormFile> files, CancellationToken cancellationToken);
     }
 }

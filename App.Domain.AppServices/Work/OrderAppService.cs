@@ -13,10 +13,12 @@ namespace App.Domain.AppServices.Work
     public class OrderAppService : IOrderAppService
     {
         private readonly IOrderService _orderService;
+        private readonly IFileService _fileService;
 
-        public OrderAppService(IOrderService orderService)
+        public OrderAppService(IOrderService orderService, IFileService fileService)
         {
             _orderService = orderService;
+            _fileService = fileService;
         }
 
         public async Task<int> Add(OrderDTO order, CancellationToken cancellationToken)
@@ -32,6 +34,9 @@ namespace App.Domain.AppServices.Work
 
         public async Task DeleteOrderFile(int id, CancellationToken cancellationToken)
         {
+            var result = await _fileService.Get(id, cancellationToken);
+            var physicalFilePath = result.Path;
+            File.Delete(physicalFilePath);
             await _orderService.DeleteOrderFile(id, cancellationToken);
         }
 

@@ -26,11 +26,9 @@ namespace App.Domain.AppServices.User
             _logger = logger;
         }
 
-        public async Task<int> RegisterUser(UserDTO user, string password, List<IFormFile> files, CancellationToken cancellationToken)
+        public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
         {
             var userId = await _userService.RegisterUser(user, password);
-            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
-            var result= await _userService.AddUserFiles(userId, fileIds, cancellationToken);
             return userId;
         }
 

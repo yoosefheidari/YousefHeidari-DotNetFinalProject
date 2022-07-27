@@ -121,12 +121,7 @@ namespace App.Infrastructure.DataBase.SqlServer
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Order>()
-                .HasMany(x => x.ExpertSuggests)
-                .WithOne(x => x.Order)
-                .HasForeignKey(x => x.OrderId)
-                .IsRequired(false)
-                .OnDelete(DeleteBehavior.NoAction);
+            
 
             //modelBuilder.Entity<ServiceComment>()
             //    .HasOne(x => x.Service)

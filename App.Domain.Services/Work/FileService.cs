@@ -3,6 +3,7 @@ using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using App.Domain.Core.Work.Entities;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,19 +17,17 @@ namespace App.Domain.Services.Work
         private readonly IFileQueryRepository _fileQueryRepository;
         private readonly IFileCommandRepository _fileCommandRepository;
         private readonly IOrderFileCommandRepository _orderFileCommandRepository;
+        private readonly IConfiguration _configuration;
 
-        private readonly IOrderFileQueryRepository _orderFileQueryRepository;
-        private readonly IServiceFileCommandRepository _serviceFileCommandRepository;   
-        private readonly IServiceFileQueryRepository _serviceFileQueryRepository;
-
-        public FileService(IFileCommandRepository fileCommandRepository, IFileQueryRepository fileQueryRepository, IOrderFileCommandRepository orderFileCommandRepository, IOrderFileQueryRepository orderFileQueryRepository, IServiceFileCommandRepository serviceFileCommandRepository, IServiceFileQueryRepository serviceFileQueryRepository)
+        public FileService(IFileCommandRepository fileCommandRepository,
+            IFileQueryRepository fileQueryRepository,
+            IOrderFileCommandRepository orderFileCommandRepository,
+            IConfiguration configuration)
         {
             _fileCommandRepository = fileCommandRepository;
             _fileQueryRepository = fileQueryRepository;
             _orderFileCommandRepository = orderFileCommandRepository;
-            _orderFileQueryRepository = orderFileQueryRepository;
-            _serviceFileCommandRepository = serviceFileCommandRepository;
-            _serviceFileQueryRepository = serviceFileQueryRepository;
+            _configuration = configuration;
         }
 
         public async Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken)
@@ -45,9 +44,11 @@ namespace App.Domain.Services.Work
             throw new NotImplementedException();
         }
 
-        public Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken)
+        public async Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var file= await _fileQueryRepository.Get(id, cancellationToken);
+            file.Path=_configuration.GetSection("UploadPath").Value+@"\\"+file.Path;
+            return file;
         }
 
         public Task<PhysicalFileDTO> Get(string path, CancellationToken cancellationToken)

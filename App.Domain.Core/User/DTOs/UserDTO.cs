@@ -45,7 +45,7 @@ namespace App.Domain.Core.User.DTOs
         public string? ProfilePicture { get; set; }
 
         [Display(Name = ("رول ها"))]
-        public List<string> Roles { get; set; }
+        public List<string>? Roles { get; set; }
 
         public List<CategoryDTO>? expertCategories { get; set; }
 

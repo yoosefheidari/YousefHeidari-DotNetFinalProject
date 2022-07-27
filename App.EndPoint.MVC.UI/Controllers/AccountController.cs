@@ -31,9 +31,9 @@ namespace App.EndPoint.MVC.UI.Controllers
         public async Task<IActionResult> Login(string userName, string password, bool remember)
         {
             var result = await _userAppService.LoginUser(userName, password, remember);
-            
 
-            if (result==0)
+
+            if (result == 0)
             {
                 return RedirectToAction(nameof(Login));
             }
@@ -46,7 +46,7 @@ namespace App.EndPoint.MVC.UI.Controllers
                 }
                 else
                 {
-                    return View("PanelSelect",user.Roles);
+                    return View("PanelSelect", user.Roles);
                 }
             }
 
@@ -66,14 +66,14 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDTO, string password, List<IFormFile> files,CancellationToken cancellationToken)
-                       
+        public async Task<IActionResult> Register(UserDTO userDTO, string password, CancellationToken cancellationToken)
+
         {
             if (!ModelState.IsValid)
             {
                 return View(userDTO);
             }
-            var id = await _userAppService.RegisterUser(userDTO, password,files,cancellationToken);
+            var id = await _userAppService.RegisterUser(userDTO, password, cancellationToken);
             await _userAppService.SignInUserById(id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
