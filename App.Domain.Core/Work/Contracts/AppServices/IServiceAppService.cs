@@ -10,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
 {
     public interface IServiceAppService
     {
-        Task<List<ServiceDTO>> GetAll(CancellationToken cancellationToken);
+        Task<List<ServiceDTO>> GetAll(int id, CancellationToken cancellationToken);
         Task<int> Add(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken);
         Task<ServiceDTO> Get(int id, CancellationToken cancellationToken);
         Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken);

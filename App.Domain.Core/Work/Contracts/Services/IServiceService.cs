@@ -9,7 +9,7 @@ namespace App.Domain.Core.Work.Contracts.Services
 {
     public interface IServiceService
     {
-        Task<List<ServiceDTO>> GetAll(CancellationToken cancellationToken);
+        Task<List<ServiceDTO>> GetAll(int id, CancellationToken cancellationToken);
         Task<int> Add(ServiceDTO serviceDTO, CancellationToken cancellationToken);
         Task<ServiceDTO> Get(int id, CancellationToken cancellationToken);
         Task Update(ServiceDTO serviceDTO, CancellationToken cancellationToken);

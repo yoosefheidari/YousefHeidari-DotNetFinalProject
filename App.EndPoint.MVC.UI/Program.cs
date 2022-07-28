@@ -116,6 +116,7 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
 builder.Services.ConfigureApplicationCookie(x =>
 {
     x.Cookie.Name = "YousefProjectCookie";
+    x.AccessDeniedPath = "/Home/AccessDenied";
 });
 
 

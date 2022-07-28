@@ -1,89 +1,96 @@
 ﻿@model UserDTO
+<div class="col-6">
+    <form asp-area="" asp-controller="Account" asp-action="EditProfile" method="post" enctype="multipart/form-data">
 
-<form asp-area="" asp-controller="Account" asp-action="EditProfile" method="post">
-
-    <div class="mb-3">
-        <input asp-for="Id" style="display:none" class="form-control" />
-        <input asp-for="UserName" style="display:none" class="form-control" />        
-    </div>
-    <div style="display:none" class="mb-3">        
-        <select asp-for="Roles" class="select-chosen form-select" tabindex="8" multiple style="width:350px;display:none;">            
-            @foreach (var role in Model.Roles)
-            {
-                <option value="@role" selected>@role</option>
-            }
-        </select>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Email" class="form-label"></label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="FirstName" class="form-label"></label>
-        <input asp-for="FirstName" class="form-control" />
-        <span asp-validation-for="FirstName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="LastName" class="form-label"></label>
-        <input asp-for="LastName" class="form-control" />
-        <span asp-validation-for="LastName" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Mobile" class="form-label"></label>
-        <input asp-for="Mobile" class="form-control" />
-        <span asp-validation-for="Mobile"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="PhoneNumber" class="form-label"></label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="NationalCode" class="form-label"></label>
-        <input asp-for="NationalCode" class="form-control" />
-        <span asp-validation-for="NationalCode"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Address" class="form-label"></label>
-        <input asp-for="Address" class="form-control" />
-        <span asp-validation-for="Address"></span>
-    </div>
-    @if (Model.Roles.Count == 2)
-    {
         <div class="mb-3">
-            <label for="categories" class="form-label">ویرایش مهارت ها</label>
-            <select name="categories" class="select-chosen form-select" tabindex="8" multiple style="width:350px;" data-placeholder="مهارت ها" asp-items="@ViewBag.Categories">
-                <option value=""></option>
-                @foreach (var category in Model.expertCategories)
+            <input asp-for="Id" style="display:none" class="form-control" />
+            <input asp-for="UserName" style="display:none" class="form-control" />
+        </div>
+        <div style="display:none" class="mb-3">
+            <select asp-for="Roles" class="select-chosen form-select" tabindex="8" multiple style="width:350px;display:none;">
+                @foreach (var role in Model.Roles)
                 {
-                    <option value="@category.Id" selected>@category.Name</option>
+                    <option value="@role" selected>@role</option>
                 }
             </select>
         </div>
-    }
-    <div class="mb-3">
-        <label class="form-label">پسوورد قدیم</label>
-        <input name="oldPassword" type="password" class="form-control" />
-    </div>
 
-    <div class="mb-3">
-        <label class="form-label">پسوورد جدید</label>
-        <input name="newPassword" type="password" class="form-control" />
-    </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label"></label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="FirstName" class="form-label"></label>
+            <input asp-for="FirstName" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="LastName" class="form-label"></label>
+            <input asp-for="LastName" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Mobile" class="form-label"></label>
+            <input asp-for="Mobile" class="form-control" />
+            <span asp-validation-for="Mobile"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label"></label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="NationalCode" class="form-label"></label>
+            <input asp-for="NationalCode" class="form-control" />
+            <span asp-validation-for="NationalCode"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Address" class="form-label"></label>
+            <input asp-for="Address" class="form-control" />
+            <span asp-validation-for="Address"></span>
+        </div>
+        @if (Model.Roles.Count == 2)
+        {
+            <div class="mb-3">
+                <label for="categories" class="form-label">ویرایش مهارت ها</label>
+                <select name="categories" class="select-chosen form-select" tabindex="8" multiple style="width:350px;" data-placeholder="مهارت ها" asp-items="@ViewBag.Categories">
+                    <option value=""></option>
+                    @foreach (var category in Model.expertCategories)
+                    {
+                        <option value="@category.Id" selected>@category.Name</option>
+                    }
+                </select>
+            </div>
+        }
+        <div class="form-group row p-3">
+            <label for="formFileLg" class="form-label">تصویر پروفایل</label>
+            <div class="col-8">
+                <input name="file" class="form-control" type="file" id="formFileLg" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">پسوورد قدیم</label>
+            <input name="oldPassword" type="password" class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">پسوورد جدید</label>
+            <input name="newPassword" type="password" class="form-control" />
+        </div>
 
 
 
-    <button type="submit" class="btn btn-primary">آپدیت</button>
-</form>
-
+        <button type="submit" class="btn btn-primary">آپدیت</button>
+    </form>
+</div>
 @section Scripts{
 <script>
 

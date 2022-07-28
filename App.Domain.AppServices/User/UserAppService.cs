@@ -100,5 +100,13 @@ namespace App.Domain.AppServices.User
             var user = await _userService.GetCurrentUser();
             return user;
         }
+
+        public async Task UpdateProfilePicture(int userId, IFormFile file, CancellationToken cancellationToken)
+        {
+            if(file != null)
+            {
+                var user = await _userService.Get(userId);
+            }
+        }
     }
 }

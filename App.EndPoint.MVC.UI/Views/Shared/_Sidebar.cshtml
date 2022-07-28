@@ -2,12 +2,11 @@
 
 <div class="sidebar pe-4 pb-3">
     <nav class="navbar bg-light navbar-light">
-        <a asp-controller="Home" asp-action="Index" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"><i class="fa fa-user me-2 p-1"></i>خدمات منزل و ادارات  </h3>
+        <a asp-controller="Home" asp-action="Index" asp-route-id="0" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary"><i class="fa fa-user me-2 p-1"></i>خانه  </h3>
         </a>
         <div class="navbar-nav w-100">
             @await Component.InvokeAsync("Category")
-            <a asp-controller="Home" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> سایر </a>
         </div>
     </nav>
 </div>

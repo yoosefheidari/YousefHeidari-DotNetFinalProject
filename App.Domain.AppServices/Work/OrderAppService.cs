@@ -1,7 +1,9 @@
-﻿using App.Domain.Core.User.DTOs;
+﻿using App.Domain.Core.User.Contracts.Services;
+using App.Domain.Core.User.DTOs;
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,16 +16,28 @@ namespace App.Domain.AppServices.Work
     {
         private readonly IOrderService _orderService;
         private readonly IFileService _fileService;
+        private readonly IUploadService _uploadService;
+        private readonly IUserService _userService;
+        private readonly IServiceService _serviceService;
 
-        public OrderAppService(IOrderService orderService, IFileService fileService)
+        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService)
         {
             _orderService = orderService;
             _fileService = fileService;
+            _uploadService = uploadService;
+            _userService = userService;
+            _serviceService = serviceService;
         }
 
-        public async Task<int> Add(OrderDTO order, CancellationToken cancellationToken)
+        public async Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)
         {
+            var currentUser = await _userService.GetCurrentUser();
+            order.CustomerId = currentUser.Id;
+            var service = await _serviceService.Get(order.ServiceId, cancellationToken);
+            order.FinalPrice = service.Price;
             var result = await _orderService.Add(order, cancellationToken);
+            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            await _orderService.AddOrderFiles(result, fileIds, cancellationToken);
             return result;
         }
 

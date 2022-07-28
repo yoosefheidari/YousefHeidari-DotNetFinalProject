@@ -20,7 +20,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            var services = await _serviceAppService.GetAll(cancellationToken);
+            var services = await _serviceAppService.GetAll(0,cancellationToken);
             var categories = await _categoryAppService.GetAll(cancellationToken);
             ViewBag.Categories = categories.Select(x => new SelectListItem()
             {

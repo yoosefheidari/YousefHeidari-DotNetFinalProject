@@ -16,12 +16,14 @@ namespace App.Domain.Services.Work
         private readonly IOrderCommandRepository _orderCommandRepository;
         private readonly IOrderQueryRepository _orderQueryRepository;
         private readonly IConfiguration _configuration;
+        private readonly IOrderFileCommandRepository _orderFileCommandRepository;
 
-        public OrderService(IOrderQueryRepository orderQueryRepository, IOrderCommandRepository orderCommandRepository, IConfiguration configuration)
+        public OrderService(IOrderQueryRepository orderQueryRepository, IOrderCommandRepository orderCommandRepository, IConfiguration configuration, IOrderFileCommandRepository orderFileCommandRepository)
         {
             _orderQueryRepository = orderQueryRepository;
             _orderCommandRepository = orderCommandRepository;
             _configuration = configuration;
+            _orderFileCommandRepository = orderFileCommandRepository;
         }
 
         public async Task<int> Add(OrderDTO order, CancellationToken cancellationToken)
@@ -30,10 +32,26 @@ namespace App.Domain.Services.Work
             order.IsDeleted = false;
             order.StatusId = 1;
             order.ConfirmedExpertId = null;
-            order.IsConfirmedByCustomer = null;
+            order.IsConfirmedByCustomer = false;
+            order.Description =order.Description;
 
             var result = await _orderCommandRepository.Add(order, cancellationToken);
             return result;
+        }
+
+        public async Task<bool> AddOrderFiles(int orderId, List<int> fileIds, CancellationToken cancellationToken)
+        {
+            foreach (var fileId in fileIds)
+            {
+                OrderFileDTO orderFile = new()
+                {
+                    FileId = fileId,
+                    OrderId = orderId,
+                    IsDeleted = false,
+                };
+                var result = await _orderFileCommandRepository.Add(orderFile, cancellationToken);
+            }
+            return true;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)

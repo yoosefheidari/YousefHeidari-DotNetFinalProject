@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Work.Entities;
+﻿using App.Domain.Core.Work.DTOs;
+using App.Domain.Core.Work.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace App.Domain.Core.Work.Contracts.Repositories
 {
     public interface IOrderFileCommandRepository
     {
-        Task<int> Add(OrderFile orderFile, CancellationToken cancellationToken);
+        Task<int> Add(OrderFileDTO orderFile, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
     }
 }

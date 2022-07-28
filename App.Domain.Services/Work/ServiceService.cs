@@ -64,9 +64,9 @@ namespace App.Domain.Services.Work
             return result;
         }
 
-        public async Task<List<ServiceDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<ServiceDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var servcies = await _serviceQueryRepository.GetAll(cancellationToken);
+            var servcies = await _serviceQueryRepository.GetAll(id, cancellationToken);
             return servcies;
         }
 

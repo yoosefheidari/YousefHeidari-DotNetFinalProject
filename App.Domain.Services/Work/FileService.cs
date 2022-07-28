@@ -32,11 +32,8 @@ namespace App.Domain.Services.Work
 
         public async Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken)
         {
-            var result= await _fileCommandRepository.Add(file, cancellationToken);
-            OrderFile b = new() { FileId = result, OrderId = 2 };
-            await _orderFileCommandRepository.Add(b, cancellationToken);
-            return result;
-               
+            return 2;
+
         }
 
         public Task Delete(int id, CancellationToken cancellationToken)
@@ -46,8 +43,8 @@ namespace App.Domain.Services.Work
 
         public async Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var file= await _fileQueryRepository.Get(id, cancellationToken);
-            file.Path=_configuration.GetSection("UploadPath").Value+@"\\"+file.Path;
+            var file = await _fileQueryRepository.Get(id, cancellationToken);
+            file.Path = _configuration.GetSection("UploadPath").Value + @"\\" + file.Path;
             return file;
         }
 
@@ -56,9 +53,9 @@ namespace App.Domain.Services.Work
             throw new NotImplementedException();
         }
 
-        public async Task<List<PhysicalFileDTO>> GetAll(int id,CancellationToken cancellationToken)
+        public async Task<List<PhysicalFileDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var files=await _fileQueryRepository.GetAll(id, cancellationToken);
+            var files = await _fileQueryRepository.GetAll(id, cancellationToken);
             return files;
         }
 

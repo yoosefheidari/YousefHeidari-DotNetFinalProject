@@ -98,7 +98,7 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int> categories, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int> categories, string? oldPassword, string? newPassword,IFormFile file, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -106,6 +106,7 @@ namespace App.EndPoint.MVC.UI.Controllers
             }
             await _userAppService.Update(userDTO, oldPassword, newPassword, cancellationToken);
             await _userAppService.UpdateExpertSkills(userDTO.Id, categories, cancellationToken);
+            await _userAppService.UpdateProfilePicture(userDTO.Id, file, cancellationToken);
 
             return RedirectToAction(nameof(Profile));
         }

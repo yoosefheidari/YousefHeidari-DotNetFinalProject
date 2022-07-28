@@ -1,4 +1,5 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
+using App.Domain.Core.Work.DTOs;
 using App.Domain.Core.Work.Entities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
@@ -20,9 +21,15 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         }
         
 
-        public async Task<int> Add(OrderFile orderFile, CancellationToken cancellationToken)
+        public async Task<int> Add(OrderFileDTO orderFile, CancellationToken cancellationToken)
         {
-            await _appDbContext.OrderFiles.AddAsync(orderFile, cancellationToken);
+            var newOrderFile = new OrderFile()
+            {
+                OrderId = orderFile.OrderId,
+                FileId = orderFile.FileId,
+                IsDeleted = orderFile.IsDeleted,
+            };
+            await _appDbContext.OrderFiles.AddAsync(newOrderFile, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
             return orderFile.Id;
         }

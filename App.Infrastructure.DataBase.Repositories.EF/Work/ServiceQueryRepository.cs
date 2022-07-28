@@ -53,9 +53,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             return serviceDto;
         }
 
-        public async Task<List<ServiceDTO>> GetAll(CancellationToken cancellationToken)
+        public async Task<List<ServiceDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
-            var services = await _appDbContext.Services
+            IQueryable<Service> query = _appDbContext.Services;
+            if(id != 0)
+            {
+                query = query.Where(x => x.CategoryId == id);
+            }
+            var services = await query
         .Select(x => new ServiceDTO()
         {
             Id = x.Id,

@@ -11,6 +11,7 @@ namespace App.Domain.Core.Work.Contracts.Services
     public interface IOrderService
     {
         Task<int> Add(OrderDTO order, CancellationToken cancellationToken);
+        Task<bool> AddOrderFiles(int OrderId, List<int> fileIds, CancellationToken cancellationToken);
         Task Update(OrderDTO order, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task DeleteOrderFile(int id, CancellationToken cancellationToken);

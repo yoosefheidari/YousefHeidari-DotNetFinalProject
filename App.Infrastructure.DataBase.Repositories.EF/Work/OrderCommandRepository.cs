@@ -33,6 +33,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 IsConfirmedByCustomer = order.IsConfirmedByCustomer,
                 CreationDate = order.CreationDate,
                 IsDeleted=order.IsDeleted,
+                ServiceId=order.ServiceId,
                 
             };
             await _appDbContext.Orders.AddAsync(newOrder, cancellationToken);

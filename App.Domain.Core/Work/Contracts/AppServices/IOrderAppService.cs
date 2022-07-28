@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.User.DTOs;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
 {
     public interface IOrderAppService
     {
-        Task<int> Add(OrderDTO order, CancellationToken cancellationToken);
+        Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken);
         Task Update(OrderDTO order, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task DeleteOrderFile(int id, CancellationToken cancellationToken);

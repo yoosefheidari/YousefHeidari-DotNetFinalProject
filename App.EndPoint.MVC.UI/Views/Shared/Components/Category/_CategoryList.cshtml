@@ -2,13 +2,6 @@
 
     @foreach (var category in Model)
 {
-    <div class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-hand-holding-usd me-2"></i> @category.Name</a>
-        <div class="dropdown-menu bg-transparent border-0">
-            @foreach (var serivce in category.Services)
-            {
-                <a asp-controller="Home" asp-action="Service" asp-route-id="@serivce.Id" class="dropdown-item">@serivce.Title</a>
-            }
-        </div>
-    </div>
+    <a asp-controller="Home" asp-action="Index" asp-route-id="@category.Id" class="nav-item nav-link"><i class="fa fa-th me-2"></i> @category.Name </a>
+    
 }
