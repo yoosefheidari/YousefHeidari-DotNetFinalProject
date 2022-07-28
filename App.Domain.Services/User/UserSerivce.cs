@@ -3,6 +3,7 @@ using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -18,13 +19,15 @@ namespace App.Domain.Services.User
         private readonly IUserQueryRepository _userQueryRepository;
         private readonly IUserFileCommandRepository _userFileCommandRepository;
         private readonly ILogger<UserSerivce> _logger;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository, ILogger<UserSerivce> logger)
+        public UserSerivce(IUserCommandRepository userCommandRepository, IUserQueryRepository userQueryRepository, IUserFileCommandRepository userFileCommandRepository, ILogger<UserSerivce> logger, IHttpContextAccessor httpContext)
         {
             _userCommandRepository = userCommandRepository;
             _userQueryRepository = userQueryRepository;
             _userFileCommandRepository = userFileCommandRepository;
             _logger = logger;
+            _httpContext = httpContext;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password)
@@ -109,6 +112,13 @@ namespace App.Domain.Services.User
         public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
         {
             await _userCommandRepository.UpdateExpertSkills(userId, categories, cancellationToken);
+        }
+
+        public async Task<UserDTO> GetCurrentUser()
+        {
+            var username = _httpContext.HttpContext.User.Identity.Name;
+            var userDto=await _userQueryRepository.GetUserByUserName(username);
+            return userDto;
         }
     }
 }

@@ -77,10 +77,11 @@ namespace App.Domain.AppServices.User
             await _userService.SignoutUser();
         }
 
-        public async Task Update(UserDTO user, string oldPassword, string newPassword)
+        public async Task Update(UserDTO user, string oldPassword, string newPassword,CancellationToken cancellationToken)
         {
             _logger.LogTrace("Call update {appServiceName} for user", "update");
-            await _userService.Update(user, oldPassword, newPassword);
+            await _userService.Update(user, oldPassword, newPassword);            
+
         }
 
         public async Task<List<RoleDTO>> GetRoles()
@@ -92,6 +93,12 @@ namespace App.Domain.AppServices.User
         public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
         {
             await _userService.UpdateExpertSkills(userId, categories, cancellationToken);
+        }
+
+        public async Task<UserDTO> GetCurrentUser()
+        {
+            var user = await _userService.GetCurrentUser();
+            return user;
         }
     }
 }

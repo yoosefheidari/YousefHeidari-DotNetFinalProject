@@ -27,38 +27,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             _roleManager = roleManager;
         }
 
-        public async Task<UserDTO> Get(int id)
-        {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-
-            UserDTO userDto = new()
-            {
-                Id = user.Id,
-                Address = user.Address,
-                FirstName = user.FirstName,
-                Email = user.Email,
-                LastName = user.LastName,
-                Mobile = user.Mobile,
-                NationalCode = user.NationalCode,
-                PhoneNumber = user.PhoneNumber,
-                ProfilePicture = user.ProfilePicture,
-                UserName = user.UserName,
-
-            };
-            var roles = await _userManager.GetRolesAsync(user);
-            userDto.Roles = roles.ToList();
-            userDto.expertCategories = await _appDbContext.ExpertCategories
-                    .Where(x => x.ExpertId == userDto.Id)
-                    .Select(x => x.Category)
-                    .Select(x => new CategoryDTO()
-                    {
-                        CreationDate = x.CreationDate,
-                        IsDeleted = x.IsDeleted,
-                        Id = x.Id,
-                        Name = x.Name
-                    }).ToListAsync();
-            return userDto;
-        }
+        
 
         public async Task<UserDTO> Get(string name)
         {
@@ -155,33 +124,68 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             throw new NotImplementedException();
         }
 
-        public async Task<UserDTO> GetUserByUserName(string username)
+        public async Task<UserDTO> Get(int id)
         {
-            var user = await _userManager.FindByNameAsync(username);
-            var expertCategories = await _appDbContext.ExpertCategories.Where(r => r.ExpertId == user.Id)
-                .Select(x => x.Category)
-                .Select(c => new CategoryDTO()
-                {
-                    CreationDate = c.CreationDate,
-                    Id = c.Id,
-                    IsDeleted = c.IsDeleted,
-                    Name = c.Name,
-                }).ToListAsync();
+            var user = await _userManager.FindByIdAsync(id.ToString());
 
-            var userDto = new UserDTO()
+            UserDTO userDto = new()
             {
                 Id = user.Id,
-                UserName = username,
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
                 Address = user.Address,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                LastName = user.LastName,
                 Mobile = user.Mobile,
                 NationalCode = user.NationalCode,
                 PhoneNumber = user.PhoneNumber,
                 ProfilePicture = user.ProfilePicture,
-                expertCategories = expertCategories,
+                UserName = user.UserName,
+
             };
+            var roles = await _userManager.GetRolesAsync(user);
+            userDto.Roles = roles.ToList();
+            userDto.expertCategories = await _appDbContext.ExpertCategories
+                    .Where(x => x.ExpertId == userDto.Id)
+                    .Select(x => x.Category)
+                    .Select(x => new CategoryDTO()
+                    {
+                        CreationDate = x.CreationDate,
+                        IsDeleted = x.IsDeleted,
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToListAsync();
+            return userDto;
+        }
+
+        public async Task<UserDTO> GetUserByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            UserDTO userDto = new()
+            {
+                Id = user.Id,
+                Address = user.Address,
+                FirstName = user.FirstName,
+                Email = user.Email,
+                LastName = user.LastName,
+                Mobile = user.Mobile,
+                NationalCode = user.NationalCode,
+                PhoneNumber = user.PhoneNumber,
+                ProfilePicture = user.ProfilePicture,
+                UserName = user.UserName,
+
+            };
+            var roles = await _userManager.GetRolesAsync(user);
+            userDto.Roles = roles.ToList();
+            userDto.expertCategories = await _appDbContext.ExpertCategories
+                    .Where(x => x.ExpertId == userDto.Id)
+                    .Select(x => x.Category)
+                    .Select(x => new CategoryDTO()
+                    {
+                        CreationDate = x.CreationDate,
+                        IsDeleted = x.IsDeleted,
+                        Id = x.Id,
+                        Name = x.Name
+                    }).ToListAsync();
             return userDto;
         }
     }

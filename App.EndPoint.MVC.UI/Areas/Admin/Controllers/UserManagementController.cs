@@ -38,10 +38,14 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(user);
         }
         [HttpPost]
-        public async Task<IActionResult> Edit(UserDTO userDTO, string oldPassword, string newPassword, CancellationToken cancellationToken)
+        public async Task<IActionResult> Edit(UserDTO userDTO, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(userDTO);
+            }
             _logger.LogTrace("start of {actionName} user", "Update");
-            await _userAppService.Update(userDTO, oldPassword, newPassword);
+            await _userAppService.Update(userDTO, oldPassword, newPassword,cancellationToken);
             _logger.LogTrace("end of {actionName} user", "Update");
             _logger.LogInformation("User {Action} progress done Successfully", "Update");
             return RedirectToAction("Index");

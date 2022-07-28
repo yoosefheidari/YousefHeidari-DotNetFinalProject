@@ -1,8 +1,9 @@
 ﻿using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.User.DTOs;
+using App.Domain.Core.Work.Contracts.AppServices;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace App.EndPoint.MVC.UI.Controllers
 {
@@ -10,15 +11,18 @@ namespace App.EndPoint.MVC.UI.Controllers
     public class AccountController : Controller
     {
         private readonly IUserAppService _userAppService;
+        private readonly ICategoryAppService _categoryAppService;
 
-        public AccountController(IUserAppService userAppService)
+        public AccountController(IUserAppService userAppService, ICategoryAppService categoryAppService)
         {
             _userAppService = userAppService;
+            _categoryAppService = categoryAppService;
         }
 
-        public async Task<IActionResult> Profile(string name)
+        public async Task<IActionResult> Profile()
         {
-            var user = await _userAppService.GetUserByUserName(name);
+            ViewData["Message"] = "Profile";
+            var user = await _userAppService.GetCurrentUser();
             return View(user);
         }
 
@@ -78,5 +82,34 @@ namespace App.EndPoint.MVC.UI.Controllers
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+        public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
+        {
+            ViewData["Message"] = "Profile";
+            var user = await _userAppService.GetCurrentUser();
+            var categories = await _categoryAppService.GetAll(cancellationToken);
+
+            var t = categories.Where(t => !user.expertCategories
+            .Any(r => r.Name == t.Name))
+                .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
+                .ToList();
+            ViewBag.Categories = t;
+            return View(user);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int> categories, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(userDTO);
+            }
+            await _userAppService.Update(userDTO, oldPassword, newPassword, cancellationToken);
+            await _userAppService.UpdateExpertSkills(userDTO.Id, categories, cancellationToken);
+
+            return RedirectToAction(nameof(Profile));
+        }
+
+
     }
 }

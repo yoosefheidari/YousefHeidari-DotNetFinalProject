@@ -22,11 +22,18 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            
+
             var categories = await _categoryAppService.GetAllWithServices(cancellationToken);
             return View(categories);
         }
 
-        
+        public async Task<IActionResult> Order(string name, CancellationToken cancellationToken)
+        {
+
+            var categories = await _categoryAppService.GetAllWithServices(cancellationToken);
+            return View(categories);
+        }
+
+
     }
 }

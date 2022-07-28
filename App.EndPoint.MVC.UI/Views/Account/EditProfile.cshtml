@@ -1,17 +1,18 @@
 ﻿@model UserDTO
 
-<form asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" method="post">
-    
-    <div class="mb-3">
-        <label asp-for="Id" class="form-label"></label>
-        <input asp-for="Id" readonly class="form-control" />
-        <span asp-validation-for="Id"></span>
-    </div>
+<form asp-area="" asp-controller="Account" asp-action="EditProfile" method="post">
 
     <div class="mb-3">
-        <label asp-for="UserName" class="form-label"></label>
-        <input asp-for="UserName" class="form-control" />
-        <span asp-validation-for="UserName" class="text-danger"></span>
+        <input asp-for="Id" style="display:none" class="form-control" />
+        <input asp-for="UserName" style="display:none" class="form-control" />        
+    </div>
+    <div style="display:none" class="mb-3">        
+        <select asp-for="Roles" class="select-chosen form-select" tabindex="8" multiple style="width:350px;display:none;">            
+            @foreach (var role in Model.Roles)
+            {
+                <option value="@role" selected>@role</option>
+            }
+        </select>
     </div>
 
     <div class="mb-3">
@@ -55,18 +56,19 @@
         <input asp-for="Address" class="form-control" />
         <span asp-validation-for="Address"></span>
     </div>
-
-    <div class="mb-3">
-        <label asp-for="Roles" class="form-label"></label>
-        <select asp-for="Roles" class="select-chosen form-select" tabindex="8" multiple style="width:350px;" data-placeholder="رول ها" asp-items="@ViewBag.Roles">
-            <option value=""></option>
-            @foreach (var role in Model.Roles)
-            {
-                <option value="@role" selected>@role</option>
-            }
-        </select>
-    </div>
-
+    @if (Model.Roles.Count == 2)
+    {
+        <div class="mb-3">
+            <label for="categories" class="form-label">ویرایش مهارت ها</label>
+            <select name="categories" class="select-chosen form-select" tabindex="8" multiple style="width:350px;" data-placeholder="مهارت ها" asp-items="@ViewBag.Categories">
+                <option value=""></option>
+                @foreach (var category in Model.expertCategories)
+                {
+                    <option value="@category.Id" selected>@category.Name</option>
+                }
+            </select>
+        </div>
+    }
     <div class="mb-3">
         <label class="form-label">پسوورد قدیم</label>
         <input name="oldPassword" type="password" class="form-control" />
@@ -78,7 +80,7 @@
     </div>
 
 
-    
+
     <button type="submit" class="btn btn-primary">آپدیت</button>
 </form>
 

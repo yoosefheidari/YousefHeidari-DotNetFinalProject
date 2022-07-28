@@ -39,8 +39,14 @@ namespace App.Domain.Services.Work
                 var id = await _fileCommandRepository.Add(newFile, cancellationToken);
                 fileIds.Add(id);
                 //var dest = System.IO.File.Create(fullfilePath);
-                FileStream dest = new FileStream(fullfilePath, FileMode.Create);
-                await file.CopyToAsync(dest, cancellationToken);
+
+                using (FileStream dest = new FileStream(fullfilePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(dest, cancellationToken);
+                }
+                
+                
+                
             }
             return fileIds;
         }

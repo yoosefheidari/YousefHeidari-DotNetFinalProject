@@ -1,0 +1,12 @@
+﻿<div class="sidebar pe-4 pb-3">
+    <nav class="navbar bg-light navbar-light">
+        <a asp-controller="Home" asp-action="Index" class="navbar-brand mx-4 mb-3">
+            <h3 class="text-primary"><i class="fa fa-user me-2 p-1"></i>خانه  </h3>
+        </a>
+        <div class="navbar-nav w-100">
+            <a asp-controller="Home" asp-action="Order" asp-route-name="past" class="nav-item nav-link"><i class="fa fa-th me-2"></i> سفارشات گذشته </a>
+            <a asp-controller="Home" asp-action="Order" asp-route-name="current" class="nav-item nav-link"><i class="fa fa-th me-2"></i> سفارشات جاری </a>
+            <a asp-controller="Account" asp-action="EditProfile" class="nav-item nav-link"><i class="fa fa-th me-2"></i> ویرایش پروفایل </a>
+        </div>
+    </nav>
+</div>
