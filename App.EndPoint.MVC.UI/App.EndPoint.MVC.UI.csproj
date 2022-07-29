@@ -37,7 +37,6 @@
     <Folder Include="Areas\Admin\Models\Order\" />
     <Folder Include="Areas\Admin\Models\Category\" />
     <Folder Include="Areas\Admin\Services\" />
-    <Folder Include="wwwroot\AdminAreaTemplate\" />
     <Folder Include="wwwroot\Uploads\" />
   </ItemGroup>
 

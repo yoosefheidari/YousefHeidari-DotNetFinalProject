@@ -1,60 +1,261 @@
-﻿<!-- Sidebar Start -->
-<div class="sidebar pe-4 pb-3">
-    <nav class="navbar bg-light navbar-light">
-        <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="navbar-brand mx-4 mb-3">
-            <h3 class="text-primary"><i class="fa fa-user me-2 p-1"></i>پنل مدیریت  </h3>
-        </a>
+﻿<div class="sidebar sidebar-style-2">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <div class="user">
+                <div class="avatar-sm float-left mr-2">
+                    <img src="~/AdminAreaTemplate/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                </div>
+                <div class="info">
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                        <span>
+                            Hizrian
+                            <span class="user-level">Administrator</span>
+                            <span class="caret"></span>
+                        </span>
+                    </a>
+                    <div class="clearfix"></div>
 
-        <div class="d-flex align-items-center ms-4 mb-4">
-            <div class="position-relative">
-                <img class="rounded-circle" src="~/AdminAreaTemplate/img/user.jpg" alt="" style="width: 40px; height: 40px;">
-                <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
+                    <div class="collapse in" id="collapseExample">
+                        <ul class="nav">
+                            <li>
+                                <a href="#profile">
+                                    <span class="link-collapse">My Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#edit">
+                                    <span class="link-collapse">Edit Profile</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#settings">
+                                    <span class="link-collapse">Settings</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-            <div class="ms-3">
-                <h6 class="mb-0 p-1">یوسف حیدری</h6>
-            </div>
+            <ul class="nav nav-primary" style="padding-right:0px">
+                <li class="nav-item active">
+                    <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                        <i class="fas fa-home"></i>
+                        <p>کاربران</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="dashboard">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="../demo1/index.html">
+                                    <span class="sub-item">مشتری ها</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../demo2/index.html">
+                                    <span class="sub-item">متخصصین</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#base">
+                        <i class="fas fa-layer-group"></i>
+                        <p>سفارشات</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="base">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="components/avatars.html">
+                                    <span class="sub-item"> تایید نشده</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="components/buttons.html">
+                                    <span class="sub-item"> در حال انجام</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="components/gridsystem.html">
+                                    <span class="sub-item"> پایان یافته</span>
+                                </a>
+                            </li>                            
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#sidebarLayouts">
+                        <i class="fas fa-th-list"></i>
+                        <p>Sidebar Layouts</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="sidebarLayouts">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="sidebar-style-1.html">
+                                    <span class="sub-item">Sidebar Style 1</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="overlay-sidebar.html">
+                                    <span class="sub-item">Overlay Sidebar</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="compact-sidebar.html">
+                                    <span class="sub-item">Compact Sidebar</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="static-sidebar.html">
+                                    <span class="sub-item">Static Sidebar</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="icon-menu.html">
+                                    <span class="sub-item">Icon Menu</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @*<li class="nav-item">
+                    <a data-toggle="collapse" href="#forms">
+                        <i class="fas fa-pen-square"></i>
+                        <p>Forms</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="forms">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="forms/forms.html">
+                                    <span class="sub-item">Basic Form</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#tables">
+                        <i class="fas fa-table"></i>
+                        <p>Tables</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="tables">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="tables/tables.html">
+                                    <span class="sub-item">Basic Table</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="tables/datatables.html">
+                                    <span class="sub-item">Datatables</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#maps">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Maps</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="maps">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="maps/jqvmap.html">
+                                    <span class="sub-item">JQVMap</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>*@
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#charts">
+                        <i class="far fa-chart-bar"></i>
+                        <p>سرویس ها</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="charts">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="charts/charts.html">
+                                    <span class="sub-item">نظافت</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="charts/sparkline.html">
+                                    <span class="sub-item">باربری</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="widgets.html">
+                        <i class="fas fa-desktop"></i>
+                        <p>دسته بندی ها</p>
+                        <span class="badge badge-success mr-2">4</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#submenu">
+                        <i class="fas fa-bars"></i>
+                        <p>Menu Levels</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="submenu">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a data-toggle="collapse" href="#subnav1">
+                                    <span class="sub-item">Level 1</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="subnav1">
+                                    <ul class="nav nav-collapse subnav">
+                                        <li>
+                                            <a href="#">
+                                                <span class="sub-item">Level 2</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="sub-item">Level 2</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a data-toggle="collapse" href="#subnav2">
+                                    <span class="sub-item">Level 1</span>
+                                    <span class="caret"></span>
+                                </a>
+                                <div class="collapse" id="subnav2">
+                                    <ul class="nav nav-collapse subnav">
+                                        <li>
+                                            <a href="#">
+                                                <span class="sub-item">Level 2</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="sub-item">Level 1</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                @*<li class="mx-4 mt-2">
+                    <a href="http://themekita.com/atlantis-bootstrap-dashboard.html" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Buy Pro</a>
+                </li>*@
+            </ul>
         </div>
-
-        <div class="navbar-nav w-100">
-
-            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="nav-item nav-link active"><i class="fa fa-tachometer-alt me-2"></i>خانه</a>
-
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-hand-holding-usd me-2"></i> سفارشات</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a asp-area="Admin" asp-controller="order" asp-action="Index" asp-route-id="0" class="dropdown-item">همه</a>
-                    <a asp-area="Admin" asp-controller="order" asp-action="Index" asp-route-id="1" class="dropdown-item" >سفارشات جاری</a>
-                    <a asp-area="Admin" asp-controller="order" asp-action="Index" asp-route-id="2"class="dropdown-item" >پایان یافته ها</a>
-                </div>
-            </div>
-
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-comment me-2"></i> نظرات</a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="1" class="dropdown-item">همه</a>
-                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="2" class="dropdown-item">تایید شده ها</a>
-                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="3" class="dropdown-item">در انتظار تایید</a>
-                    <a asp-area="Admin" asp-controller="Comment" asp-action="Index" asp-route-id="4" class="dropdown-item">رد شده ها</a>
-                </div>
-            </div>
-
-            <div class="nav-item dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-comment me-2"></i>  کاربران </a>
-                <div class="dropdown-menu bg-transparent border-0">
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index" asp-route-id="0" class="dropdown-item">همه</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index" asp-route-id="1" class="dropdown-item">کاربران عادی</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Index" asp-route-id="2" class="dropdown-item">متخصصین</a>
-                </div>
-            </div>
-
-           
-
-            <a asp-area="Admin" asp-controller="Service" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> خدمات </a>
-            <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="nav-item nav-link"><i class="fa fa-th me-2"></i> دسته بندی ها</a>
-            <a asp-area="Admin" asp-controller="Status" asp-action="Index" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i> وضعیت ها</a>
-
-
-        </div>
-    </nav>
+    </div>
 </div>
-<!-- Sidebar End -->
