@@ -27,6 +27,7 @@ namespace App.Domain.Services.Work
             List<int> fileIds = new();
             foreach (var file in files)
             {
+                
                 var fileName = file.FileName;
                 var randomName = Guid.NewGuid().ToString();
                 var uniqePath = randomName+"-"+fileName;
