@@ -1,0 +1,205 @@
+﻿@model OrderDTO
+
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">مشاهده اطلاعات کامل سفارش شماره <span class="badge badge-success mr-2">@Model.Id</span></h4>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-3 col-md-2">
+                    <div class="nav flex-column nav-pills nav-secondary nav-pills-no-bd" id="v-pills-tab-without-border" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="Detail" data-toggle="pill" href="#v-pills-home-nobd" role="tab" aria-controls="v-pills-home-nobd" aria-selected="true">جزئیات</a>
+                        <a class="nav-link" id="Description" data-toggle="pill" href="#v-pills-description-nobd" role="tab" aria-controls="v-pills-description-nobd" aria-selected="false">توضیحات سفارش</a>
+                        <a class="nav-link" id="Address" data-toggle="pill" href="#v-pills-address-nobd" role="tab" aria-controls="v-pills-address-nobd" aria-selected="false">آدرس</a>
+                        <a class="nav-link" id="Photos" data-toggle="pill" href="#v-pills-photos-nobd" role="tab" aria-controls="v-pills-photos-nobd" aria-selected="false">تصاویر</a>
+                        <a class="nav-link bg-success text-light" asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a>
+                        @*<a class="nav-link bg-danger text-light" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">حذف</a>*@
+
+                        <button type="button" class="nav-link bg-danger text-light" data-toggle="modal" data-target="#DeleteModal">
+                            حذف
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">حذف سفارش <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        شمار در حال حذف سفارش شماره <span class="badge badge-danger mr-2 ml-2">@Model.Id</span> هستید آیا از حذف این سفارش اطمینان دارید؟
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal" style="cursor:pointer">انصراف</button>
+                                        <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">
+                                            حذف
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="col-9 col-md-10">
+                    <div class="tab-content" id="v-pills-without-border-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home-nobd" role="tabpanel" aria-labelledby="Detail">
+
+
+                            <div class="row">
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="card card-stats card-primary card-round">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-settings"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">سرویس درخواستی</p>
+                                                        <h4 class="card-title">@Model.ServiceName</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="card card-stats card-info card-round">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-users"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">نام مشتری</p>
+                                                        <h4 class="card-title">@Model.CustomerName</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="card card-stats card-success card-round">
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-users"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">نام متخصص</p>
+                                                        @if (Model.ExpertName is null)
+                                                        {
+                                                            <h4 class="card-title">هنوز تعیین نشده</h4>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h4 class="card-title">@Model.ExpertName</h4>
+                                                        }
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="card card-stats card-secondary card-round">
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-time"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">زمان ثبت سفارش</p>
+                                                        <h4 class="card-title">@Model.ShamsiCreationDate</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="card card-stats card-round">
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-coins text-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">هزینه سفارش</p>
+                                                        <h4 class="card-title text-success">@Model.FinalPrice تومان</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-4">
+                                    <div class="card card-stats card-warning card-round">
+                                        <div class="card-body ">
+                                            <div class="row">
+                                                <div class="col-3">
+                                                    <div class="icon-big text-center">
+                                                        <i class="flaticon-success"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="col-9 col-stats">
+                                                    <div class="numbers">
+                                                        <p class="card-category">وضعیت سفارش</p>
+                                                        <h4 class="card-title">@Model.StatusName</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-photos-nobd" role="tabpanel" aria-labelledby="Photos">
+                            تصاویر
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-address-nobd" role="tabpanel" aria-labelledby="Address">
+                            @Model.Address
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-description-nobd" role="tabpanel" aria-labelledby="Description">
+                            @Model.Description
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

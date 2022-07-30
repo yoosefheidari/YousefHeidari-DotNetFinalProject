@@ -1,6 +1,50 @@
 ﻿@model OrderDTO
+<br />
+<br />
 
-<form asp-area="Admin" asp-controller="Order" asp-action="Edit" method="post">
+<div class="bd-example col-4">
+    <form asp-area="Admin" asp-controller="Order" asp-action="Edit" method="post">
+        <div asp-validation-summary="All"></div>
+
+        <div><input asp-for="Id" style="display:none" /></div>
+        <div><input asp-for="CustomerId" style="display:none" /></div>
+        <div><input asp-for="ServiceId" style="display:none" /></div>
+        <div><input asp-for="ConfirmedExpertId" style="display:none" /></div>
+        <div class="form-group form-group-default">
+            <label asp-for="StatusId" style="font-size:18px !important"></label>
+            <select class="form-control" asp-for="StatusId" asp-items="@ViewBag.Statuses">
+                <option value="@Model.StatusId">تغییر وضعیت</option>
+            </select>
+        </div>
+        
+        <br />
+        <div class="form-group">
+            <label asp-for="Description" style="font-size:23px !important"></label>
+            <textarea class="form-control" asp-for="Description" rows="3">
+
+												</textarea>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="input-group mb-3">
+                @*<div class="input-group-prepend">
+                    <span class="input-group-text">$</span>
+                </div>*@
+                <label asp-for="FinalPrice" class="mt-2 ml-4" style="font-size:23px !important"></label>
+                <input asp-for="FinalPrice" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <div class="input-group-append">
+                    <span class="input-group-text bg-warning rounded-left" >تومان</span>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-outline-warning btn-lg btn-block btn-round btn-border hover" style="font-size:24px !important">اعمال تغییرات</button>
+    </form>
+</div>
+<br />
+<br />
+<br />
+
+@*<form asp-area="Admin" asp-controller="Order" asp-action="Edit" method="post">
     <div asp-validation-summary="All"></div>
 
     <div><input asp-for="Id" style="display:none" /></div>
@@ -27,6 +71,6 @@
         <input asp-for="FinalPrice" class="form-control">
         <span asp-validation-for="FinalPrice" class="text-danger"></span>
     </div>
-    
+
     <button type="submit" class="btn btn-primary">آپدیت</button>
-</form>
+</form>*@

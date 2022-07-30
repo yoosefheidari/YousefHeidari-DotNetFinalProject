@@ -1,60 +1,139 @@
 ﻿@model List<OrderDTO>
 @if (Model.Count == 0)
 {
-    <div class="alert alert-success m-4" role="alert">
-        <div><input style="display:none" /></div>
-        <h4 class="alert-heading">سفارش</h4>
-        <hr>
-        <br>
-        <p>سفارشی ثبت نشده است</p>
-        <hr>
+    <div class="card">
+        <div class="card-body">
+            سفارشی ثبت نشده است.
+        </div>
     </div>
 }
 else
 {
     <br />
-    @foreach (var order in Model)
-    {
+    <div class="row">
+        @foreach (var order in Model)
+        {
+            <div class="col-md-4">
+                <div class="card card-profile">
+                    <div class="card-header rounded-top" style="background-color:DarkMagenta" @*style="background-image: url('/AdminAreaTemplate/assets/img/Order-Background2.jpg')"*@>
+                        <div class="profile-picture">
+                            <div class="avatar avatar-xl">
+                                <img src="~/AdminAreaTemplate/assets/img/Order-Main.png" alt="..." class="avatar-img rounded-circle">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="user-profile text-center">
+                            <div class="name"><span class="badge badge-warning">سفارش شماره @order.Id</span></div>
+                            <br>
+                            @*<div class="job">سرویس درخواستی : @order.ServiceName</div>
+                                <div class="desc">مشتری : @order.CustomerName</div>*@
+                            <div class="social-media">
+                                <div class="progress-card">
+                                    <div class="progress-status">
+                                        <span class="text-muted">@order.StatusName</span>
+                                        <span class="text-muted  fw-bold"> @order.StatusValue%</span>
+                                    </div>
+                                    <div class="progress">
+                                        @if (order.StatusValue < 50)
+                                        {
+                                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                        }
+                                        @if (order.StatusValue == 50)
+                                        {
+                                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                        }
+                                        @if (order.StatusValue > 50)
+                                        {
+                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                        }
 
-        <div class="card m-1 d-inline-block" style="width: 31%;">
-            <img class="card-img-top" src="~/AdminAreaTemplate/img/download.png" height="150px" width="auto" alt="Card image cap">
-            <div class="card-body">
+                                    </div>
+                                </div>
+                                @*<a class="btn btn-info btn-twitter btn-sm btn-link" href="#">
+                                    <span class="btn-label just-icon"><i class="flaticon-twitter"></i> </span>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm btn-link" rel="publisher" href="#">
+                                    <span class="btn-label just-icon"><i class="flaticon-google-plus"></i> </span>
+                                    </a>
+                                    <a class="btn btn-primary btn-sm btn-link" rel="publisher" href="#">
+                                    <span class="btn-label just-icon"><i class="flaticon-facebook"></i> </span>
+                                    </a>
+                                    <a class="btn btn-danger btn-sm btn-link" rel="publisher" href="#">
+                                    <span class="btn-label just-icon"><i class="flaticon-dribbble"></i> </span>
+                                    </a>*@
+
+                            </div>
+                            <br>
+                            <div class="view-profile">
+                                <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@order.Id" class="btn btn-secondary btn-block">
+                                    مشاهده جزئیات
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <div class="row user-stats text-center">
+                            <div class="col">
+                                <div class="text">سرویس </div>
+                                <div class="title"><span class="badge badge-info">@order.ServiceName</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="text">مشتری</div>
+                                <div class="title"><span class="badge badge-info">@order.CustomerName</span></div>
+                            </div>
+                            <div class="col">
+                                <div class="text">قیمت</div>
+                                <div class="title text-success text-bold">@order.FinalPrice تومان</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            @*<div class="card m-1 d-inline-block" style="width: 31%;">
+                <img class="card-img-top" src="~/AdminAreaTemplate/img/download.png" height="150px" width="auto" alt="Card image cap">
+                <div class="card-body">
                 <h5 class="card-title">توضیحات سفارش : </h5>
                 <p class="card-text">@order.Description</p>
-            </div>
-            <ul class="list-group list-group-flush">
+                </div>
+                <ul class="list-group list-group-flush">
                 <li class="list-group-item">تاریخ ثبت : @order.CreationDate.Date</li>
                 <li class="list-group-item">دسته بندی : @order.ServiceName</li>
                 <li class="list-group-item">نام مشتری : @order.CustomerName</li>
                 <li class="list-group-item">نام متخصص : @order.ExpertName</li>
                 <li class="list-group-item">قیمت نهایی : @order.FinalPrice تومان</li>
-                <li class="list-group-item">تایید شده توسط مشتری : 
-                    @if (order.IsConfirmedByCustomer==false)
-                    {
-                        <span>تایید نشده</span>
-                    }
-                    else
-                    {
-                        <span>تایید شده</span>
-                    }
+                <li class="list-group-item">
+                تایید شده توسط مشتری :
+                @if (order.IsConfirmedByCustomer == false)
+                {
+                <span>تایید نشده</span>
+                }
+                else
+                {
+                <span>تایید شده</span>
+                }
                 </li>
                 <li class="list-group-item">
-                    وضعیت سفارش : @order.StatusName
-                    <div class="pg-bar mb-3">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
+                وضعیت سفارش : @order.StatusName
+                <div class="pg-bar mb-3">
+                <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-info" role="progressbar" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                </div>
                 </li>
-            </ul>
-            <div class="card-body">
+                </ul>
+                <div class="card-body">
                 <a asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@order.Id" class="btn btn-danger">حذف</a>
                 <a asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@order.Id" class="btn btn-success">ویرایش</a>
-                <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" asp-route-id="@order.Id" class="btn btn-warning">مشاهده پیشنهادات</a>                
+                <a asp-area="Admin" asp-controller="Suggest" asp-action="Index" asp-route-id="@order.Id" class="btn btn-warning">مشاهده پیشنهادات</a>
                 <hr>
                 <a asp-area="Admin" asp-controller="Comment" asp-action="GetAllOrderComments" asp-route-id="@order.Id" class="btn btn-secondary">مشاهده نظرات</a>
                 <a asp-area="Admin" asp-controller="Order" asp-action="Files" asp-route-id="@order.Id" class="btn btn-info">مشاهده فایل ها</a>
-            </div>
-        </div>
-    }
+                </div>
+                </div>*@
+        }
+    </div>
 }

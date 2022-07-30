@@ -23,6 +23,12 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(orders);
         }
 
+        public async Task<IActionResult> OrderDetail(int id, CancellationToken cancellationToken)
+        {
+            var order = await _orderAppService.Get(id, cancellationToken);
+            return View(order);
+        }
+
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
             var statuses = await _statusAppServcie.GetAll(cancellationToken);
@@ -38,7 +44,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(OrderDTO orderDTO, CancellationToken cancellationToken)
         {
             await _orderAppService.Update(orderDTO, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("OrderDetail", new {id=orderDTO.Id});
         }
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)

@@ -42,6 +42,7 @@ builder.Services.AddScoped<IStatusQueryRepository, StatusQueryRepository>();
 builder.Services.AddScoped<IFileCommandRepository, FileCommandRepository>();
 builder.Services.AddScoped<IFileQueryRepository, FileQueryRepository>();
 builder.Services.AddScoped<IUserFileCommandRepository, UserFileCommandRepository>();
+builder.Services.AddScoped<IUtilityRepositoy, UtilityRepositoy>();
 
 #endregion
 
@@ -63,6 +64,7 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserSerivce>();
 builder.Services.AddScoped<IUploadService, UploadService>();
+builder.Services.AddScoped<IUtilityService, UtilityService>();
 
 #endregion
 
@@ -78,6 +80,7 @@ builder.Services.AddScoped<ISuggestAppService, SuggestAppService>();
 builder.Services.AddScoped<IFileAppService, FileAppService>();
 builder.Services.AddScoped<IStatusAppServcie, StatusAppService>();
 builder.Services.AddScoped<IUserAppService, UserAppService>();
+builder.Services.AddScoped<IUtilityAppService, UtilityAppService>();
 
 #endregion
 

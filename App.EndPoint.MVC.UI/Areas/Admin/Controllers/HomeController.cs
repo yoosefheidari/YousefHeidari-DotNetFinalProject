@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using App.Domain.Core.Work.Contracts.AppServices;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
@@ -7,8 +8,16 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     [Authorize(Roles =("Admin"))]
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly IUtilityAppService _utilityAppService;
+
+        public HomeController(IUtilityAppService utilityAppService)
         {
+            _utilityAppService = utilityAppService;
+        }
+
+        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        {
+            ViewBag.Statistics = await _utilityAppService.GetLatestStatistics(cancellationToken);
             return View();
         }
     }

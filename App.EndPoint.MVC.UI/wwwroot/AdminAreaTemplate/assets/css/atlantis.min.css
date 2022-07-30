@@ -537,7 +537,7 @@ body {
         .sidebar .user .info .caret, .sidebar[data-background-color=white] .user .info .caret {
             position: absolute;
             top: 17px;
-            right: 0;
+            left: 0;
             border-top-color: #777
         }
 

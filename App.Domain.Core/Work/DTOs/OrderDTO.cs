@@ -30,7 +30,7 @@ namespace App.Domain.Core.Work.DTOs
         [Display(Name = ("نام متخصص"))]
         public string ExpertName { get; set; }
 
-        [Display(Name = ("شناسه وضعیت"))]
+        [Display(Name = ("وضعیت سفارش"))]
         public int? StatusId { get; set; }
 
         [Display(Name = ("وضعیت سفارش"))]
@@ -49,8 +49,11 @@ namespace App.Domain.Core.Work.DTOs
         public bool? IsConfirmedByCustomer { get; set; }
         [Display(Name = ("تاریخ ثبت"))]
         public DateTimeOffset CreationDate { get; set; }
+        [Display(Name = ("آدرس مشتری"))]
+        public string? Address { get; set; }
         [Display(Name = ("حذف شده؟"))]
         public bool IsDeleted { get; set; }
+        public string? ShamsiCreationDate { get; set; }
         public List<CommentDTO> Comments { get; set; }
     }
 }

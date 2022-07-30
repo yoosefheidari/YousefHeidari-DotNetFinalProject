@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.EntityFrameworkCore;
 using App.Domain.Core.User.DTOs;
+using App.Domain.Services.Utilities;
 
 namespace App.Infrastructure.DataBase.Repositories.EF.Work
 {
@@ -25,20 +26,37 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var orderDto = await _appDbContext.Orders
                 .Where(x => x.Id == id)
-                .Select(d => new OrderDTO()
+                .Select(x => new OrderDTO()
                 {
-                    Id = id,
-                    Description = d.Description,
-                    IsDeleted = d.IsDeleted,
-                    FinalPrice = d.FinalPrice,
-                    ConfirmedExpertId = d.ConfirmedExpertId,
-                    CreationDate = d.CreationDate,
-                    CustomerId = d.CustomerId,
-                    IsConfirmedByCustomer = d.IsConfirmedByCustomer,
-                    StatusId = d.StatusId,
-                    ServiceId = d.ServiceId,
-                    StatusName = d.Status.Name,
-                    StatusValue = d.Status.StatusValue,
+                    Id = x.Id,
+                    Description = x.Description,
+                    FinalPrice = x.FinalPrice,
+                    ConfirmedExpertId = x.ConfirmedExpertId,
+                    CreationDate = x.CreationDate,
+                    CustomerId = x.CustomerId,
+                    IsConfirmedByCustomer = x.IsConfirmedByCustomer,
+                    StatusId = x.StatusId,
+                    ServiceId = x.ServiceId,
+                    IsDeleted = x.IsDeleted,
+                    StatusName = x.Status.Name,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
+                    StatusValue = x.Status.StatusValue,
+                    CustomerName = x.Customer.UserName,
+                    ExpertName = x.Expert.UserName,
+                    ServiceName = x.Service.Title,
+                    Address = x.Customer.Address,
+                    Comments = x.Comments.Select(x => new CommentDTO()
+                    {
+                        CreationDate = x.CreationDate,
+                        Description = x.Description,
+                        Id = x.Id,
+                        IsApproved = x.IsApproved,
+                        IsDeleted = x.IsDeleted,
+                        OrderId = x.OrderId,
+                        //ServiceId = x.ServiceId,
+                        Title = x.Title,
+
+                    }).ToList(),
                 })
                 .SingleAsync(cancellationToken);
             //var orderDto = new OrderDTO()
@@ -65,11 +83,15 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             IQueryable<Order> query = _appDbContext.Orders;
             if (id == 1)
             {
-                query = query.Where(x => x.StatusId != 5);
+                query = query.Where(x => x.IsConfirmedByCustomer == false && x.StatusId == 1);
             }
             if (id == 2)
             {
-                query = query.Where(x => x.StatusId == 5);
+                query = query.Where(x => x.IsConfirmedByCustomer == true && (x.StatusId == 2 || x.StatusId == 3 || x.StatusId == 4));
+            }
+            if (id == 3)
+            {
+                query = query.Where(x => x.IsConfirmedByCustomer == true && x.StatusId == 5);
             }
             var orders = await query
                 .Select(x => new OrderDTO()
@@ -79,6 +101,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     FinalPrice = x.FinalPrice,
                     ConfirmedExpertId = x.ConfirmedExpertId,
                     CreationDate = x.CreationDate,
+                    ShamsiCreationDate=x.CreationDate.ToShamsi(),
                     CustomerId = x.CustomerId,
                     IsConfirmedByCustomer = x.IsConfirmedByCustomer,
                     StatusId = x.StatusId,
@@ -89,6 +112,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     CustomerName = x.Customer.UserName,
                     ExpertName = x.Expert.UserName,
                     ServiceName = x.Service.Title,
+                    Address = x.Customer.Address,
                     Comments = x.Comments.Select(x => new CommentDTO()
                     {
                         CreationDate = x.CreationDate,
