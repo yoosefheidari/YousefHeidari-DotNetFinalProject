@@ -25,14 +25,29 @@ namespace App.EndPoint.MVC.UI.Controllers
 
 
 
-        public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
+        public IActionResult Index(int id, CancellationToken cancellationToken)
         {
+            return View();
+        }
+        public IActionResult Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            return View("LoginUser");
+        }
 
+        public async Task<IActionResult> GetListofServices(int id, CancellationToken cancellationToken)
+        {
             var services = await _serviceAppService.GetAll(id, cancellationToken);
             if (id == 0)
                 services = null;
-            return View(services);
+            return View("Services", services);
         }
+
+
+
 
         public async Task<IActionResult> UserOrder(string name, CancellationToken cancellationToken)
         {
@@ -51,8 +66,8 @@ namespace App.EndPoint.MVC.UI.Controllers
         public async Task<IActionResult> NewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)
         {
 
-            var result=await _orderAppService.AddNewOrder(order, files, cancellationToken);
-            return RedirectToAction("Profile","Account");
+            var result = await _orderAppService.AddNewOrder(order, files, cancellationToken);
+            return RedirectToAction("Profile", "Account");
         }
 
         public IActionResult AccessDenied()

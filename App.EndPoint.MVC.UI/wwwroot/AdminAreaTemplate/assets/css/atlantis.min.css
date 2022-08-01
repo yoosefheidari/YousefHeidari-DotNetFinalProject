@@ -80,6 +80,7 @@ danger-color : #f3545d
 @font-face {
     font-family: IranSans;
     src: url('../fonts/IRAN Sans Regular.ttf');
+    
 }
 
 :focus {

@@ -13,13 +13,27 @@ namespace App.Domain.Core.User.DTOs
         [Display(Name = ("شناسه"))]
         public int Id { get; set; }
 
+        [DataType(DataType.Text)]
         [Display(Name = ("نام کاربری"))]
         [Required(ErrorMessage =("وارد کردن یوزر نیم الزامیست"))]
         public string UserName { get; set; }
 
+        [Display(Name = ("رمز عبور"))]
+        [Required(ErrorMessage ="حداقل 3 حرف باشد")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
+
+        [Display(Name = ("تکرار رمز عبور"))]
+        [Required(ErrorMessage = "حداقل 3 حرف باشد")]
+        [DataType(DataType.Password)]
+        public string ConfirmPassword { get; set; }
+
         [Display(Name = ("ایمیل"))]
         [Required(ErrorMessage = ("وارد کردن ایمیل الزامیست"))]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
+
+        
 
         [Display(Name = ("نام"))]
         [Required(ErrorMessage = ("وارد کردن نام الزامیست"))]

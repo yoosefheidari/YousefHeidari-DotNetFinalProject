@@ -28,13 +28,17 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public IActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string userName, string password, bool remember)
+        public async Task<IActionResult> Login(UserDTO user, bool remember)
         {
-            var result = await _userAppService.LoginUser(userName, password, remember);
+            var result = await _userAppService.LoginUser(user.UserName, user.Password, remember);
 
 
             if (result == 0)
@@ -43,14 +47,14 @@ namespace App.EndPoint.MVC.UI.Controllers
             }
             else
             {
-                var user = await _userAppService.Get(result);
-                if (user.Roles.Count == 1)
+                var loginUser = await _userAppService.Get(result);
+                if (loginUser.Roles.Count == 1)
                 {
                     return RedirectToAction(nameof(HomeController.Index));
                 }
                 else
                 {
-                    return View("PanelSelect", user.Roles);
+                    return View("PanelSelect", loginUser.Roles);
                 }
             }
 
@@ -70,14 +74,14 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDTO, string password, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(UserDTO userDTO, CancellationToken cancellationToken)
 
         {
             if (!ModelState.IsValid)
             {
                 return View(userDTO);
             }
-            var id = await _userAppService.RegisterUser(userDTO, password, cancellationToken);
+            var id = await _userAppService.RegisterUser(userDTO, userDTO.Password, cancellationToken);
             await _userAppService.SignInUserById(id);
 
             return RedirectToAction(nameof(HomeController.Index), "Home");

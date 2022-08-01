@@ -1,0 +1,163 @@
+﻿@model UserDTO
+@{
+    Layout = "_LayoutProfile";
+}
+<div class="container-fluid row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card mt-5 col-3">
+        <div class="card-header text-center " style="font-size:22px">
+            ورود به سایت
+        </div>
+        <div class="card-body">
+            <form asp-area="" asp-controller="Account" asp-action="Login" method="post">
+
+                <div class="form-group">
+                    <label asp-for="UserName" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+                <br />
+                <div class="form-group">
+                    <label asp-for="Password" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="Password" type="password" class="form-control" placeholder="رمز عبور">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+                <br />
+                <span class="form-check-sign">مرا به خاطر بسپار</span>
+
+                <input name="remember" id="remember" class="form-check-input" type="checkbox" value="false" onchange="isPersistent()">
+                <div class="form-check">
+                    @*<label class="form-check-label">
+                        <input name="remember" id="remember" class="form-check-input" type="checkbox" value="false" onchange="isPersistent()">
+                        <span class="form-check-sign">مرا به خاطر بسپار</span>
+                        </label>*@
+                </div>
+
+                @* <div class="form-check">
+                    <input name="remember" value="false" onchange="isPersistent()" type="checkbox" class="form-check-input" id="remember">
+                    <label class="form-check-label" for="remember">مرا به خاطر بسپار</label>
+                    </div>*@
+
+
+                <button style="font-size:19px !important" type="submit" class="btn btn-warning btn-lg btn-block btn-round" btn-block>وارد شوید</button>
+                <br />
+                <hr />
+
+                <div class="row d-flex justify-content-between">
+                    <a class="nav-link btn-round bg-danger text-light mr-3" asp-area="" asp-controller="Account" asp-action="ForgetPassword">فراموشی رمز عبور </a>
+                    <a class="nav-link btn-round bg-secondary text-light ml-3" asp-area="" asp-controller="Account" asp-action="Register">ثبت نام</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function isPersistent(){
+        var result = document.getElementById("remember").value;
+        if(result=="false"){
+            document.getElementById("remember").value=true;
+        }
+        else{
+            document.getElementById("remember").value=false;
+        }
+    }
+</script>
+
+
+
+<div class="container-fluid row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="card mt-5 col-3">
+        <div class="card-header text-center ">
+            <h1 style="font-size:22px">ثبت نام</h1>
+        </div>
+        <div class="card-body">
+            <form asp-area="" asp-controller="Account" asp-action="Register" method="post">
+
+                <div class="form-group">
+                    <label asp-for="UserName" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fa fa-user"></i>
+                        </span>
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Email" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fab fa-google"></i>
+                        </span>
+                        <input asp-for="Email" type="text" class="form-control" placeholder="ایمیل">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Password" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="Password" type="text" class="form-control" placeholder="رمز عبور">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ConfirmPassword" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fas fa-lock"></i>
+                        </span>
+                        <input asp-for="ConfirmPassword" type="text" class="form-control" placeholder="تکرار رمز عبور">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstName" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fas fa-info"></i>
+                        </span>
+                        <input asp-for="FirstName" type="text" class="form-control" placeholder="نام">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="LastName" style="font-size:19px !important"></label>
+                    <div class="input-icon">
+                        <span class="input-icon-addon">
+                            <i class="fas fa-info"></i>
+                        </span>
+                        <input asp-for="LastName" type="text" class="form-control" placeholder="نام خانوادگی">
+                    </div>
+                    <span class="has-error"></span>
+                </div>
+                <br />
+                <button style="font-size:19px !important" type="submit" class="btn btn-warning btn-lg btn-block btn-round" btn-block>ثبت نام</button>
+                <br />
+                <hr />
+
+                <div class="row d-flex justify-content-between">
+                    <a class="nav-link btn-round bg-danger text-light mr-3" asp-area="" asp-controller="Account" asp-action="ForgetPassword">فراموشی رمز عبور </a>
+                    <a class="nav-link btn-round bg-secondary text-light ml-3" asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

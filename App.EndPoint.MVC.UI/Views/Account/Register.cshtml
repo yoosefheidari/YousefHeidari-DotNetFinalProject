@@ -1,55 +1,75 @@
-﻿@{
-    Layout = "_AnonymosLayout";
-}
-@model UserDTO
-<!-- Sign Up Start -->
-<form asp-controller="Account" asp-action="Register" method="post" enctype="multipart/form-data">
-    <div class="container-fluid">
-        <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
-            <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
-                <div class="bg-light rounded p-4 p-sm-5 my-4 mx-3">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h3>فرم ثبت نام</h3>
-                    </div>
-                    <div asp-validation-summary="ModelOnly" class="text-danger" style="font-size:0.7rem"></div>
-                    <div class="form-group-lg mb-3">
-                        <label asp-for="UserName" style="font-size:.7rem"></label>
-                        <input asp-for="UserName" type="text" class="form-control" placeholder="نام کاربری">
-                        <span asp-validation-for="UserName" class="text-danger" style="font-size:.7rem"></span>
-                    </div>
+﻿@model UserDTO
 
-                    <div class="form-group mb-3">
-                        <label asp-for="Email" style="font-size:.7rem"></label>
-                        <input type="email" class="form-control" asp-for="Email" placeholder="ایمیل">
-                        <span asp-validation-for="Email" class="text-danger" style="font-size:.7rem"></span>
+
+
+
+
+<!-- Sign Up End -->
+<div class="container my-auto">
+    <div class="row">
+        <div class="col-lg-4 col-md-8 col-12 mx-auto">
+            <div class="card z-index-0 fadeIn3 fadeInBottom">
+                <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                    <div class="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
+                        <h4 class="text-white font-weight-bolder text-center mt-2 mb-0">فرم ثبت نام</h4>
                     </div>
+                </div>
+                <div class="card-body">
+                    <form role="form" class="text-start" asp-area="" asp-controller="Account" asp-action="Register" method="post">
+                        <div asp-validation-summary=All class="is-invalid text-danger"></div>
+                        
+                        <div class="input-group input-group-outline my-3">
+                            <label asp-for="UserName" class="form-label"></label>
+                            <input asp-for="UserName" class="form-control">                            
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="FirstName" style="font-size:.7rem"></label>
-                        <input class="form-control" asp-for="FirstName" placeholder="نام">
-                        <span asp-validation-for="FirstName" class="text-danger" style="font-size:.7rem"></span>
-                    </div>
+                        <div class="input-group input-group-outline my-3">
+                            <label asp-for="Email" class="form-label"></label>
+                            <input asp-for="Email" type="email" class="form-control">                            
+                        </div>
 
-                    <div class="form-group mb-3">
-                        <label asp-for="LastName" style="font-size:.7rem"></label>
-                        <input class="form-control" asp-for="LastName" placeholder="نام خانوادگی">
-                        <span asp-validation-for="LastName" class="text-danger" style="font-size:.7rem"></span>
-                    </div>
+                        <div class="input-group input-group-outline mb-3">
+                            <label asp-for="Password" class="form-label"></label>
+                            <input asp-for="Password" type="password" class="form-control d-block">                            
+                        </div>
 
-                    <div class="form-group mb-4">
-                        <label for="floatingPassword" style="font-size:.7rem">رمز عبور</label>
-                        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password">                        
-                    </div>                    
+                        <div class="input-group input-group-outline mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label"></label>
+                            <input asp-for="ConfirmPassword" type="password" class="form-control d-block">                            
+                        </div>
 
-                    <button type="submit" class="btn btn-primary py-3 w-100 mb-4">ثبت نام</button>
-                    <p class="text-center mb-0">
-                        از قبل اکانت دارید؟
-                        <a asp-area="" asp-controller="Account" asp-action="Login">ورود</a>
-                    </p>
+                        <div class="input-group input-group-outline my-3">
+                            <label asp-for="FirstName" class="form-label"></label>
+                            <input asp-for="FirstName" class="form-control">                            
+                        </div>
+
+                        <div class="input-group input-group-outline my-3">
+                            <label asp-for="LastName" class="form-label"></label>
+                            <input asp-for="LastName" class="form-control d-block">                            
+                        </div>
+
+                        <div class="form-check form-switch d-flex align-items-center mb-3">
+                            <input onclick="isPersistent()" class="form-check-input" type="checkbox" id="remember" name="remember" value="false">
+                            <label class="form-check-label mb-0 me-5" for="remember">مرا به خاطر بسپار</label>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-gradient-primary w-100 my-4 mb-2" style="font-size:22px;">ثبت نام</button>
+                        </div>
+
+                        <p class="mt-4 text-md text-center">
+                            اکانت دارید؟
+                            <a asp-area="" asp-controller="Account" asp-action="Login" class="text-primary text-gradient font-weight-bold text-lg">وارد شو</a>
+                        </p>
+
+                        <p class="mt-4 text-md text-center">
+                            رمز خود را فراموش کردید؟
+                            <a asp-area="" asp-controller="Account" asp-action="ForgetPassword" class="text-primary text-gradient font-weight-bold text-lg">بازیابی</a>
+                        </p>
+
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-</form>
-
-<!-- Sign Up End -->
+</div>
