@@ -55,6 +55,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                         IsConfirmedByCustomer = x.IsConfirmedByCustomer,
                         OrderId = x.OrderId,
                         SuggestedPrice = x.SuggestedPrice,
+                        ExpertName=x.Expert.UserName,
                     }).ToList(),
                     Comments = x.Comments.Select(x => new CommentDTO()
                     {

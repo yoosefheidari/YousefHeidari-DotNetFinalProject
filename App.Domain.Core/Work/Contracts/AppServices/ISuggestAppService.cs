@@ -9,7 +9,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
 {
     public interface ISuggestAppService
     {
-        Task<int> Add(SuggestDTO suggest, CancellationToken cancellationToken);
+        Task<int> CreateSuggest(int orderId, int expertId, int price, string description, CancellationToken cancellationToken);
         Task Update(SuggestDTO suggest, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task<List<SuggestDTO>> GetAll(CancellationToken cancellationToken);

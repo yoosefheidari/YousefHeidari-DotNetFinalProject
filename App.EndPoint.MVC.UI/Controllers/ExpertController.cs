@@ -12,13 +12,17 @@ namespace App.EndPoint.MVC.UI.Controllers
         private readonly IHttpContextAccessor _httpContext;
         private readonly IOrderAppService _orderAppService;
         private readonly IStatusAppServcie _statusAppServcie;
+        private readonly ISuggestAppService _suggestAppService;
+        private readonly ICommentAppService _commentAppService;
 
-        public ExpertController(IUserAppService userAppService, IHttpContextAccessor httpContext, IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
+        public ExpertController(IUserAppService userAppService, IHttpContextAccessor httpContext, IOrderAppService orderAppService, IStatusAppServcie statusAppServcie, ISuggestAppService suggestAppService, ICommentAppService commentAppService)
         {
             _userAppService = userAppService;
             _httpContext = httpContext;
             _orderAppService = orderAppService;
             _statusAppServcie = statusAppServcie;
+            _suggestAppService = suggestAppService;
+            _commentAppService = commentAppService;
         }
 
         public IActionResult Index()
@@ -42,5 +46,30 @@ namespace App.EndPoint.MVC.UI.Controllers
             ViewBag.Statuses = statuses.Where(x => x.Id != 1 && x.Id != 5);
             return View(order);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteSuggest(int orderId, int suggestId, CancellationToken cancellationToken)
+        {
+            await _suggestAppService.Delete(suggestId, cancellationToken);
+
+            return RedirectToAction("OrderDetail", new { id = orderId });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateSuggest(int orderId, int expertId, int price, string description, CancellationToken cancellationToken)
+        {
+            var suggestId = await _suggestAppService.CreateSuggest(orderId, expertId, price, description, cancellationToken);
+
+            return RedirectToAction("OrderDetail", new { id = orderId });
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken)
+        {
+            var suggestId = await _commentAppService.CreateOrderComment(orderId, serviceId, title, description, cancellationToken);
+
+            return RedirectToAction("OrderDetail", new { id = orderId });
+        }
+
     }
 }

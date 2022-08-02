@@ -24,6 +24,9 @@ namespace App.Domain.Core.Work.DTOs
         [Display(Name = ("توضیحات"))]
         public string Description { get; set; }
 
+        [Display(Name = ("ثبت توسط"))]
+        public bool IsWriteByCustomer { get; set; }
+
         [Display(Name = ("تاریخ ثبت"))]
         public DateTimeOffset CreationDate { get; set; }
         public bool IsDeleted { get; set; }

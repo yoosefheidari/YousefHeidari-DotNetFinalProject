@@ -20,8 +20,6 @@ namespace App.Domain.Services.Work
         }
         public async Task<int> Add(SuggestDTO suggest, CancellationToken cancellationToken)
         {
-            suggest.IsDeleted = false;
-            suggest.CreationDate = DateTimeOffset.Now;
             var result=await _suggestCommandRepository.Add(suggest,cancellationToken);
             return result;
         }

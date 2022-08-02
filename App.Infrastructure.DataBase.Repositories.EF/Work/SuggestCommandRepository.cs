@@ -24,12 +24,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var newExpertSuggest = new Suggest()
             {
-                ExpertId = expertSuggest.Id,
+                ExpertId = expertSuggest.ExpertId,
                 IsConfirmedByCustomer = expertSuggest.IsConfirmedByCustomer,
                 OrderId = expertSuggest.OrderId,
                 SuggestedPrice = expertSuggest.SuggestedPrice,
                 CreationDate = expertSuggest.CreationDate,
                 Description = expertSuggest.Description,
+                IsDeleted= expertSuggest.IsDeleted,
             };
             await _appDbContext.Suggests.AddAsync(newExpertSuggest, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);

@@ -17,10 +17,18 @@ namespace App.Domain.AppServices.Work
             _suggestService = suggestService;
         }
 
-        public async Task<int> Add(SuggestDTO suggest, CancellationToken cancellationToken)
+        public async Task<int> CreateSuggest(int orderId, int expertId, int price, string description, CancellationToken cancellationToken)
         {
-            suggest.IsDeleted = false;
-            suggest.CreationDate = DateTimeOffset.Now;
+            SuggestDTO suggest = new()
+            {
+                SuggestedPrice = price,
+                CreationDate = DateTime.Now,
+                Description = description,
+                ExpertId = expertId,
+                IsConfirmedByCustomer = false,
+                IsDeleted = false,
+                OrderId = orderId,
+            };
             var result = await _suggestService.Add(suggest, cancellationToken);
             return result;
         }

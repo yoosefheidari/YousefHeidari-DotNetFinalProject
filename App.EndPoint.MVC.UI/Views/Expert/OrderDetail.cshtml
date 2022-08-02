@@ -1,6 +1,6 @@
 ﻿@{
     Layout = "_AdminLayout";
-    int userId=ViewBag.UserId;
+    int userId = ViewBag.UserId;
 }
 @model OrderDTO
 
@@ -17,57 +17,158 @@
                         <a class="nav-link" id="Description" data-toggle="pill" href="#v-pills-description-nobd" role="tab" aria-controls="v-pills-description-nobd" aria-selected="false">توضیحات سفارش</a>
                         <a class="nav-link" id="Address" data-toggle="pill" href="#v-pills-address-nobd" role="tab" aria-controls="v-pills-address-nobd" aria-selected="false">آدرس</a>
                         <a class="nav-link" id="Photos" data-toggle="pill" href="#v-pills-photos-nobd" role="tab" aria-controls="v-pills-photos-nobd" aria-selected="false">تصاویر</a>
+                        @if (Model.StatusId == 1)
+                        {
+                            <a class="nav-link" id="Suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات همکاران</a>
+                        }
 
-                        @if(Model.StatusId==1  && Model.Suggests.Any(x=>x.ExpertId==ViewBag.UserId))
+                        @if (Model.StatusId == 1 && Model.Suggests.Any(x => x.ExpertId == userId))
                         {
-                          @{
-                              var suggestId=Model.Suggests.FirstOrDefault(x=>x.ExpertId==userId);
-                          }
-                        <a class="nav-link bg-danger text-light" asp-area="" asp-controller="Expert" asp-action="Edit" asp-route-id="@suggestId">حذف پیشنهاد</a>                            
+                            var suggestId = Model.Suggests.FirstOrDefault(x => x.ExpertId == userId).Id;
+
+                            <!-- Start Of Modal -->
+                            <button style="cursor:pointer" type="button" class="nav-link bg-danger text-light" data-toggle="modal" data-target="#DeleteSuggestModal">
+                                حذف پیشنهاد
+                            </button>
+                            <div class="modal fade" id="DeleteSuggestModal" tabindex="-1" role="dialog" aria-labelledby="DeleteSuggestModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">حذف پیشنهاد <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            شما در حال حذف پیشنهاد خود هستید، از حذف این پیشنهاد اطمینان دارید؟
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button style="cursor:pointer" type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                            <form asp-area="" asp-controller="Expert" asp-action="DeleteSuggest" method="post">
+                                                <input style="display:none" name="orderId" value="@Model.Id" />
+                                                <input style="display:none" name="suggestId" value="@suggestId" />
+                                                <button style="cursor:pointer" type="submit" class="nav-link bg-info text-light">حذف پیشنهاد</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Of Modal -->
                         }
-                        else if(Model.StatusId==1  && ! Model.Suggests.Any(x=>x.ExpertId==userId))
+
+                        else if (Model.StatusId == 1 && !Model.Suggests.Any(x => x.ExpertId == userId))
                         {
-                        <a class="nav-link bg-success text-light" asp-area="" asp-controller="Expert" asp-action="Edit" asp-route-id="@Model.Id">ثبت پیشنهاد</a>                            
+                            <!-- Start Of Modal -->
+                            <button style="cursor:pointer" type="button" class="nav-link bg-success text-light" data-toggle="modal" data-target="#CreateSuggestModal">
+                                ثبت پیشنهاد
+                            </button>
+                            <div class="modal fade" id="CreateSuggestModal" tabindex="-1" role="dialog" aria-labelledby="CreateSuggestModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">ثبت پیشنهاد <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form asp-area="" asp-controller="Expert" asp-action="CreateSuggest" method="post">
+                                                <input style="display:none" name="orderId" value="@Model.Id" />
+                                                <input style="display:none" name="expertId" value="@userId" />
+                                                <div class="form-group">
+                                                    <label for="description" style="font-size:23px !important">توضیحات شما </label>
+                                                    <textarea class="form-control" name="description" id="description" rows="3">
+
+                                                                                        </textarea>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="input-group mb-3">
+                                                        <label for="price" class="mt-2 ml-4" style="font-size:23px !important">قیمت پیشنهادی شما</label>
+                                                        <input name="price" id="price" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
+                                                        <div class="input-group-append">
+                                                            <span class="input-group-text bg-warning rounded-left">تومان</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button style="cursor:pointer" type="button" class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                    <button style="cursor:pointer" type="submit" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3">ثبت پیشنهاد</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Of Modal -->
                         }
-                        @if(Model.StatusId==1)
+                        @if (Model.StatusId == 5)
                         {
-                        <a class="nav-link bg-warning text-light" asp-area="" asp-controller="Expert" asp-action="Edit" asp-route-id="@Model.Id">پیشنهادات همکاران</a>                            
-                        }
-                        @if(Model.StatusId==5)
-                        {
-                        <a class="nav-link bg-primary text-light" asp-area="" asp-controller="Expert" asp-action="Edit" asp-route-id="@Model.Id">ثبت نظر</a>                            
+                            <!-- Start Of Modal -->
+                            <button style="cursor:pointer" type="button" class="nav-link bg-success text-light" data-toggle="modal" data-target="#CreateCommentModal">
+                                ثبت پیشنهاد
+                            </button>
+                            <div class="modal fade" id="CreateCommentModal" tabindex="-1" role="dialog" aria-labelledby="CreateCommentModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">ثبت نظر <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form asp-area="" asp-controller="Expert" asp-action="CreateOrderComment" method="post">
+                                                <input style="display:none" name="orderId" value="@Model.Id" />
+                                                <input style="display:none" name="serviceId" value="@Model.ServiceId" />
+                                                <div class="form-group">
+                                                    <label for="title" style="font-size:23px !important">عنوان نظر </label>
+                                                    <input class="form-control" name="title" id="title"   />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="description" style="font-size:23px !important">نظر خود را بنویسید </label>
+                                                    <textarea class="form-control" name="description" id="description" rows="3">
+
+                                                                                        </textarea>
+                                                </div>
+                                                
+                                                <div class="modal-footer">
+                                                    <button style="cursor:pointer" type="button" class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                    <button style="cursor:pointer" type="submit" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3">ثبت نهایی نظر</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Of Modal -->
+                            @*<a class="nav-link bg-primary text-light" asp-area="" asp-controller="Expert" asp-action="CreateOrderComment" asp-route-id="@Model.Id">ثبت نظر</a>*@
                         }
                         @*<a class="nav-link bg-danger text-light" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">حذف</a>*@
 
 
-                        @if(Model.StatusId==2 || Model.StatusId==3 || Model.StatusId==4)
+                        @if (Model.StatusId == 2 || Model.StatusId == 3 || Model.StatusId == 4)
                         {
-                            <!-- Modal -->
-                        <button type="button" class="nav-link bg-info text-light" data-toggle="modal" data-target="#DeleteModal">
-                            تغییر وضعیت
-                        </button>
+                            <!-- Start Of Modal -->
+                            <button type="button" class="nav-link bg-info text-light" data-toggle="modal" data-target="#DeleteModal">
+                                تغییر وضعیت
+                            </button>
 
-                        <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLongTitle">حذف سفارش <span class="badge badge-success mr-2">@Model.Id</span></h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        شمار در حال حذف سفارش شماره <span class="badge badge-danger mr-2 ml-2">@Model.Id</span> هستید آیا از حذف این سفارش اطمینان دارید؟
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal" style="cursor:pointer">انصراف</button>
-                                        <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="" asp-controller="Expert" asp-action="Delete" asp-route-id="@Model.Id">
-                                            حذف
-                                        </a>
+                            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLongTitle">حذف سفارش <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                        </div>
+                                        <div class="modal-body">
+                                            شمار در حال حذف سفارش شماره <span class="badge badge-danger mr-2 ml-2">@Model.Id</span> هستید آیا از حذف این سفارش اطمینان دارید؟
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal" style="cursor:pointer">انصراف</button>
+                                            <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="" asp-controller="Expert" asp-action="Delete" asp-route-id="@Model.Id">
+                                                حذف
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                         <!-- Modal -->
+                            <!-- End Of Modal -->
                         }
-                         
+
 
                     </div>
                 </div>
@@ -224,6 +325,59 @@
                         <div class="tab-pane fade" id="v-pills-description-nobd" role="tabpanel" aria-labelledby="Description">
                             @Model.Description
                         </div>
+                        <div class="tab-pane fade" id="v-pills-suggests-nobd" role="tabpanel" aria-labelledby="Suggests">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-title">پیشنهادات دیگر متخصصین</h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table id="basic-datatables" class="display table table-striped table-hover">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>نام متخصص</th>
+                                                            <th>قیمت پیشنهادی</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <th>نام متخصص</th>
+                                                            <th>قیمت پیشنهادی</th>
+                                                            <th>توضیحات</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                    <tbody>
+                                                        @foreach (var sugges in Model.Suggests)
+                                                        {
+                                                            if (sugges.ExpertId != userId)
+                                                            {
+                                                                <tr>
+                                                                    <td>@sugges.ExpertName</td>
+                                                                    <td>@sugges.SuggestedPrice</td>
+                                                                    <td>@sugges.Description</td>
+                                                                </tr>
+                                                            }
+                                                            else
+                                                            {
+                                                                <tr class="bg-success">
+                                                                    <td>@sugges.ExpertName</td>
+                                                                    <td>@sugges.SuggestedPrice</td>
+                                                                    <td>@sugges.Description</td>
+                                                                </tr>
+                                                            }
+                                                        }
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -232,3 +386,53 @@
 </div>
 
 
+@section Scripts{
+<script>
+    $(document).ready(function() {
+        $('#basic-datatables').DataTable({
+        });
+
+        $('#multi-filter-select').DataTable( {
+            "pageLength": 5,
+            initComplete: function () {
+                this.api().columns().every( function () {
+                    var column = this;
+                    var select = $('<select class="form-control"><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                            );
+
+                        column
+                        .search( val ? '^'+val+'$' : '', true, false )
+                        .draw();
+                    } );
+
+                    column.data().unique().sort().each( function ( d, j ) {
+                        select.append( '<option value="'+d+'">'+d+'</option>' )
+                    } );
+                } );
+            }
+        });
+
+        // Add Row
+        $('#add-row').DataTable({
+            "pageLength": 5,
+        });
+
+        var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+        $('#addRowButton').click(function() {
+            $('#add-row').dataTable().fnAddData([
+                $("#addName").val(),
+                $("#addPosition").val(),
+                $("#addOffice").val(),
+                action
+                ]);
+            $('#addRowModal').modal('hide');
+
+        });
+    });
+</script>
+}
