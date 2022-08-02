@@ -55,5 +55,6 @@ namespace App.Domain.Core.Work.DTOs
         public bool IsDeleted { get; set; }
         public string? ShamsiCreationDate { get; set; }
         public List<CommentDTO> Comments { get; set; }
+        public List<SuggestDTO>? Suggests { get; set; }
     }
 }

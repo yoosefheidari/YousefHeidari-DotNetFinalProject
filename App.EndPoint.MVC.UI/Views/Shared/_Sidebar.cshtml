@@ -1,0 +1,85 @@
+﻿<div class="sidebar sidebar-style-2">
+    <div class="sidebar-wrapper scrollbar scrollbar-inner">
+        <div class="sidebar-content">
+            <div class="user">
+                <div class="avatar-sm float-right ml-2">
+                    <img src="~/AdminAreaTemplate/assets/img/profile.jpg" alt="..." class="avatar-img rounded-circle">
+                </div>
+                <div class="info">
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="true">
+                        <span>
+                            یوسف
+                            <span class="user-level">متخصص</span>
+                            <span class="caret"></span>
+                        </span>
+                    </a>
+                    <div class="clearfix"></div>
+
+                    <div class="collapse in" id="collapseExample">
+                        <ul class="nav">
+                            <li>
+                                <a href="#profile">
+                                    <span class="link-collapse">پروفایل من</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#edit">
+                                    <span class="link-collapse">ویرایش پروفایل</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#settings">
+                                    <span class="link-collapse">خروج از حساب کاربری</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <ul class="nav nav-primary" style="padding-right:0px">
+                <li class="nav-item active">
+                    <a data-toggle="collapse" href="#dashboard" class="collapsed" aria-expanded="false">
+                        <i class="fas fa-user"></i>
+                        <p>سفارشات</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="dashboard">
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a asp-area="" asp-controller="Expert" asp-action="GetExpertOrders" asp-route-name="newest">
+                                    <span class="sub-item">جدیدترین ها</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-controller="Expert" asp-action="GetExpertOrders" asp-route-name="suggest">
+                                    <span class="sub-item">ثبت پیشنهاد شده</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-controller="Expert" asp-action="GetExpertOrders" asp-route-name="current">
+                                    <span class="sub-item">در حال انجام</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a asp-area="" asp-controller="Expert" asp-action="GetExpertOrders" asp-route-name="finished">
+                                    <span class="sub-item">پایان یافته</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+             
+                <li class="nav-item">
+                    <a href="widgets.html">
+                        <i class="fas fa-desktop"></i>
+                        <p>منوی رزرو</p>
+                        <span class="badge badge-success mr-2">7</span>
+                    </a>
+                </li>
+
+                
+             
+            </ul>
+        </div>
+    </div>
+</div>

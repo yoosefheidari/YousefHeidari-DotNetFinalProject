@@ -5,42 +5,42 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace App.EndPoint.MVC.UI.Controllers
 {
-    [Authorize(Roles ="Admin,Expert")]
-
+    [Authorize(Roles = "Admin,Expert")]
     public class ExpertController : Controller
     {
         private readonly IUserAppService _userAppService;
         private readonly IHttpContextAccessor _httpContext;
         private readonly IOrderAppService _orderAppService;
+        private readonly IStatusAppServcie _statusAppServcie;
 
-        public ExpertController(IUserAppService userAppService, IHttpContextAccessor httpContext, IOrderAppService orderAppService)
+        public ExpertController(IUserAppService userAppService, IHttpContextAccessor httpContext, IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
         {
             _userAppService = userAppService;
             _httpContext = httpContext;
             _orderAppService = orderAppService;
+            _statusAppServcie = statusAppServcie;
         }
 
         public IActionResult Index()
-        {            
-            ViewData["Message"] = "Expert";
-            return View();            
-        }
-
-        public async Task<IActionResult> Orders(string name,CancellationToken cancellationToken)
-        {            
-            string query = name;
-            ViewData["Message"] = "Expert";
-            var currentUserUsername = _httpContext.HttpContext.User.Identity.Name;
-            var expert =await _userAppService.GetUserByUserName(currentUserUsername);
-            var orders = _orderAppService.GetAllExpertOrders(expert, query,cancellationToken);
-
-            return View(orders);
-        }
-
-        public IActionResult Indfex()
         {
-            ViewData["Message"] = "Expert";
             return View();
+        }
+
+        public async Task<IActionResult> GetExpertOrders(string name, CancellationToken cancellationToken)
+        {
+            var orders = await _orderAppService.GetAllExpertOrders(name, cancellationToken);
+
+            return View("Orders", orders);
+        }
+
+        public async Task<IActionResult> OrderDetail(int id, CancellationToken cancellationToken)
+        {
+            var order = await _orderAppService.Get(id, cancellationToken);
+            var user = await _userAppService.GetCurrentUser();
+            ViewBag.UserId = user.Id;
+            var statuses = await _statusAppServcie.GetAll(cancellationToken);
+            ViewBag.Statuses = statuses.Where(x => x.Id != 1 && x.Id != 5);
+            return View(order);
         }
     }
 }

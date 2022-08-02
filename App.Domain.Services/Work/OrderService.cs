@@ -33,7 +33,7 @@ namespace App.Domain.Services.Work
             order.StatusId = 1;
             order.ConfirmedExpertId = null;
             order.IsConfirmedByCustomer = false;
-            order.Description =order.Description;
+            order.Description = order.Description;
 
             var result = await _orderCommandRepository.Add(order, cancellationToken);
             return result;
@@ -76,9 +76,10 @@ namespace App.Domain.Services.Work
             return orders;
         }
 
-        public Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var orders = await _orderQueryRepository.GetAllExpertOrders(expert, query, cancellationToken);
+            return orders;
         }
 
         public async Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken)

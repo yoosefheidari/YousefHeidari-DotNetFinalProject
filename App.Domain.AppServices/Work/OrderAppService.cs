@@ -19,14 +19,16 @@ namespace App.Domain.AppServices.Work
         private readonly IUploadService _uploadService;
         private readonly IUserService _userService;
         private readonly IServiceService _serviceService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService)
+        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService, IHttpContextAccessor httpContextAccessor)
         {
             _orderService = orderService;
             _fileService = fileService;
             _uploadService = uploadService;
             _userService = userService;
             _serviceService = serviceService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)
@@ -66,9 +68,12 @@ namespace App.Domain.AppServices.Work
             return orders;
         }
 
-        public Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
+        public async Task<List<OrderDTO>> GetAllExpertOrders(string query, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var currentUserUsername = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var currentUser = await _userService.GetUserByUserName(currentUserUsername);
+            var orders = await _orderService.GetAllExpertOrders(currentUser, query, cancellationToken);
+            return orders;
         }
 
         public async Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken)
