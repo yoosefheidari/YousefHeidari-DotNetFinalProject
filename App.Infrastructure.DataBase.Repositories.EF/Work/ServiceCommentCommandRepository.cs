@@ -27,9 +27,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Description = comment.Description,
                 OrderId = comment.OrderId,
                 Title = comment.Title,
-                CreationDate = comment.CreationDate,
-                //ServiceId = comment.ServiceId,
+                CreationDate = comment.CreationDate,                
                 IsApproved = comment.IsApproved,
+                IsDeleted = comment.IsDeleted,
             };
             await _appDbContext.Comments.AddAsync(newComment, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);

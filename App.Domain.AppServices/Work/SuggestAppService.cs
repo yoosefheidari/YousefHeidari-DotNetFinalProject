@@ -22,7 +22,7 @@ namespace App.Domain.AppServices.Work
             SuggestDTO suggest = new()
             {
                 SuggestedPrice = price,
-                CreationDate = DateTime.Now,
+                CreationDate = DateTimeOffset.Now,
                 Description = description,
                 ExpertId = expertId,
                 IsConfirmedByCustomer = false,

@@ -21,6 +21,10 @@
                         {
                             <a class="nav-link" id="Suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات همکاران</a>
                         }
+                        @if (Model.StatusId == 5)
+                        {
+                            <a class="nav-link" id="Comments" data-toggle="pill" href="#v-pills-comments-nobd" role="tab" aria-controls="v-pills-comments-nobd" aria-selected="false">نظرات</a>
+                        }
 
                         @if (Model.StatusId == 1 && Model.Suggests.Any(x => x.ExpertId == userId))
                         {
@@ -101,7 +105,7 @@
                         {
                             <!-- Start Of Modal -->
                             <button style="cursor:pointer" type="button" class="nav-link bg-success text-light" data-toggle="modal" data-target="#CreateCommentModal">
-                                ثبت پیشنهاد
+                                ثبت نظر
                             </button>
                             <div class="modal fade" id="CreateCommentModal" tabindex="-1" role="dialog" aria-labelledby="CreateCommentModal" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -126,7 +130,7 @@
                                                 </div>
                                                 
                                                 <div class="modal-footer">
-                                                    <button style="cursor:pointer" type="button" class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                    <button style="cursor:pointer" type="button" class="nav-link bg-warning text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
                                                     <button style="cursor:pointer" type="submit" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3">ثبت نهایی نظر</button>
                                                 </div>
                                             </form>
@@ -321,6 +325,9 @@
                         </div>
                         <div class="tab-pane fade" id="v-pills-address-nobd" role="tabpanel" aria-labelledby="Address">
                             @Model.Address
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-comments-nobd" role="tabpanel" aria-labelledby="Comments">
+                            اینجا جای نظرات است
                         </div>
                         <div class="tab-pane fade" id="v-pills-description-nobd" role="tabpanel" aria-labelledby="Description">
                             @Model.Description
