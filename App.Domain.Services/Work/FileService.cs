@@ -44,7 +44,6 @@ namespace App.Domain.Services.Work
         public async Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken)
         {
             var file = await _fileQueryRepository.Get(id, cancellationToken);
-            file.Path = _configuration.GetSection("UploadPath").Value + @"\\" + file.Path;
             return file;
         }
 

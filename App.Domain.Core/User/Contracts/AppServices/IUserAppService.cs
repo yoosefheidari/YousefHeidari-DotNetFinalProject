@@ -26,5 +26,6 @@ namespace App.Domain.Core.User.Contracts.AppServices
         Task SignoutUser();
         Task<int> LoginUser(string userName, string password, bool remember);
         Task<List<RoleDTO>> GetRoles();
+        Task ChangeProfilePicture(IFormFile file,CancellationToken cancellationToken);
     }
 }

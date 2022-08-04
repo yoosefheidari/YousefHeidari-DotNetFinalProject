@@ -213,7 +213,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
                 {
                     Id = h.Id,
-                    CreationDate = h.CreationDate,
+                    CreationDate = h.CreationDate,                    
                     Description = h.Description,
                     IsDeleted = h.IsDeleted,
                     ExpertId = h.ExpertId,

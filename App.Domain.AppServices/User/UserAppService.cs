@@ -21,12 +21,16 @@ namespace App.Domain.AppServices.User
         private readonly IUploadService _uploadService;
         private readonly ILogger<UserAppService> _logger;
         private readonly IConfiguration _configuration;
-        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger, IConfiguration configuration)
+        private readonly IFileService _fileService;
+        private readonly IFileDeleteService _fileDeleteService;
+        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger, IConfiguration configuration, IFileService fileService, IFileDeleteService fileDeleteService)
         {
             _userService = userService;
             _uploadService = uploadService;
             _logger = logger;
             _configuration = configuration;
+            _fileService = fileService;
+            _fileDeleteService = fileDeleteService;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
@@ -59,7 +63,7 @@ namespace App.Domain.AppServices.User
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
-            var user = await _userService.GetUserByUserName(username);            
+            var user = await _userService.GetUserByUserName(username);
             return user;
         }
 
@@ -79,10 +83,10 @@ namespace App.Domain.AppServices.User
             await _userService.SignoutUser();
         }
 
-        public async Task Update(UserDTO user, string oldPassword, string newPassword,CancellationToken cancellationToken)
+        public async Task Update(UserDTO user, string oldPassword, string newPassword, CancellationToken cancellationToken)
         {
             _logger.LogTrace("Call update {appServiceName} for user", "update");
-            await _userService.Update(user, oldPassword, newPassword);            
+            await _userService.Update(user, oldPassword, newPassword);
 
         }
 
@@ -108,15 +112,28 @@ namespace App.Domain.AppServices.User
                     file.Path = filrRootPath + "/" + file.Path;
                 }
             }
+            user.ProfilePicture = filrRootPath + "/" + user.ProfilePicture;
             return user;
         }
 
         public async Task UpdateProfilePicture(int userId, IFormFile file, CancellationToken cancellationToken)
         {
-            if(file != null)
+            if (file != null)
             {
                 var user = await _userService.Get(userId);
             }
+        }
+
+        public async Task ChangeProfilePicture(IFormFile file, CancellationToken cancellationToken)
+        {
+            var currentUser = await _userService.GetCurrentUser();
+            List<IFormFile> files = new();
+            files.Add(file);
+            _fileDeleteService.DeletePhysicalFile(currentUser.ProfilePicture, cancellationToken);
+            var ids = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var filee = await _fileService.Get(ids[0], cancellationToken);
+            currentUser.ProfilePicture = filee.Path;
+            await _userService.UpdateProfilePicture(currentUser, cancellationToken);
         }
     }
 }

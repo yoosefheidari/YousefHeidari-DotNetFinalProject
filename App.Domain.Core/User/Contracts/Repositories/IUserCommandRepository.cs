@@ -17,5 +17,6 @@ namespace App.Domain.Core.User.Contracts.Repositories
         Task SignInUserById(int id,bool isPersistent);
         Task<int> LoginUser(string userName, string password, bool remember);
         Task SignoutUser();
+        Task UpdateProfilePicture(UserDTO user, CancellationToken cancellationToken);
     }
 }

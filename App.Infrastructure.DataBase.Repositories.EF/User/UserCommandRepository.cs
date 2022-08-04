@@ -158,5 +158,12 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             }
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
+
+        public async Task UpdateProfilePicture(UserDTO user, CancellationToken cancellationToken)
+        {
+            var yser=await _userManager.FindByIdAsync(user.Id.ToString());
+            yser.ProfilePicture = user.ProfilePicture;
+            await _userManager.UpdateAsync(yser);
+        }
     }
 }

@@ -65,6 +65,7 @@ builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserSerivce>();
 builder.Services.AddScoped<IUploadService, UploadService>();
 builder.Services.AddScoped<IUtilityService, UtilityService>();
+builder.Services.AddScoped<IFileDeleteService, FileDeleteService>();
 
 #endregion
 

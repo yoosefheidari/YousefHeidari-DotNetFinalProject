@@ -118,6 +118,13 @@ namespace App.EndPoint.MVC.UI.Controllers
             return RedirectToAction(nameof(Profile));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangeProfilePicture(IFormFile? file, CancellationToken cancellationToken)
+        {
+            await _userAppService.ChangeProfilePicture(file, cancellationToken);
+            return RedirectToAction("Profile", "Account");
+        }
+
 
     }
 }

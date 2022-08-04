@@ -53,12 +53,21 @@
                                             </div>
                                             <div class="card-body text-center">
                                                 <h5 class="font-weight-normal">
-                                                    <a href="javascript:;">Get insights on Search</a>
+                                                    <a href="javascript:;">تصویر پروفایل شخصی</a>
                                                 </h5>
                                                 <p class="mb-0">
-                                                    Website visitors today demand a frictionless user expericence — especially when using search. Because of the hight standards.
+                                                    <br />
+                                                    <br />
+                                                    <br />
+                                                    <br />
+                                                    <br />
                                                 </p>
-                                                <button type="button" class="btn bg-gradient-info btn-sm mb-0 mt-3">ویرایش تصویر پروفایل</button>
+                                                <form method="post" asp-area="" asp-controller="Account" asp-action="ChangeProfilePicture" enctype="multipart/form-data">
+                                                    <label for="file">انتخاب عکس پروفایل</label>
+                                                    <input type="file" name="file" />
+                                                    <button type="submit" class="btn bg-gradient-info btn-sm mb-0 mt-3">ویرایش تصویر پروفایل</button>
+                                                </form>
+                                                
                                             </div>
                                         </div>
                                     </div>

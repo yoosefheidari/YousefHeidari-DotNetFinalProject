@@ -25,5 +25,6 @@ namespace App.Domain.Core.User.Contracts.Services
         Task<bool> AddUserFiles(int userId, List<int> files,CancellationToken cancellationToken);
         Task<List<RoleDTO>> GetRoles();
         Task<UserDTO> GetCurrentUser();
+        Task UpdateProfilePicture(UserDTO user,CancellationToken cancellationToken);
     }
 }

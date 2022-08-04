@@ -120,5 +120,10 @@ namespace App.Domain.Services.User
             var userDto=await _userQueryRepository.GetUserByUserName(username);
             return userDto;
         }
+
+        public async Task UpdateProfilePicture(UserDTO user, CancellationToken cancellationToken)
+        {
+            await _userCommandRepository.UpdateProfilePicture(user, cancellationToken);
+        }
     }
 }
