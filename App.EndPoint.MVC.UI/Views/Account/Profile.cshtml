@@ -1,30 +1,223 @@
 ﻿@model UserDTO
 
-<div class="d-flex w-100 justify-content-center align-content-center align-items-center">
+
+
+
+<section class="py-6">
+    <div class="container" style="margin-right:0;margin-left:0;max-width:1420px;background:url('/assets/img/profile-back.webp');">
+        <div class="row justify-space-between py-2">
+            <div class="col-lg-3 ms-auto">
+                <div class="nav-wrapper position-relative">
+                    <ul class="nav nav-pills nav-fill flex-column p-1 me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="v-pills-profile-tab" data-bs-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="true">پروفایل من</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="v-pills-orders-tab" data-bs-toggle="pill" href="#v-pills-orders" role="tab" aria-controls="v-pills-orders" aria-selected="false">سفارشات</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="v-pills-comments-tab" data-bs-toggle="pill" href="#v-pills-comments" role="tab" aria-controls="v-pills-comments" aria-selected="false">نظرات من</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" id="v-pills-money-tab" data-bs-toggle="pill" href="#v-pills-money" role="tab" aria-controls="v-pills-money" aria-selected="false">کیف پول</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-9 me-auto my-auto text-end">
+                <div class="tab-content" id="v-pills-tabContent">
+                    <div class="tab-pane fade show active" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+
+                        @*<a>ابتدای پروفایل من</a>*@
+                        <section class="py-6">
+                            <div class="container">
+                                <div class="row align-items-center">
+
+                                    <div class="col-lg-4 ms-auto mt-lg-0 mt-4">
+                                        <div class="card">
+                                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                                <a class="d-block blur-shadow-image">
+                                                    @if (Model.ProfilePicture != null)
+                                                    {
+                                                        <img src="@Model.ProfilePicture" alt="img-colored-shadow" class="img-fluid border-radius-lg">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="https://images.unsplash.com/photo-1544717302-de2939b7ef71?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80" alt="img-colored-shadow" class="img-fluid border-radius-lg">
+                                                    }
+
+                                                </a>
+                                            </div>
+                                            <div class="card-body text-center">
+                                                <h5 class="font-weight-normal">
+                                                    <a href="javascript:;">Get insights on Search</a>
+                                                </h5>
+                                                <p class="mb-0">
+                                                    Website visitors today demand a frictionless user expericence — especially when using search. Because of the hight standards.
+                                                </p>
+                                                <button type="button" class="btn bg-gradient-info btn-sm mb-0 mt-3">ویرایش تصویر پروفایل</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-8">
+                                        <section class="position-relative">
+                                            <div class="container">
+                                                <div class="row mt-n5 blur border-radius-xl shadow-blur position-relative overflow-hidden">
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">menu_book</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">نام</h5>
+                                                            <p class="mb-0">@Model.FirstName</p>
+                                                            <hr class="vertical dark">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">menu_book</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">نام خانوادگی</h5>
+                                                            <p class="mb-0">@Model.LastName</p>
+                                                        </div>
+                                                        <hr class="vertical dark">
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">email</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">ایمیل</h5>
+                                                            <p class="mb-0">@Model.Email</p>
+                                                        </div>
+                                                        <hr class="vertical dark">
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <section class="position-relative mt-7">
+                                            <div class="container">
+                                                <div class="row mt-n5 blur border-radius-xl shadow-blur position-relative overflow-hidden">
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">call</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">مویایل</h5>
+                                                            <p class="mb-0">@Model.Mobile</p>
+                                                            <hr class="vertical dark">
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">call</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">شماره ثابت</h5>
+                                                            <p class="mb-0">@Model.PhoneNumber</p>
+                                                        </div>
+                                                        <hr class="vertical dark">
+                                                    </div>
+
+                                                    <div class="col-lg-4 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">menu_book</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">کد ملی</h5>
+                                                            <p class="mb-0">@Model.NationalCode</p>
+                                                        </div>
+                                                        <hr class="vertical dark">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <section class="position-relative mt-7">
+                                            <div class="container">
+                                                <div class="row mt-n5 blur border-radius-xl shadow-blur position-relative overflow-hidden">
+
+                                                    <div class="col-lg-12 col-md-6 col-6 position-relative my-auto">
+                                                        <div class="p-3 text-center">
+                                                            <div class="icon icon-shape icon-md bg-gradient-primary shadow-primary text-center mx-auto">
+                                                                <i class="material-icons opacity-10">menu_book</i>
+                                                            </div>
+                                                            <h5 class="mt-3 mb-1">ادرس</h5>
+                                                            <p class="mb-0">@Model.Address</p>
+                                                            <hr class="vertical dark">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+
+                                        <div class="card mt-5">
+                                            <a asp-area="" asp-controller="Account" asp-action="EditProfile" class="btn bg-gradient-primary">
+                                                ویرایش پروفایل
+                                            </a>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        @*<p>انتهای پروفایل من</p>*@
+
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-orders" role="tabpanel" aria-labelledby="v-pills-orders-tab">
+                        قسمت سفارشات
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-comments" role="tabpanel" aria-labelledby="v-pills-comments-tab">
+                        قسمت نظرات من
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-money" role="tabpanel" aria-labelledby="v-pills-money-tab">
+                        قسمت کیف پول
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+@*
+    <div class="d-flex w-100 justify-content-center align-content-center align-items-center">
     <img class="rounded-circle" src="~/AdminAreaTemplate/img/yousef.jpg" width="200px" />
-</div>
-<div class="d-flex w-100 justify-content-center align-content-start align-items-start">
+    </div>
+    <div class="d-flex w-100 justify-content-center align-content-start align-items-start">
 
     <table class="text-center table table-hover table-striped table-bordered  w-50 justify-content-center">
-        <tr>
-            <td>@Model.FirstName @Model.LastName </td>
-            
-        </tr>
-        <tr>
-            <td>ایمیل : @Model.Email</td>
-            
-        </tr>
-        <tr>
-            <td>شماره تماس : @Model.Mobile</td>
-            
-        </tr>
-        <tr>
-            <td>کد ملی : @Model.NationalCode</td>
-            
-        </tr>
-        <tr>
-            <td>ادرس : @Model.Address</td>
-            
-        </tr>
+    <tr>
+    <td>@Model.FirstName @Model.LastName </td>
+
+    </tr>
+    <tr>
+    <td>ایمیل : @Model.Email</td>
+
+    </tr>
+    <tr>
+    <td>شماره تماس : @Model.Mobile</td>
+
+    </tr>
+    <tr>
+    <td>کد ملی : @Model.NationalCode</td>
+
+    </tr>
+    <tr>
+    <td>ادرس : @Model.Address</td>
+
+    </tr>
     </table>
-</div>
+    </div>*@

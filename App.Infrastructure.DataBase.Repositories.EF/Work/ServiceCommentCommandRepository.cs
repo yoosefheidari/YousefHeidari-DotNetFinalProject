@@ -30,6 +30,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 CreationDate = comment.CreationDate,                
                 IsApproved = comment.IsApproved,
                 IsDeleted = comment.IsDeleted,
+                IsWriteByCustomer=comment.IsWriteByCustomer,
             };
             await _appDbContext.Comments.AddAsync(newComment, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);

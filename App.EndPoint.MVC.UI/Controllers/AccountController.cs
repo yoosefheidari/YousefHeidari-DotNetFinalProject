@@ -21,6 +21,7 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> Profile()
         {
+            
             ViewData["Message"] = "Profile";
             var user = await _userAppService.GetCurrentUser();
             return View(user);

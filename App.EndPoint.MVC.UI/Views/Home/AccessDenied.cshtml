@@ -1,15 +1,15 @@
 ﻿<!-- Error Start -->
-<div class="container-fluid pt-4 px-4">
-    <div class="row vh-100 bg-light rounded align-items-center justify-content-center mx-0">
-        <div class="col-md-6 text-center p-4">
-            <i class="bi bi-exclamation-triangle display-1 text-primary"></i>
-            <h1 class="display-1 fw-bold">خطا!</h1>
-            <h1 class="mb-4">عدم دسترسی</h1>
-            <p class="mb-4">
-                شمار دسترسی لازم جهت مشاهده صفحه مورد نظر را ندارید لطفا با ما تماس نگیرید
-            </p>
-            <a class="btn btn-primary rounded-pill py-3 px-5" asp-controller="Home" asp-action="Index">بازگشت به صفحه اصلی</a>
+<div class="row">
+    <div class="col-lg-12 m-auto text-center">
+        <div class="card">
+            <div class="card-body">
+                <h1 style="font-family:IranSans" class="display-1 text-bolder text-dark">خطایی رخ داده است</h1>
+                <h2 style="font-family:IranSans" class="text-dark">پیج مورد نظر پیدا نشد</h2>
+                <p style="font-family:IranSans" class="lead text-dark">از طریق کلید زیر به صفحه اول سایت بروید</p>
+
+            </div>
         </div>
+        <a asp-area="" asp-controller="Home" uiactions="Index" class="btn bg-gradient-success mt-4 btn-round">بازگشت به خانه</a>
     </div>
 </div>
 <!-- Error End -->

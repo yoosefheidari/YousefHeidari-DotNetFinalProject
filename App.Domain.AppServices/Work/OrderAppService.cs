@@ -1,5 +1,4 @@
 ﻿using App.Domain.Core.User.Contracts.Services;
-using App.Domain.Core.User.DTOs;
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
@@ -43,6 +42,13 @@ namespace App.Domain.AppServices.Work
             return result;
         }
 
+        public async Task ChangeOrderStatus(int orderId, CancellationToken cancellationToken)
+        {
+            var order = await _orderService.Get(orderId, cancellationToken);
+            order.StatusId++;
+            await _orderService.Update(order, cancellationToken);
+        }
+
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
             await _orderService.Delete(id, cancellationToken);
@@ -59,6 +65,8 @@ namespace App.Domain.AppServices.Work
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)
         {
             var order = await _orderService.Get(id, cancellationToken);
+            var files=await _orderService.GetAllFiles(id, cancellationToken);
+            order.Photos = files;
             return order;
         }
 

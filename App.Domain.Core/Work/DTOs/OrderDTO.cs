@@ -14,6 +14,8 @@ namespace App.Domain.Core.Work.DTOs
 
         [Display(Name = ("شناسه سرویس"))]
         public int ServiceId { get; set; }
+        [Display(Name = ("شناسه دسته بندی"))]
+        public int CategoryId { get; set; }
 
         [Display(Name = ("نام سرویس"))]
         public string ServiceName { get; set; }
@@ -56,5 +58,7 @@ namespace App.Domain.Core.Work.DTOs
         public string? ShamsiCreationDate { get; set; }
         public List<CommentDTO> Comments { get; set; }
         public List<SuggestDTO>? Suggests { get; set; }
+        public List<PhysicalFileDTO>? Photos { get; set; }
+
     }
 }

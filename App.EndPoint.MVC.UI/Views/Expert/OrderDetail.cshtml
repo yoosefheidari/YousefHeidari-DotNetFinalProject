@@ -78,7 +78,7 @@
                                                     <label for="description" style="font-size:23px !important">توضیحات شما </label>
                                                     <textarea class="form-control" name="description" id="description" rows="3">
 
-                                                                                        </textarea>
+                                                                                                                </textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="input-group mb-3">
@@ -120,15 +120,15 @@
                                                 <input style="display:none" name="serviceId" value="@Model.ServiceId" />
                                                 <div class="form-group">
                                                     <label for="title" style="font-size:23px !important">عنوان نظر </label>
-                                                    <input class="form-control" name="title" id="title"   />
+                                                    <input class="form-control" name="title" id="title" />
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="description" style="font-size:23px !important">نظر خود را بنویسید </label>
                                                     <textarea class="form-control" name="description" id="description" rows="3">
 
-                                                                                        </textarea>
+                                                                                                                </textarea>
                                                 </div>
-                                                
+
                                                 <div class="modal-footer">
                                                     <button style="cursor:pointer" type="button" class="nav-link bg-warning text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
                                                     <button style="cursor:pointer" type="submit" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3">ثبت نهایی نظر</button>
@@ -148,24 +148,33 @@
                         @if (Model.StatusId == 2 || Model.StatusId == 3 || Model.StatusId == 4)
                         {
                             <!-- Start Of Modal -->
-                            <button type="button" class="nav-link bg-info text-light" data-toggle="modal" data-target="#DeleteModal">
+                            <button type="button" class="nav-link bg-info text-light" data-toggle="modal" data-target="#StatusModal">
                                 تغییر وضعیت
                             </button>
 
-                            <div class="modal fade" id="DeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                            <div class="modal fade" id="StatusModal" tabindex="-1" role="dialog" aria-labelledby="StatusModal" aria-hidden="true">
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLongTitle">حذف سفارش <span class="badge badge-success mr-2">@Model.Id</span></h5>
+                                            <h5 class="modal-title" id="exampleModalLongTitle">تغییر وضعیت سفارش <span class="badge badge-success mr-2">@Model.Id</span></h5>
                                         </div>
                                         <div class="modal-body">
-                                            شمار در حال حذف سفارش شماره <span class="badge badge-danger mr-2 ml-2">@Model.Id</span> هستید آیا از حذف این سفارش اطمینان دارید؟
+                                            شمار در حال تغییر وضعیت سفارش شماره <span class="badge badge-danger mr-2 ml-2">@Model.Id</span> هستید آیا از اعمال تغییر این سفارش اطمینان دارید؟با انجام این کار وضعیت یک مرحله جلو می رود.
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal" style="cursor:pointer">انصراف</button>
-                                            <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="" asp-controller="Expert" asp-action="Delete" asp-route-id="@Model.Id">
-                                                حذف
-                                            </a>
+                                            @if (Model.StatusId == 4)
+                                            {
+                                                <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="" asp-controller="Expert" asp-action="ChangeOrderStatus" asp-route-id="@Model.Id">
+                                                    تایید اتمام سفارش
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="" asp-controller="Expert" asp-action="ChangeOrderStatus" asp-route-id="@Model.Id">
+                                                    تغییر وضعیت
+                                                </a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
@@ -327,7 +336,50 @@
                             @Model.Address
                         </div>
                         <div class="tab-pane fade" id="v-pills-comments-nobd" role="tabpanel" aria-labelledby="Comments">
-                            اینجا جای نظرات است
+                            @foreach (var comment in Model.Comments)
+                            {
+                                if (comment.IsApproved == true)
+                                {
+                                    if (comment.IsWriteByCustomer)
+                                    {
+                                        <ul class="timeline">
+                                            <li class="timeline-inverted">
+                                                <div class="timeline-badge success"><i class="flaticon-message"></i></div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <h4 class="timeline-title"><span class="badge badge-success">توسط مشتری</span></h4>
+                                                        <h4 class="timeline-title">@comment.Title</h4>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <p>@comment.Description</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        <ul class="timeline">
+                                            <li class="timeline-badge">
+                                                <div class="timeline-badge info"><i class="flaticon-message"></i></div>
+                                                <div class="timeline-panel">
+                                                    <div class="timeline-heading">
+                                                        <h4 class="timeline-title"><span class="badge badge-info">توسط متخصص</span></h4>
+                                                        <h4 class="timeline-title">@comment.Title</h4>
+                                                    </div>
+                                                    <div class="timeline-body">
+                                                        <p>@comment.Description</p>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    }
+                                }
+                            }
+
+
+                            @*<button type="button" class="btn btn-info" id="alert_demo_3_4"> Info</button> sweetalert*@
+
                         </div>
                         <div class="tab-pane fade" id="v-pills-description-nobd" role="tabpanel" aria-labelledby="Description">
                             @Model.Description
@@ -441,5 +493,28 @@
 
         });
     });
+
+    var SweetAlert2Demo = function() {
+            var initDemos = function() {
+    $('#alert_demo_3_4').click(function(e) {
+                        swal("Good job!", "You clicked the button!", {
+                            icon : "info",
+                            buttons: {
+                                confirm: {
+                                    className : 'btn btn-info'
+                                }
+                            },
+                        });
+                    });
+            };
+            return {
+                init: function() {
+                    initDemos();
+                },
+            };
+            }();
+            jQuery(document).ready(function() {
+            SweetAlert2Demo.init();
+        });
 </script>
 }

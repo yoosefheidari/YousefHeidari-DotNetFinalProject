@@ -15,16 +15,16 @@ namespace App.Domain.Core.User.DTOs
 
         [DataType(DataType.Text)]
         [Display(Name = ("نام کاربری"))]
-        [Required(ErrorMessage =("وارد کردن یوزر نیم الزامیست"))]
+        [Required(ErrorMessage =("وارد کردن نام کاربری الزامیست"))]
         public string UserName { get; set; }
 
         [Display(Name = ("رمز عبور"))]
-        [Required(ErrorMessage ="حداقل 3 حرف باشد")]
+        [Required(ErrorMessage ="رمز عبور حداقل 3 حرف باشد")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
         [Display(Name = ("تکرار رمز عبور"))]
-        [Required(ErrorMessage = "حداقل 3 حرف باشد")]
+        [Required(ErrorMessage = "تکرار رمز عبور حداقل 3 حرف باشد")]
         [DataType(DataType.Password)]
         public string ConfirmPassword { get; set; }
 

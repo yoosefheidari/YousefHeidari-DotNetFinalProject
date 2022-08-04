@@ -39,53 +39,41 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     ServiceId = x.ServiceId,
                     IsDeleted = x.IsDeleted,
                     StatusName = x.Status.Name,
+                    CategoryId = x.Service.CategoryId,
                     ShamsiCreationDate = x.CreationDate.ToShamsi(),
                     StatusValue = x.Status.StatusValue,
                     CustomerName = x.Customer.UserName,
                     ExpertName = x.Expert.UserName,
                     ServiceName = x.Service.Title,
                     Address = x.Customer.Address,
-                    Suggests = x.ExpertSuggests.Select(x => new SuggestDTO()
+                    Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
                     {
-                        Id = x.Id,
-                        CreationDate = x.CreationDate,
-                        Description = x.Description,
-                        IsDeleted = x.IsDeleted,
-                        ExpertId = x.ExpertId,
-                        IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                        OrderId = x.OrderId,
-                        SuggestedPrice = x.SuggestedPrice,
-                        ExpertName=x.Expert.UserName,
+                        Id = h.Id,
+                        CreationDate = h.CreationDate,
+                        Description = h.Description,
+                        IsDeleted = h.IsDeleted,
+                        ExpertId = h.ExpertId,
+                        IsConfirmedByCustomer = h.IsConfirmedByCustomer,
+                        OrderId = h.OrderId,
+                        SuggestedPrice = h.SuggestedPrice,
+                        ExpertName=h.Expert.UserName,                        
                     }).ToList(),
-                    Comments = x.Comments.Select(x => new CommentDTO()
+                    Comments = x.Comments.Select(h => new CommentDTO()
                     {
-                        CreationDate = x.CreationDate,
-                        Description = x.Description,
-                        Id = x.Id,
-                        IsApproved = x.IsApproved,
-                        IsDeleted = x.IsDeleted,
-                        OrderId = x.OrderId,
-                        //ServiceId = x.ServiceId,
-                        Title = x.Title,
-
+                        CreationDate = h.CreationDate,
+                        Description = h.Description,
+                        Id = h.Id,
+                        IsApproved = h.IsApproved,
+                        IsDeleted = h.IsDeleted,
+                        OrderId = h.OrderId,
+                        ServiceId = x.ServiceId,
+                        Title = h.Title,
+                        IsWriteByCustomer = h.IsWriteByCustomer,
                     }).ToList(),
+                    
                 })
                 .SingleAsync(cancellationToken);
-            //var orderDto = new OrderDTO()
-            //{
-            //    Id = id,
-            //    Description = order.Description,
-            //    IsDeleted = order.IsDeleted,
-            //    FinalPrice = order.FinalPrice,
-            //    ConfirmedExpertId = order.ConfirmedExpertId,
-            //    CreationDate = order.CreationDate,
-            //    CustomerId = order.CustomerId,
-            //    IsConfirmedByCustomer = order.IsConfirmedByCustomer,
-            //    StatusId = order.StatusId,
-            //    ServiceId = order.ServiceId,
-            //    StatusName=order.Status.Name,
-
-            //};
+           
             return orderDto;
         }
 
@@ -119,33 +107,38 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     StatusId = x.StatusId,
                     ServiceId = x.ServiceId,
                     IsDeleted = x.IsDeleted,
+                    CategoryId = x.Service.CategoryId,
                     StatusName = x.Status.Name,
                     StatusValue = x.Status.StatusValue,
                     CustomerName = x.Customer.UserName,
                     ExpertName = x.Expert.UserName,
                     ServiceName = x.Service.Title,
                     Address = x.Customer.Address,
-                    Suggests = x.ExpertSuggests.Select(x => new SuggestDTO()
+                    Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
                     {
-                        Id = x.Id,
-                        CreationDate = x.CreationDate,
-                        Description = x.Description,
-                        IsDeleted = x.IsDeleted,
-                        ExpertId = x.ExpertId,
-                        IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                        OrderId = x.OrderId,
-                        SuggestedPrice = x.SuggestedPrice,
+                        Id = h.Id,
+                        CreationDate = h.CreationDate,
+                        Description = h.Description,
+                        IsDeleted = h.IsDeleted,
+                        ExpertId = h.ExpertId,
+                        IsConfirmedByCustomer = h.IsConfirmedByCustomer,
+                        OrderId = h.OrderId,
+                        SuggestedPrice = h.SuggestedPrice,
+                        ExpertName=h.Expert.UserName,
                     }).ToList(),
-                    Comments = x.Comments.Select(x => new CommentDTO()
+                    Comments = x.Comments.Select(h => new CommentDTO()
                     {
-                        CreationDate = x.CreationDate,
-                        Description = x.Description,
-                        Id = x.Id,
-                        IsApproved = x.IsApproved,
-                        IsDeleted = x.IsDeleted,
-                        OrderId = x.OrderId,
+                        CreationDate = h.CreationDate,
+                        Description = h.Description,
+                        Id = h.Id,
+                        IsApproved = h.IsApproved,
+                        IsDeleted = h.IsDeleted,
+                        OrderId = h.OrderId,
                         //ServiceId = x.ServiceId,
-                        Title = x.Title,
+                        Title = h.Title,
+                        IsWriteByCustomer = h.IsWriteByCustomer,
+                        ServiceId=x.ServiceId,
+                        
 
                     }).ToList(),
                 })
@@ -153,50 +146,15 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
             return orders;
         }
-
+        
         public async Task<List<OrderDTO>> GetAllExpertOrders(UserDTO expert, string query, CancellationToken cancellationToken)
         {
-            //var orderss =await _appDbContext.Orders.Include(s => s.Service).ToListAsync();
-            //var result= orderss.Where(x => expert.expertCategories.Any(d => d.Id == x.Service.CategoryId) && x.StatusId == 1 && x.IsConfirmedByCustomer == false).ToList();
-
             IQueryable<Order> queri = _appDbContext.Orders;
+
+                //queri = queri.Where(x => expert.expertCategories.Any(d => d.Id == x.Service.CategoryId) && x.StatusId==1 && x.IsConfirmedByCustomer == false);
             if (query == "newest")
             {
-                var orderss = await _appDbContext.Orders.Include(x => x.ExpertSuggests).Include(x => x.Customer).Include(s => s.Service).Include(x => x.Comments).Include(x => x.ExpertSuggests).Include(x => x.Status).ToListAsync();
-                var result = orderss.Where(x => expert.expertCategories.Any(d => d.Id == x.Service.CategoryId) && x.StatusId == 1 && x.IsConfirmedByCustomer == false).ToList();
-                return result.Select(x => new OrderDTO()
-                {
-                    FinalPrice = x.FinalPrice,
-                    ConfirmedExpertId = x.ConfirmedExpertId,
-                    StatusId = x.StatusId,
-                    CreationDate = x.CreationDate,
-                    CustomerId = x.CustomerId,
-                    IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                    ServiceId = x.ServiceId,
-                    IsDeleted = x.IsDeleted,
-                    Id = x.Id,
-                    Description = x.Description,
-                    CustomerName = x.Customer.UserName,
-                    ServiceName = x.Service.Title,
-                    StatusName = x.Status.Name,
-                    StatusValue = x.Status.StatusValue,
-                    Suggests = x.ExpertSuggests.Select(x => new SuggestDTO()
-                    {
-                        Id = x.Id,
-                        CreationDate=x.CreationDate,
-                        Description=x.Description,
-                        IsDeleted=x.IsDeleted,
-                        ExpertId=x.ExpertId,
-                        IsConfirmedByCustomer=x.IsConfirmedByCustomer,
-                        OrderId=x.OrderId,
-                        SuggestedPrice=x.SuggestedPrice,
-                    }).ToList(),
-                    Comments = x.Comments.Select(f => new CommentDTO() { Id = f.Id, Description = f.Description, Title = f.Title, IsApproved = f.IsApproved, CreationDate = f.CreationDate, OrderId = f.OrderId }).ToList(),
-                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
-
-                }).ToList(); ;
-                //queri = queri.Where(x => expert.expertCategories.Any(d => d.Id == x.Service.CategoryId) && x.StatusId==1 && x.IsConfirmedByCustomer == false);
-
+                queri=queri.Where(x => expert.expertCategories.Select(x => x.Id).Contains(x.Service.CategoryId) && x.StatusId == 1 && x.IsConfirmedByCustomer == false);
             }
             else if (query == "suggest")
             {
@@ -223,16 +181,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 CustomerId = x.CustomerId,
                 IsConfirmedByCustomer = x.IsConfirmedByCustomer,
                 ServiceId = x.ServiceId,
-                IsDeleted = x.IsDeleted,
                 Id = x.Id,
-                Description = x.Description,
                 CustomerName = x.Customer.UserName,
                 ServiceName = x.Service.Title,
                 StatusName = x.Status.Name,
-                StatusValue = x.Status.StatusValue,
-                Comments = x.Comments.Select(f => new CommentDTO() { Id = f.Id, Description = f.Description, Title = f.Title, IsApproved = f.IsApproved, CreationDate = f.CreationDate, OrderId = f.OrderId }).ToList(),
-                ShamsiCreationDate = x.CreationDate.ToShamsi(),
-
+                StatusValue = x.Status.StatusValue,ShamsiCreationDate = x.CreationDate.ToShamsi(), 
             }).ToListAsync(cancellationToken);
             return orders;
         }

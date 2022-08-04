@@ -1,10 +1,14 @@
 ﻿@model List<CategoryDTO>
 
     @foreach (var category in Model)
-{    
-    <li>
+{
+    <a asp-controller="Home" asp-action="GetListOfServices" asp-route-id="@category.Id" class="dropdown-item border-radius-md">
+        <span>@category.Name</span>
+    </a>
+
+    @*<li>
         <a asp-controller="Home" asp-action="GetListOfServices" asp-route-id="@category.Id">
             <span class="sub-item">@category.Name</span>
         </a>
-    </li>
+    </li>*@
 }

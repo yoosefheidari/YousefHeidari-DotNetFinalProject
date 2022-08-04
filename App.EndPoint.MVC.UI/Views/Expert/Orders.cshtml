@@ -36,17 +36,25 @@ else
                                         <span class="text-muted  fw-bold"> @order.StatusValue%</span>
                                     </div>
                                     <div class="progress">
-                                        @if (order.StatusValue < 50)
+                                        @if (order.StatusValue == 10)
                                         {
-                                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                            <div class="progress-bar progress-bar-striped bg-danger" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="@order.StatusValue%"></div>
+                                        }
+                                        @if (order.StatusValue == 25)
+                                        {
+                                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="@order.StatusValue%"></div>
                                         }
                                         @if (order.StatusValue == 50)
                                         {
-                                            <div class="progress-bar progress-bar-striped bg-warning" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                            <div class="progress-bar progress-bar-striped bg-secondary" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="@order.StatusValue%"></div>
                                         }
-                                        @if (order.StatusValue > 50)
+                                        @if (order.StatusValue == 75)
                                         {
-                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="60%"></div>
+                                            <div class="progress-bar progress-bar-striped bg-info" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="@order.StatusValue%"></div>
+                                        }
+                                        @if (order.StatusValue == 100)
+                                        {
+                                            <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @order.StatusValue%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100" data-toggle="tooltip" data-placement="top" title="" data-original-title="@order.StatusValue%"></div>
                                         }
                                     </div>
                                 </div>  
