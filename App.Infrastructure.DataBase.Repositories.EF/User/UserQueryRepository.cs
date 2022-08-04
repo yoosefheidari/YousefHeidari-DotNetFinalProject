@@ -235,8 +235,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                     Title = h.Title,
                     IsWriteByCustomer = h.IsWriteByCustomer,
                     ServiceId = x.ServiceId,
-
-
+                }).ToList(),
+                Photos=x.OrderFiles.Select(f=>f.File).Select(z=>new PhysicalFileDTO()
+                {
+                    CreationDate=z.CreationDate,
+                    Id=z.Id,
+                    IsDeleted=z.IsDeleted,
+                    Path = z.Path,
                 }).ToList(),
 
             }).ToListAsync();

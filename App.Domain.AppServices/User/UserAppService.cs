@@ -5,6 +5,7 @@ using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -19,12 +20,13 @@ namespace App.Domain.AppServices.User
         private readonly IUserService _userService;
         private readonly IUploadService _uploadService;
         private readonly ILogger<UserAppService> _logger;
-
-        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger)
+        private readonly IConfiguration _configuration;
+        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger, IConfiguration configuration)
         {
             _userService = userService;
             _uploadService = uploadService;
             _logger = logger;
+            _configuration = configuration;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
@@ -57,7 +59,7 @@ namespace App.Domain.AppServices.User
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
-            var user = await _userService.GetUserByUserName(username);
+            var user = await _userService.GetUserByUserName(username);            
             return user;
         }
 
@@ -98,6 +100,14 @@ namespace App.Domain.AppServices.User
         public async Task<UserDTO> GetCurrentUser()
         {
             var user = await _userService.GetCurrentUser();
+            var filrRootPath = _configuration.GetSection("DownloadPath").Value;
+            foreach (var order in user.UserOrders)
+            {
+                foreach (var file in order.Photos)
+                {
+                    file.Path = filrRootPath + "/" + file.Path;
+                }
+            }
             return user;
         }
 

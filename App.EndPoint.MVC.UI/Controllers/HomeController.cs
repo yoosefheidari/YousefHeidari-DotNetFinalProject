@@ -1,7 +1,6 @@
 ﻿using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
-using App.EndPoint.MVC.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -18,7 +17,12 @@ namespace App.EndPoint.MVC.UI.Controllers
         private readonly ICommentAppService _commentAppService;
         private readonly IUserAppService _userAppService;
 
-        public HomeController(ILogger<HomeController> logger, ICategoryAppService categoryAppService, IServiceAppService serviceAppService, IOrderAppService orderAppService, IUserAppService userAppService, ICommentAppService commentAppService)
+        public HomeController(ILogger<HomeController> logger
+            , ICategoryAppService categoryAppService
+            , IServiceAppService serviceAppService
+            , IOrderAppService orderAppService
+            , IUserAppService userAppService
+            , ICommentAppService commentAppService)
         {
             _logger = logger;
             _categoryAppService = categoryAppService;
@@ -59,10 +63,13 @@ namespace App.EndPoint.MVC.UI.Controllers
             var categories = await _categoryAppService.GetAllWithServices(cancellationToken);
             return View(categories);
         }
-        public IActionResult NewOrder(int id)
+
+        public async Task<IActionResult> NewOrder(int id, CancellationToken cancellationToken)
         {
 
             ViewBag.ServiceId = id;
+            var service = await _serviceAppService.Get(id, cancellationToken);
+            ViewBag.ServiceName = service.Title;
             return View();
         }
 
@@ -74,10 +81,10 @@ namespace App.EndPoint.MVC.UI.Controllers
             return RedirectToAction("Profile", "Account");
         }
 
-        public async Task<IActionResult> AcceptSuggest(int id,CancellationToken cancellationToken)
+        public async Task<IActionResult> AcceptSuggest(int id, CancellationToken cancellationToken)
         {
             await _orderAppService.AcceptOrderSuggest(id, cancellationToken);
-            return RedirectToAction("Profile","Account");
+            return RedirectToAction("Profile", "Account");
         }
 
         public IActionResult AccessDenied()

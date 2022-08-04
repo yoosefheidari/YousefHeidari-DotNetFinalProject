@@ -3,6 +3,7 @@ using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,14 @@ namespace App.Domain.AppServices.Work
         private readonly IServiceService _serviceService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISuggestAppService _suggestAppService;
+        private readonly IConfiguration _configuration;
 
-        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService, IHttpContextAccessor httpContextAccessor, ISuggestAppService suggestAppService)
+        public OrderAppService(IOrderService orderService
+            , IFileService fileService, IUploadService uploadService
+            , IUserService userService, IServiceService serviceService
+            , IHttpContextAccessor httpContextAccessor
+            , ISuggestAppService suggestAppService
+            , IConfiguration configuration)
         {
             _orderService = orderService;
             _fileService = fileService;
@@ -30,6 +37,7 @@ namespace App.Domain.AppServices.Work
             _serviceService = serviceService;
             _httpContextAccessor = httpContextAccessor;
             _suggestAppService = suggestAppService;
+            _configuration = configuration;
         }
 
         public async Task AcceptOrderSuggest(int suggestId, CancellationToken cancellationToken)
@@ -47,6 +55,7 @@ namespace App.Domain.AppServices.Work
         {
             var currentUser = await _userService.GetCurrentUser();
             order.CustomerId = currentUser.Id;
+            order.Id = 0;
             var service = await _serviceService.Get(order.ServiceId, cancellationToken);
             order.FinalPrice = service.Price;
             var result = await _orderService.Add(order, cancellationToken);

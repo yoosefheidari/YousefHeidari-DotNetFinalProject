@@ -259,12 +259,14 @@
                                                                                     const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                                                                                     var randomId = new string(Enumerable.Repeat(chars, 8)
                                                                                     .Select(s => s[random.Next(s.Length)]).ToArray());
+                                                                                    var randomId2 = new string(Enumerable.Repeat(chars, 8)
+                                                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
                                                                                 }
                                                                                 @*<button type="button" class="btn btn-dark pull-end mb-0">Follow</button>*@
                                                                                 <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId" aria-expanded="false" aria-controls="collapseExample">
                                                                                     پیشنهادات
                                                                                 </button>
-                                                                                <div class="collapse col-6" id="@randomId">
+                                                                                <div class="collapse col-12" id="@randomId">
                                                                                     <div class="card card-body">
                                                                                         <div class="card">
                                                                                             <div class="table-responsive">
@@ -283,7 +285,7 @@
                                                                                                             foreach (var suggest in order.Suggests)
                                                                                                             {
                                                                                                                 <tr>
-                                                                                                                    <td >
+                                                                                                                    <td>
                                                                                                                         <div class="d-flex px-2 py-1">
                                                                                                                             <div class="d-flex flex-column justify-content-center">
                                                                                                                                 <a href="javascript:;" class="btn btn-warning btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
@@ -292,7 +294,7 @@
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </td>
-                                                                                                                    <td >
+                                                                                                                    <td>
                                                                                                                         <p class="text-lg text-secondary mb-0">@suggest.Description</p>
                                                                                                                     </td>
                                                                                                                     <td class="align-middle text-center text-sm ">
@@ -300,18 +302,43 @@
                                                                                                                     </td>
                                                                                                                     <td class="align-middle">
                                                                                                                         <a style="font-size:20px;" class=" btn btn-warning text-secondary font-weight-normal text-xl"
-                                                                                                                        asp-area="" asp-controller="Home" asp-action="AcceptSuggest" asp-route-id="@suggest.Id">
+                                                                                                           asp-area="" asp-controller="Home" asp-action="AcceptSuggest" asp-route-id="@suggest.Id">
                                                                                                                             پذیرفتن
                                                                                                                         </a>
                                                                                                                     </td>
                                                                                                                 </tr>
                                                                                                             }
                                                                                                         }
-
-
                                                                                                     </tbody>
                                                                                                 </table>
                                                                                             </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId2" aria-expanded="false" aria-controls="collapseExample">
+                                                                                    تصاویر
+                                                                                </button>
+                                                                                <div class="collapse" id="@randomId2">
+                                                                                    <div class="card card-body" style="padding-right:0;padding-left:0;">
+                                                                                        <div class="container">
+                                                                                            @if (order.Photos != null)
+                                                                                            {
+                                                                                                <div class="row">
+                                                                                                    @foreach (var photo in order.Photos)
+                                                                                                    {
+                                                                                                        <div class="card col-6 mt-3">
+                                                                                                            <div class="card-body">
+                                                                                                                <img src="@photo.Path" style="width:100%" class="mb-3">
+                                                                                                            </div>
+                                                                                                            <div class="card-footer">
+                                                                                                                <button class="btn btn-warning btn-block">
+                                                                                                                    مشاهده
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+                                                                                            }
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -340,7 +367,7 @@
                                                                 <div class="row">
                                                                     <div class="col-lg-12 ms-auto me-auto bg-light">
                                                                         <div class="row">
-                                                                            <div class="col-md-8 my-auto">
+                                                                            <div class="col-md-6 my-auto">
                                                                                 <div>
                                                                                     <a href="javascript:;" class="btn btn-pinterest btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
                                                                                         <i class="fab fa-date me-2"></i> تاریخ درخواست : @order.ShamsiCreationDate
@@ -348,13 +375,11 @@
                                                                                     <a href="javascript:;" class="btn btn-twitter btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
                                                                                         <i class="fab fa-money me-2"></i> هزینه نهایی : @order.FinalPrice
                                                                                     </a>
-                                                                                    <a href="javascript:;" class="btn btn-twitter btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
-                                                                                        <i class="fab fa-money me-2"></i> متخصص : @order.ExpertName
-                                                                                    </a>
+
 
                                                                                 </div>
                                                                             </div>
-                                                                            <div class="col-md-4">
+                                                                            <div class="col-md-6">
                                                                                 <h6 style="font-family:IranSans">وضعیت سفارش : @order.StatusName</h6>
                                                                                 <div class="progress mt-3">
                                                                                     <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="@order.StatusValue" aria-valuemin="0" aria-valuemax="100"></div>
@@ -364,20 +389,61 @@
                                                                         </div>
 
                                                                         <hr class="dark horizontal">
-                                                                        <div class="d-flex col-5">
-                                                                            <div>
-                                                                                <a href="javascript:;">
-                                                                                    <div class="position-relative">
-                                                                                        <div class="blur-shadow-avatar">
-                                                                                            <img class="avatar avatar-xxl border-radius-xl" src="/assets/img/customer-order.png">
+
+                                                                        <div class="d-flex justify-content-lg-between">
+                                                                            <div class="d-flex col-5">
+                                                                                <div>
+                                                                                    <a href="javascript:;">
+                                                                                        <div class="position-relative">
+                                                                                            <div class="blur-shadow-avatar">
+                                                                                                <img class="avatar avatar-xxl border-radius-xl" src="/assets/img/customer-order.png">
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                </a>
+                                                                                    </a>
+                                                                                </div>
+
+                                                                                <div class="me-4 my-auto">
+                                                                                    <h5>سرویس درخواستی : @order.ServiceName</h5>
+                                                                                    <p class="text-sm mb-0"><strong>توضیحات :</strong>@order.Description</p>
+                                                                                </div>
                                                                             </div>
 
-                                                                            <div class="me-4 my-auto">
-                                                                                <h5>سرویس درخواستی : @order.ServiceName</h5>
-                                                                                <p class="text-sm mb-0"><strong>توضیحات :</strong>@order.Description</p>
+                                                                            <div class="my-auto d-md-block d-none ms-2">
+                                                                                @{
+                                                                                    Random random = new();
+                                                                                    const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                                                                                    var randomId3 = new string(Enumerable.Repeat(chars, 8)
+                                                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
+                                                                                }
+                                                                                @*<button type="button" class="btn btn-dark pull-end mb-0">Follow</button>*@
+                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId3" aria-expanded="false" aria-controls="collapseExample">
+                                                                                    تصاویر
+                                                                                </button>
+                                                                                <div class="collapse" id="@randomId3">
+                                                                                    <div class="card card-body" style="padding-right:0;padding-left:0;">
+                                                                                        <div class="container">
+                                                                                            @if (order.Photos != null)
+                                                                                            {
+                                                                                                <div class="row">
+                                                                                                    @foreach (var photo in order.Photos)
+                                                                                                    {
+                                                                                                        <div class="card col-6 mt-3">
+                                                                                                            <div class="card-body">
+                                                                                                                <img src="@photo.Path" style="width:100%" class="mb-3">
+                                                                                                            </div>
+                                                                                                            <div class="card-footer">
+                                                                                                                <button class="btn btn-warning btn-block">
+                                                                                                                    مشاهده
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
 
                                                                         </div>
@@ -448,16 +514,18 @@
                                                                                 @{
                                                                                     Random random = new();
                                                                                     const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                                                                                    var randomId = new string(Enumerable.Repeat(chars, 8)
+                                                                                    var randomId4 = new string(Enumerable.Repeat(chars, 8)
                                                                                     .Select(s => s[random.Next(s.Length)]).ToArray());
-                                                                                    var randomId2 = new string(Enumerable.Repeat(chars, 8)
+                                                                                    var randomId5 = new string(Enumerable.Repeat(chars, 8)
+                                                                                    .Select(s => s[random.Next(s.Length)]).ToArray());
+                                                                                    var randomId6 = new string(Enumerable.Repeat(chars, 8)
                                                                                     .Select(s => s[random.Next(s.Length)]).ToArray());
                                                                                 }
                                                                                 @*<button type="button" class="btn btn-dark pull-end mb-0">Follow</button>*@
-                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId" aria-expanded="false" aria-controls="collapseExample">
+                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId4" aria-expanded="false" aria-controls="collapseExample">
                                                                                     نظرات
                                                                                 </button>
-                                                                                <div class="collapse" id="@randomId">
+                                                                                <div class="collapse" id="@randomId4">
                                                                                     <div class="card card-body" style="padding-right:0;padding-left:0;">
                                                                                         <div class="container">
 
@@ -500,17 +568,14 @@
                                                                                                     </div>
                                                                                                 </div>
                                                                                             }
-
                                                                                         </div>
-
-
-
                                                                                     </div>
                                                                                 </div>
-                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId2" aria-expanded="false" aria-controls="collapseExample">
+
+                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId5" aria-expanded="false" aria-controls="collapseExample">
                                                                                     ثبت نظر
                                                                                 </button>
-                                                                                <div class="collapse" id="@randomId2">
+                                                                                <div class="collapse" id="@randomId5">
                                                                                     <div class="card card-body" style="padding-right:0;padding-left:0;">
                                                                                         <div class="container">
 
@@ -557,6 +622,34 @@
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
+                                                                                <button class="btn btn-primary pull-end mb-0" type="button" data-bs-toggle="collapse" data-bs-target="#@randomId6" aria-expanded="false" aria-controls="collapseExample">
+                                                                                    تصاویر
+                                                                                </button>
+                                                                                <div class="collapse" id="@randomId6">
+                                                                                    <div class="card card-body" style="padding-right:0;padding-left:0;">
+                                                                                        <div class="container">
+                                                                                            @if (order.Photos != null)
+                                                                                            {
+                                                                                                <div class="row">
+                                                                                                    @foreach (var photo in order.Photos)
+                                                                                                    {
+                                                                                                        <div class="card col-6 mt-3">
+                                                                                                            <div class="card-body">
+                                                                                                                <img src="@photo.Path" style="width:100%" class="mb-3">
+                                                                                                            </div>
+                                                                                                            <div class="card-footer">
+                                                                                                                <button class="btn btn-warning btn-block">
+                                                                                                                    مشاهده
+                                                                                                                </button>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    }
+                                                                                                </div>
+                                                                                            }
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
                                                                             </div>
 
                                                                         </div>
@@ -591,34 +684,3 @@
         </div>
     </div>
 </section>
-
-
-@*
-    <div class="d-flex w-100 justify-content-center align-content-center align-items-center">
-    <img class="rounded-circle" src="~/AdminAreaTemplate/img/yousef.jpg" width="200px" />
-    </div>
-    <div class="d-flex w-100 justify-content-center align-content-start align-items-start">
-
-    <table class="text-center table table-hover table-striped table-bordered  w-50 justify-content-center">
-    <tr>
-    <td>@Model.FirstName @Model.LastName </td>
-
-    </tr>
-    <tr>
-    <td>ایمیل : @Model.Email</td>
-
-    </tr>
-    <tr>
-    <td>شماره تماس : @Model.Mobile</td>
-
-    </tr>
-    <tr>
-    <td>کد ملی : @Model.NationalCode</td>
-
-    </tr>
-    <tr>
-    <td>ادرس : @Model.Address</td>
-
-    </tr>
-    </table>
-    </div>*@

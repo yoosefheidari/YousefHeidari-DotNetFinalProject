@@ -78,7 +78,7 @@
                                                     <label for="description" style="font-size:23px !important">توضیحات شما </label>
                                                     <textarea class="form-control" name="description" id="description" rows="3">
 
-                                                                                                                </textarea>
+                                                                                                                    </textarea>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="input-group mb-3">
@@ -126,7 +126,7 @@
                                                     <label for="description" style="font-size:23px !important">نظر خود را بنویسید </label>
                                                     <textarea class="form-control" name="description" id="description" rows="3">
 
-                                                                                                                </textarea>
+                                                                                                                    </textarea>
                                                 </div>
 
                                                 <div class="modal-footer">
@@ -330,7 +330,21 @@
 
                         </div>
                         <div class="tab-pane fade" id="v-pills-photos-nobd" role="tabpanel" aria-labelledby="Photos">
-                            تصاویر
+
+                            @foreach (var photo in Model.Photos)
+                            {
+                                
+                                <div class="card col-4">
+                                    <div class="card-body">
+                                        <img src="@photo.Path" style="width:100%" class="mb-3">
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-warning btn-block">
+                                            مشاهده
+                                        </button>
+                                        </div>
+                                </div>
+                            }
                         </div>
                         <div class="tab-pane fade" id="v-pills-address-nobd" role="tabpanel" aria-labelledby="Address">
                             @Model.Address
