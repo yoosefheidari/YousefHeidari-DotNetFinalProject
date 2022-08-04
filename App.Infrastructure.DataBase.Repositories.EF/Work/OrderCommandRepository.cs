@@ -59,10 +59,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var order1 = await _appDbContext.Orders.SingleAsync(x => x.Id == order.Id, cancellationToken);
             order1.ConfirmedExpertId=order.ConfirmedExpertId;
-            order1.CustomerId=order.CustomerId;
+            order1.IsConfirmedByCustomer=order.IsConfirmedByCustomer;
             order1.Description=order.Description;
             order1.FinalPrice=order.FinalPrice;
-            
             order1.StatusId = order.StatusId;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

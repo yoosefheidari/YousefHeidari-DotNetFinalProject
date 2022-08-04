@@ -21,8 +21,6 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> Profile()
         {
-            
-            ViewData["Message"] = "Profile";
             var user = await _userAppService.GetCurrentUser();
             return View(user);
         }
@@ -51,7 +49,7 @@ namespace App.EndPoint.MVC.UI.Controllers
                 var loginUser = await _userAppService.Get(result);
                 if (loginUser.Roles.Count == 1)
                 {
-                    return RedirectToAction(nameof(HomeController.Index));
+                    return RedirectToAction("Index","Home");
                 }
                 else
                 {
@@ -87,6 +85,8 @@ namespace App.EndPoint.MVC.UI.Controllers
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
         {
             ViewData["Message"] = "Profile";
@@ -103,8 +103,10 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int> categories, string? oldPassword, string? newPassword,IFormFile file, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int>? categories, string? oldPassword, string? newPassword,IFormFile? file, CancellationToken cancellationToken)
         {
+            ModelState.Remove("Password");
+            ModelState.Remove("ConfirmPassword");
             if (!ModelState.IsValid)
             {
                 return View(userDTO);

@@ -173,12 +173,7 @@ namespace App.Infrastructure.DataBase.SqlServer
         public virtual DbSet<AppUser> AppUsers { get; set; } = null!;
         public virtual DbSet<UserFile> UserFiles { get; set; } = null!;
         #endregion
-
-        #region BaseData Aggregate Dbsets
-        public virtual DbSet<Status> Statuses { get; set; } = null!;
-        public virtual DbSet<PhysicalFile> Files { get; set; } = null!;
-        #endregion
-
+        
         #region MainWork Aggreagate Dbsets
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<ExpertCategory> ExpertCategories { get; set; } = null!;
@@ -188,6 +183,8 @@ namespace App.Infrastructure.DataBase.SqlServer
         public virtual DbSet<ServiceComment> Comments { get; set; } = null!;
         public virtual DbSet<ServiceFile> ServiceFiles { get; set; } = null!;
         public virtual DbSet<Suggest> Suggests { get; set; } = null!;
+        public virtual DbSet<Status> Statuses { get; set; } = null!;
+        public virtual DbSet<PhysicalFile> Files { get; set; } = null!;
         #endregion
     }
 }

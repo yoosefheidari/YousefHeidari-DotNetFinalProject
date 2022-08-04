@@ -19,8 +19,9 @@ namespace App.Domain.AppServices.Work
         private readonly IUserService _userService;
         private readonly IServiceService _serviceService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISuggestAppService _suggestAppService;
 
-        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService, IHttpContextAccessor httpContextAccessor)
+        public OrderAppService(IOrderService orderService, IFileService fileService, IUploadService uploadService, IUserService userService, IServiceService serviceService, IHttpContextAccessor httpContextAccessor, ISuggestAppService suggestAppService)
         {
             _orderService = orderService;
             _fileService = fileService;
@@ -28,6 +29,18 @@ namespace App.Domain.AppServices.Work
             _userService = userService;
             _serviceService = serviceService;
             _httpContextAccessor = httpContextAccessor;
+            _suggestAppService = suggestAppService;
+        }
+
+        public async Task AcceptOrderSuggest(int suggestId, CancellationToken cancellationToken)
+        {
+            var suggest = await _suggestAppService.Get(suggestId, cancellationToken);
+            var order=await _orderService.Get(suggest.OrderId, cancellationToken);
+            order.FinalPrice = suggest.SuggestedPrice;
+            order.StatusId++;
+            order.ConfirmedExpertId = suggest.ExpertId;
+            order.IsConfirmedByCustomer = true;
+            await _orderService.Update(order, cancellationToken);
         }
 
         public async Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)

@@ -20,6 +20,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
         Task<OrderDTO> Get(int id, CancellationToken cancellationToken);
         Task<List<OrderDTO>> GetAllExpertOrders(string query, CancellationToken cancellationToken);
         Task<List<PhysicalFileDTO>> GetAllFiles(int orderId, CancellationToken cancellationToken);
+        Task AcceptOrderSuggest(int suggestId, CancellationToken cancellationToken);
 
     }
 

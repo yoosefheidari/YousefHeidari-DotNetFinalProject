@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Work.Contracts.AppServices;
+﻿using App.Domain.Core.User.Contracts.AppServices;
+using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
 using App.EndPoint.MVC.UI.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -14,13 +15,17 @@ namespace App.EndPoint.MVC.UI.Controllers
         private readonly ICategoryAppService _categoryAppService;
         private readonly IServiceAppService _serviceAppService;
         private readonly IOrderAppService _orderAppService;
+        private readonly ICommentAppService _commentAppService;
+        private readonly IUserAppService _userAppService;
 
-        public HomeController(ILogger<HomeController> logger, ICategoryAppService categoryAppService, IServiceAppService serviceAppService, IOrderAppService orderAppService)
+        public HomeController(ILogger<HomeController> logger, ICategoryAppService categoryAppService, IServiceAppService serviceAppService, IOrderAppService orderAppService, IUserAppService userAppService, ICommentAppService commentAppService)
         {
             _logger = logger;
             _categoryAppService = categoryAppService;
             _serviceAppService = serviceAppService;
             _orderAppService = orderAppService;
+            _userAppService = userAppService;
+            _commentAppService = commentAppService;
         }
 
 
@@ -29,14 +34,6 @@ namespace App.EndPoint.MVC.UI.Controllers
         {
             return View();
         }
-        public IActionResult Login()
-        {
-            if (User.Identity.IsAuthenticated)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            return View("LoginUser");
-        }
 
         public async Task<IActionResult> GetListofServices(int id, CancellationToken cancellationToken)
         {
@@ -44,6 +41,13 @@ namespace App.EndPoint.MVC.UI.Controllers
             if (id == 0)
                 services = null;
             return View("Services", services);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken)
+        {
+            var suggestId = await _commentAppService.CreateOrderComment(orderId, serviceId, title, description, cancellationToken);
+            return RedirectToAction("Profile", "Account");
         }
 
 
@@ -68,6 +72,12 @@ namespace App.EndPoint.MVC.UI.Controllers
 
             var result = await _orderAppService.AddNewOrder(order, files, cancellationToken);
             return RedirectToAction("Profile", "Account");
+        }
+
+        public async Task<IActionResult> AcceptSuggest(int id,CancellationToken cancellationToken)
+        {
+            await _orderAppService.AcceptOrderSuggest(id, cancellationToken);
+            return RedirectToAction("Profile","Account");
         }
 
         public IActionResult AccessDenied()

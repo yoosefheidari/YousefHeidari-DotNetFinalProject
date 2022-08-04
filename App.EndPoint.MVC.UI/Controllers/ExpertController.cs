@@ -66,9 +66,8 @@ namespace App.EndPoint.MVC.UI.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken)
         {
-            var suggestId = await _commentAppService.CreateOrderComment(orderId, serviceId, title, description, cancellationToken);
-
-            return RedirectToAction("OrderDetail", new { id = orderId });
+            var suggestId = await _commentAppService.CreateOrderComment(orderId, serviceId, title, description, cancellationToken);            
+            return RedirectToAction("OrderDetail", new { id = orderId });            
         }
 
         public async Task<IActionResult> ChangeOrderStatus(int id, CancellationToken cancellationToken)

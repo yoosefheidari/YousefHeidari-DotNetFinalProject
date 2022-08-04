@@ -2,6 +2,7 @@
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.DTOs;
+using App.Domain.Services.Utilities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -160,6 +161,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task<UserDTO> GetUserByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
+
             UserDTO userDto = new()
             {
                 Id = user.Id,
@@ -176,6 +178,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             };
             var roles = await _userManager.GetRolesAsync(user);
             userDto.Roles = roles.ToList();
+
             userDto.expertCategories = await _appDbContext.ExpertCategories
                     .Where(x => x.ExpertId == userDto.Id)
                     .Select(x => x.Category)
@@ -186,6 +189,57 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                         Id = x.Id,
                         Name = x.Name
                     }).ToListAsync();
+
+            userDto.UserOrders = await _appDbContext.Orders.Where(x => x.CustomerId == userDto.Id).Select(x => new OrderDTO()
+            {
+                Id = x.Id,
+                Description = x.Description,
+                FinalPrice = x.FinalPrice,
+                ConfirmedExpertId = x.ConfirmedExpertId,
+                CreationDate = x.CreationDate,
+                ShamsiCreationDate = x.CreationDate.ToShamsi(),
+                CustomerId = x.CustomerId,
+                IsConfirmedByCustomer = x.IsConfirmedByCustomer,
+                StatusId = x.StatusId,
+                ServiceId = x.ServiceId,
+                IsDeleted = x.IsDeleted,
+                CategoryId = x.Service.CategoryId,
+                StatusName = x.Status.Name,
+                StatusValue = x.Status.StatusValue,
+                CustomerName = x.Customer.UserName,
+                ExpertName = x.Expert.UserName,
+                ServiceName = x.Service.Title,
+                Address = x.Customer.Address,
+                Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
+                {
+                    Id = h.Id,
+                    CreationDate = h.CreationDate,
+                    Description = h.Description,
+                    IsDeleted = h.IsDeleted,
+                    ExpertId = h.ExpertId,
+                    IsConfirmedByCustomer = h.IsConfirmedByCustomer,
+                    OrderId = h.OrderId,
+                    SuggestedPrice = h.SuggestedPrice,
+                    ExpertName = h.Expert.UserName,
+                }).ToList(),
+                Comments = x.Comments.Select(h => new CommentDTO()
+                {
+                    CreationDate = h.CreationDate,
+                    ShamsiCreationDate=h.CreationDate.ToShamsi(),
+                    Description = h.Description,
+                    Id = h.Id,
+                    IsApproved = h.IsApproved,
+                    IsDeleted = h.IsDeleted,
+                    OrderId = h.OrderId,
+                    //ServiceId = x.ServiceId,
+                    Title = h.Title,
+                    IsWriteByCustomer = h.IsWriteByCustomer,
+                    ServiceId = x.ServiceId,
+
+
+                }).ToList(),
+
+            }).ToListAsync();
             return userDto;
         }
     }

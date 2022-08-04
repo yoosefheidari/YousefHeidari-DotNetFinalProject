@@ -62,6 +62,8 @@ namespace App.Domain.Core.User.DTOs
         public List<string>? Roles { get; set; }
 
         public List<CategoryDTO>? expertCategories { get; set; }
+        public List<OrderDTO>? UserOrders { get; set; }
+        public List<CommentDTO>? UserComments { get; set; }
 
     }
 }
