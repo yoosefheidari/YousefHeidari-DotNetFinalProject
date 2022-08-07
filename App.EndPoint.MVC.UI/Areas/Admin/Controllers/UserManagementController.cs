@@ -44,10 +44,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             {
                 return View(userDTO);
             }
-            _logger.LogTrace("start of {actionName} user", "Update");
             await _userAppService.Update(userDTO, oldPassword, newPassword,cancellationToken);
-            _logger.LogTrace("end of {actionName} user", "Update");
-            _logger.LogInformation("User {Action} progress done Successfully", "Update");
             return RedirectToAction("Index");
         }
 
@@ -68,11 +65,6 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var user = await _userAppService.Get(id);
             return View(user);
         }
-        //public async Task<IActionResult> SeedData(int id, CancellationToken cancellationToken)
-        //{
-        //    var user = await _userAppService.Get(id);
-        //    return View(user);
-        //}
         public async Task<IActionResult> EditExpertSkill(int id, CancellationToken cancellationToken)
         {
             var user = await _userAppService.Get(id);

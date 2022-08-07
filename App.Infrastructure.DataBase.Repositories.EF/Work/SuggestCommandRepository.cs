@@ -48,9 +48,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         {
             var expertSuggest1 = await _appDbContext.Suggests.SingleAsync(x => x.Id == expertSuggest.Id, cancellationToken);
             expertSuggest1.IsConfirmedByCustomer= expertSuggest.IsConfirmedByCustomer;
-            expertSuggest1.OrderId = expertSuggest.OrderId;
             expertSuggest1.SuggestedPrice = expertSuggest.SuggestedPrice;
-            expertSuggest1.ExpertId = expertSuggest.ExpertId;
             expertSuggest.Description = expertSuggest1.Description;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

@@ -54,10 +54,6 @@ namespace App.Domain.Services.User
             return users;
         }
 
-        public Task<UserDTO> GetUserByEmail(string email)
-        {
-            throw new NotImplementedException();
-        }
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
@@ -114,7 +110,7 @@ namespace App.Domain.Services.User
             await _userCommandRepository.UpdateExpertSkills(userId, categories, cancellationToken);
         }
 
-        public async Task<UserDTO> GetCurrentUser()
+        public async Task<UserDTO> GetCurrentUserFullInfo()
         {
             var username = _httpContext.HttpContext.User.Identity.Name;
             var userDto=await _userQueryRepository.GetUserByUserName(username);

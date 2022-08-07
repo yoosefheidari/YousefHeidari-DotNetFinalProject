@@ -16,7 +16,6 @@ namespace App.Domain.AppServices.Work
     {
         private readonly IOrderService _orderService;
         private readonly IFileService _fileService;
-        private readonly IUploadService _uploadService;
         private readonly IUserService _userService;
         private readonly IServiceService _serviceService;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -24,7 +23,7 @@ namespace App.Domain.AppServices.Work
         private readonly IConfiguration _configuration;
 
         public OrderAppService(IOrderService orderService
-            , IFileService fileService, IUploadService uploadService
+            , IFileService fileService
             , IUserService userService, IServiceService serviceService
             , IHttpContextAccessor httpContextAccessor
             , ISuggestAppService suggestAppService
@@ -32,7 +31,6 @@ namespace App.Domain.AppServices.Work
         {
             _orderService = orderService;
             _fileService = fileService;
-            _uploadService = uploadService;
             _userService = userService;
             _serviceService = serviceService;
             _httpContextAccessor = httpContextAccessor;
@@ -43,6 +41,8 @@ namespace App.Domain.AppServices.Work
         public async Task AcceptOrderSuggest(int suggestId, CancellationToken cancellationToken)
         {
             var suggest = await _suggestAppService.Get(suggestId, cancellationToken);
+            suggest.IsConfirmedByCustomer=true;
+            await _suggestAppService.Update(suggest, cancellationToken);
             var order=await _orderService.Get(suggest.OrderId, cancellationToken);
             order.FinalPrice = suggest.SuggestedPrice;
             order.StatusId++;
@@ -53,13 +53,13 @@ namespace App.Domain.AppServices.Work
 
         public async Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)
         {
-            var currentUser = await _userService.GetCurrentUser();
+            var currentUser = await _userService.GetCurrentUserFullInfo();
             order.CustomerId = currentUser.Id;
             order.Id = 0;
             var service = await _serviceService.Get(order.ServiceId, cancellationToken);
             order.FinalPrice = service.Price;
             var result = await _orderService.Add(order, cancellationToken);
-            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);
             await _orderService.AddOrderFiles(result, fileIds, cancellationToken);
             return result;
         }

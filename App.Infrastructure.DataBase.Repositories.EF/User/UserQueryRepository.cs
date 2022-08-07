@@ -52,6 +52,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
         public async Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken)
         {
+            var fff = _appDbContext.Orders;
             var users = await _userManager.Users.Select(x => new UserDTO()
             {
                 Id = x.Id,

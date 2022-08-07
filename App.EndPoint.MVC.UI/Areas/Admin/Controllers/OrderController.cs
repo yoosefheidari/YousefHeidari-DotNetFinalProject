@@ -1,4 +1,5 @@
-﻿using App.Domain.Core.Work.Contracts.AppServices;
+﻿using App.Domain.Core.User.Contracts.AppServices;
+using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
     {
         private readonly IOrderAppService _orderAppService;
         private readonly IStatusAppServcie _statusAppServcie;
-        public OrderController(IOrderAppService orderAppService, IStatusAppServcie statusAppServcie)
+        private readonly IUserAppService _userAppService;
+        public OrderController(IOrderAppService orderAppService, IStatusAppServcie statusAppServcie, IUserAppService userAppService)
         {
             _orderAppService = orderAppService;
             _statusAppServcie = statusAppServcie;
+            _userAppService = userAppService;
         }
         public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
@@ -26,6 +29,8 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> OrderDetail(int id, CancellationToken cancellationToken)
         {
             var order = await _orderAppService.Get(id, cancellationToken);
+            var user = await _userAppService.GetCurrentUserFullInfo();
+            ViewBag.UserId = user.Id;
             return View(order);
         }
 

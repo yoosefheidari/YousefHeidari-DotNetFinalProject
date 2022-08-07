@@ -10,11 +10,8 @@ namespace App.Domain.Core.Work.Contracts.Services
 {
     public interface IFileService
     {
-        Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken);
-        Task Update(PhysicalFileDTO file, CancellationToken cancellationToken);
-        Task Delete(int id, CancellationToken cancellationToken);
-        Task<List<PhysicalFileDTO>> GetAll(int id, CancellationToken cancellationToken);
         Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken);
-        Task<PhysicalFileDTO> Get(string path, CancellationToken cancellationToken);
+        Task<List<int>> UploadFileAsync(List<IFormFile> files, CancellationToken cancellationToken);
+        Task DeletePhysicalFile(string fileName, CancellationToken cancellationToken);
     }
 }

@@ -14,13 +14,11 @@ namespace App.Domain.AppServices.Work
     public class ServcieAppServcie : IServiceAppService
     {
         private readonly IServiceService _serviceService;
-        private readonly IUploadService _uploadService;
         private readonly IFileService _fileService;
 
-        public ServcieAppServcie(IServiceService serviceService, IUploadService uploadService, IFileService fileService)
+        public ServcieAppServcie(IServiceService serviceService, IFileService fileService)
         {
             _serviceService = serviceService;
-            _uploadService = uploadService;
             _fileService = fileService;
         }
 
@@ -28,14 +26,14 @@ namespace App.Domain.AppServices.Work
         {
             serviceDTO.CreationDate = DateTimeOffset.Now;
             var serviceId = await _serviceService.Add(serviceDTO, cancellationToken);
-            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);
             var result = await _serviceService.AddServiceFiles(serviceId, fileIds, cancellationToken);
             return serviceId;
         }
 
         public async Task AddServiceFile(int id, List<IFormFile> files, CancellationToken cancellationToken)
         {
-            var fileIds = await _uploadService.UploadFileAsync(files, cancellationToken);
+            var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);
             var result = await _serviceService.AddServiceFiles(id, fileIds, cancellationToken);
         }
 

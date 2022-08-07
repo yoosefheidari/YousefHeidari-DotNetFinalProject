@@ -30,7 +30,7 @@ namespace App.Domain.AppServices.Work
 
         public async Task<int> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken)
         {
-            var currentUser = await _userAppService.GetCurrentUser();
+            var currentUser = await _userAppService.GetCurrentUserFullInfo();
 
             CommentDTO comment = new()
             {

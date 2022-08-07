@@ -112,16 +112,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             user1.Address = user.Address;
             user1.NationalCode = user.NationalCode;
             user1.ProfilePicture = user.ProfilePicture;
-            _logger.LogTrace("updating {section} of user ended", "properties");
-
-            _logger.LogInformation("user {section} Changed successfully", "Properties");
-
-            _logger.LogTrace("updating {section} of user started", "roles");
             var roles = await _userManager.GetRolesAsync(user1);
             await _userManager.RemoveFromRolesAsync(user1, roles);
             await _userManager.AddToRolesAsync(user1, user.Roles);
-            _logger.LogTrace("updating {section} of user ended", "roles");
-            _logger.LogInformation("user {section} Changed successfully", "Roles");
             //foreach (var role in roles)
             //{
             //    if (user.Roles.Any(x => x != role))
@@ -142,19 +135,23 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
         {
             var result = await _appDbContext.ExpertCategories.Where(c => c.ExpertId == userId).ToListAsync();
-            foreach (var item in result)
-            {
-                _appDbContext.ExpertCategories.Remove(item);
-            }
+            //foreach (var item in result)
+            //{
+            //    _appDbContext.ExpertCategories.Remove(item);
+            //}
             foreach (var item in categories)
             {
-                ExpertCategory skill = new()
+                if (!result.Select(x=>x.CategoryId).Contains(item))
                 {
-                    IsDeleted = false,
-                    CategoryId = item,
-                    ExpertId = userId,
-                };
-                await _appDbContext.ExpertCategories.AddAsync(skill, cancellationToken);
+                    ExpertCategory skill = new()
+                    {
+
+                        IsDeleted = false,
+                        CategoryId = item,
+                        ExpertId = userId,
+                    };
+                    await _appDbContext.ExpertCategories.AddAsync(skill, cancellationToken);
+                }
             }
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }

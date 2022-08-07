@@ -18,19 +18,15 @@ namespace App.Domain.AppServices.User
     public class UserAppService : IUserAppService
     {
         private readonly IUserService _userService;
-        private readonly IUploadService _uploadService;
         private readonly ILogger<UserAppService> _logger;
         private readonly IConfiguration _configuration;
         private readonly IFileService _fileService;
-        private readonly IFileDeleteService _fileDeleteService;
-        public UserAppService(IUserService userService, IUploadService uploadService, ILogger<UserAppService> logger, IConfiguration configuration, IFileService fileService, IFileDeleteService fileDeleteService)
+        public UserAppService(IUserService userService, ILogger<UserAppService> logger, IConfiguration configuration, IFileService fileService)
         {
             _userService = userService;
-            _uploadService = uploadService;
             _logger = logger;
             _configuration = configuration;
             _fileService = fileService;
-            _fileDeleteService = fileDeleteService;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
@@ -54,12 +50,7 @@ namespace App.Domain.AppServices.User
         {
             var users = await _userService.GetAll(id, search, cancellationToken);
             return users;
-        }
-
-        public Task<UserDTO> GetUserByEmail(string email)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
@@ -101,9 +92,10 @@ namespace App.Domain.AppServices.User
             await _userService.UpdateExpertSkills(userId, categories, cancellationToken);
         }
 
-        public async Task<UserDTO> GetCurrentUser()
+        public async Task<UserDTO> GetCurrentUserFullInfo()
         {
-            var user = await _userService.GetCurrentUser();
+            var user = await _userService.GetCurrentUserFullInfo();
+
             var filrRootPath = _configuration.GetSection("DownloadPath").Value;
             foreach (var order in user.UserOrders)
             {
@@ -116,21 +108,13 @@ namespace App.Domain.AppServices.User
             return user;
         }
 
-        public async Task UpdateProfilePicture(int userId, IFormFile file, CancellationToken cancellationToken)
-        {
-            if (file != null)
-            {
-                var user = await _userService.Get(userId);
-            }
-        }
-
         public async Task ChangeProfilePicture(IFormFile file, CancellationToken cancellationToken)
         {
-            var currentUser = await _userService.GetCurrentUser();
+            var currentUser = await _userService.GetCurrentUserFullInfo();
             List<IFormFile> files = new();
             files.Add(file);
-            _fileDeleteService.DeletePhysicalFile(currentUser.ProfilePicture, cancellationToken);
-            var ids = await _uploadService.UploadFileAsync(files, cancellationToken);
+            await _fileService.DeletePhysicalFile(currentUser.ProfilePicture, cancellationToken);
+            var ids = await _fileService.UploadFileAsync(files, cancellationToken);
             var filee = await _fileService.Get(ids[0], cancellationToken);
             currentUser.ProfilePicture = filee.Path;
             await _userService.UpdateProfilePicture(currentUser, cancellationToken);

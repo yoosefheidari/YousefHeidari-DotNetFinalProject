@@ -18,9 +18,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             _categoryAppService = categoryAppService;
         }
 
-        public async Task<IActionResult> Index(CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(int id,CancellationToken cancellationToken)
         {
-            var services = await _serviceAppService.GetAll(0,cancellationToken);
+            var services = await _serviceAppService.GetAll(id,cancellationToken);
             var categories = await _categoryAppService.GetAll(cancellationToken);
             ViewBag.Categories = categories.Select(x => new SelectListItem()
             {

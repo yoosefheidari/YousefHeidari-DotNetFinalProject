@@ -15,12 +15,10 @@ namespace App.Domain.Core.User.Contracts.AppServices
         Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken);
         Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByUserName(string username);
-        Task<UserDTO> GetUserByEmail(string email);
         Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken);
         Task Update(UserDTO user, string oldPassword, string newPassword, CancellationToken cancellationToken);
-        Task UpdateProfilePicture(int userId, IFormFile file, CancellationToken cancellationToken);
         Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken);
-        Task<UserDTO> GetCurrentUser();
+        Task<UserDTO> GetCurrentUserFullInfo();
         Task Delete(int id);
         Task SignInUserById(int id);
         Task SignoutUser();

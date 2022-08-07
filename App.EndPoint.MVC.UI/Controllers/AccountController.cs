@@ -21,7 +21,7 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> Profile()
         {
-            var user = await _userAppService.GetCurrentUser();
+            var user = await _userAppService.GetCurrentUserFullInfo();
             return View(user);
         }
 
@@ -49,7 +49,7 @@ namespace App.EndPoint.MVC.UI.Controllers
                 var loginUser = await _userAppService.Get(result);
                 if (loginUser.Roles.Count == 1)
                 {
-                    return RedirectToAction("Index","Home");
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -69,6 +69,10 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public IActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -89,21 +93,19 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
         {
-            ViewData["Message"] = "Profile";
-            var user = await _userAppService.GetCurrentUser();
+            var user = await _userAppService.GetCurrentUserFullInfo();
             var categories = await _categoryAppService.GetAll(cancellationToken);
-
-            var t = categories.Where(t => !user.expertCategories
-            .Any(r => r.Name == t.Name))
+            var filteredCategories = categories.Where(t => !user.expertCategories
+                .Any(r => r.Name == t.Name))
                 .Select(x => new SelectListItem() { Value = x.Id.ToString(), Text = x.Name })
                 .ToList();
-            ViewBag.Categories = t;
+            ViewBag.Categories = filteredCategories;
             return View(user);
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int>? categories, string? oldPassword, string? newPassword,IFormFile? file, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int>? categories, string? oldPassword, string? newPassword, IFormFile? file, CancellationToken cancellationToken)
         {
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");
@@ -113,8 +115,6 @@ namespace App.EndPoint.MVC.UI.Controllers
             }
             await _userAppService.Update(userDTO, oldPassword, newPassword, cancellationToken);
             await _userAppService.UpdateExpertSkills(userDTO.Id, categories, cancellationToken);
-            await _userAppService.UpdateProfilePicture(userDTO.Id, file, cancellationToken);
-
             return RedirectToAction(nameof(Profile));
         }
 

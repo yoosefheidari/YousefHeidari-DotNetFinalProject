@@ -33,7 +33,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         {
             var id = suggestDTO.OrderId;
             await _suggestAppService.Update(suggestDTO, cancellationToken);
-            return RedirectToAction(nameof(Index), new {id=id});
+            return RedirectToAction("OrderDetail","Order", new {id=id});
         }
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)

@@ -63,9 +63,7 @@ builder.Services.AddScoped<ISuggestService, SuggestService>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddScoped<IStatusService, StatusService>();
 builder.Services.AddScoped<IUserService, UserSerivce>();
-builder.Services.AddScoped<IUploadService, UploadService>();
 builder.Services.AddScoped<IUtilityService, UtilityService>();
-builder.Services.AddScoped<IFileDeleteService, FileDeleteService>();
 
 #endregion
 
@@ -78,7 +76,6 @@ builder.Services.AddScoped<IServiceAppService, ServcieAppServcie>();
 builder.Services.AddScoped<ICommentAppService, CommentAppService>();
 builder.Services.AddScoped<IOrderAppService, OrderAppService>();
 builder.Services.AddScoped<ISuggestAppService, SuggestAppService>();
-builder.Services.AddScoped<IFileAppService, FileAppService>();
 builder.Services.AddScoped<IStatusAppServcie, StatusAppService>();
 builder.Services.AddScoped<IUserAppService, UserAppService>();
 builder.Services.AddScoped<IUtilityAppService, UtilityAppService>();

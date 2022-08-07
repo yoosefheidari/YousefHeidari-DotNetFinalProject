@@ -30,15 +30,10 @@ namespace App.Domain.Services.Work
             _configuration = configuration;
         }
 
-        public async Task<int> Add(PhysicalFileDTO file, CancellationToken cancellationToken)
+        public async Task DeletePhysicalFile(string fileName, CancellationToken cancellationToken)
         {
-            return 2;
-
-        }
-
-        public Task Delete(int id, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            var rootpath = _configuration.GetSection("UploadPath").Value;
+            File.Delete(Path.Combine(rootpath, fileName));
         }
 
         public async Task<PhysicalFileDTO> Get(int id, CancellationToken cancellationToken)
@@ -47,20 +42,32 @@ namespace App.Domain.Services.Work
             return file;
         }
 
-        public Task<PhysicalFileDTO> Get(string path, CancellationToken cancellationToken)
+        public async Task<List<int>> UploadFileAsync(List<IFormFile> files, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+            List<int> fileIds = new();
+            foreach (var file in files)
+            {
+                var fileName = file.FileName;
+                var randomName = Guid.NewGuid().ToString();
+                var uniqePath = randomName + "-" + fileName;
+                var rootPath = _configuration.GetSection("UploadPath").Value;
+                var fullfilePath = Path.Combine(rootPath, uniqePath);
+                PhysicalFileDTO newFile = new()
+                {
+                    Path = uniqePath
+                };
+                var id = await _fileCommandRepository.Add(newFile, cancellationToken);
+                fileIds.Add(id);
+                //var dest = System.IO.File.Create(fullfilePath);
 
-        public async Task<List<PhysicalFileDTO>> GetAll(int id, CancellationToken cancellationToken)
-        {
-            var files = await _fileQueryRepository.GetAll(id, cancellationToken);
-            return files;
-        }
-
-        public Task Update(PhysicalFileDTO file, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+                using (FileStream dest = new FileStream(fullfilePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(dest, cancellationToken);
+                }
+            }
+            return fileIds;
         }
     }
 }
+
+
