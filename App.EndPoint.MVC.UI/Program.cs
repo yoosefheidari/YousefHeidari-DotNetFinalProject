@@ -9,6 +9,7 @@ using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Services.User;
 using App.Domain.Services.Work;
+using App.EndPoint.MVC.UI.MiddleWares;
 using App.Infrastructure.DataBase.Repositories.EF.User;
 using App.Infrastructure.DataBase.Repositories.EF.Work;
 using App.Infrastructure.DataBase.SqlServer;
@@ -16,7 +17,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+builder.Logging.AddSeq("http://localhost:5341/", "6g08rf6N4EMyPxKT6bl8");
 // Add services to the container.
 
 
@@ -95,6 +98,22 @@ builder.Services.AddDbContext<AppDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("MainConnectionString"));
 });
+//builder.Services.AddMemoryCache();
+builder.Services.AddDistributedMemoryCache();
+//builder.Services.AddDistributedSqlServerCache(options =>
+//{
+//    options.ConnectionString = builder.Configuration.GetConnectionString(
+//        "DistCache_ConnectionString");
+//    options.SchemaName = "dbo";
+//    options.TableName = "TestCache";
+//});
+
+//builder.Services.AddStackExchangeRedisCache(options =>
+//{
+//    options.InstanceName = "RaastKar";
+//    options.Configuration = "192.168.174.128:6379,password:123456";
+//});
+
 
 builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
  {
@@ -131,6 +150,8 @@ builder.Services.ConfigureApplicationCookie(x =>
 //builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 
 var app = builder.Build();
+app.UseExceptionHandler2();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -32,21 +32,27 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
         public async Task<int> Add(UserDTO user, string password)
         {
-            var newUser = new AppUser();
-            newUser.UserName = user.UserName;
-            newUser.Email = user.Email;
-            newUser.FirstName = user.FirstName;
-            newUser.LastName = user.LastName;
-            newUser.Address = user.Address;
-            newUser.NationalCode = user.NationalCode;
-            newUser.Mobile = user.Mobile;
-            newUser.PhoneNumber = user.PhoneNumber;
-            var result = await _userManager.CreateAsync(newUser, password);
-            if (result.Succeeded)
-                await _userManager.AddToRoleAsync(newUser, "Customer");
-            return newUser.Id;
-
-
+            try
+            {
+                var newUser = new AppUser();
+                newUser.UserName = user.UserName;
+                newUser.Email = user.Email;
+                newUser.FirstName = user.FirstName;
+                newUser.LastName = user.LastName;
+                newUser.Address = user.Address;
+                newUser.NationalCode = user.NationalCode;
+                newUser.Mobile = user.Mobile;
+                newUser.PhoneNumber = user.PhoneNumber;
+                var result = await _userManager.CreateAsync(newUser, password);
+                if (result.Succeeded)
+                    await _userManager.AddToRoleAsync(newUser, "Custommer");
+                return newUser.Id;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "فرایند {عملیات} کاربر با خطا روبه رو شد", "ثبت نام");
+                throw new Exception("فرایند ثبت نام کاربر با خطا روبه رو شد");
+            }
         }
 
 
@@ -63,11 +69,13 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             var result = await _userManager.CheckPasswordAsync(user, password);
             if (result)
             {
+                _logger.LogInformation("کاربر {نام کاربری} با موفقیت {عملیات} سیستم شد", userName, "عملیات");
                 await _signInManager.SignInAsync(user, remember);
                 return user.Id;
             }
             else
             {
+                _logger.LogWarning("خطایی در فرایند {عملیات}کاربر {نام کاربری} رخ داد", "عملیات", userName);
                 return 0;
             }
 
@@ -76,8 +84,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task SignInUserById(int id, bool isPersistent)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
+            _logger.LogInformation("کاربری با شناسه کاربری {آی دی} {عملیات} سایت شد",id,"وارد");
             await _signInManager.SignInAsync(user, isPersistent);
-
         }
 
         public async Task SignoutUser()
@@ -87,7 +95,6 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
         public async Task Update(UserDTO user, string oldPassword, string newPassword)
         {
-            _logger.LogTrace("start of update {methodName}", "Update");
             var user1 = await _userManager.FindByIdAsync(user.Id.ToString());
             if (!string.IsNullOrWhiteSpace(newPassword))
             {
@@ -95,15 +102,14 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 if (result)
                 {
                     await _userManager.ChangePasswordAsync(user1, oldPassword, newPassword);
-                    _logger.LogInformation("{property} Changed Successfully", "password");
+                    _logger.LogInformation("رمز عبور کاربر {نام کاربری} با موفقیت {عملیات} شد", user.UserName,"به روز رسانی");
                 }
                 else
                 {
-                    _logger.LogWarning("something goes wrong during changing {property} and operation faild", "password");
+                    _logger.LogWarning("خطایی در {عملیات} تغییر نام کاربری کاربر {نام کاربری} رخ داد", "به روز رسانی",user.UserName);
                 }
 
             }
-            _logger.LogTrace("updating {section} of user started", "properties");
             user1.Email = user.Email;
             user1.FirstName = user.FirstName;
             user1.LastName = user.LastName;
@@ -115,33 +121,18 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             var roles = await _userManager.GetRolesAsync(user1);
             await _userManager.RemoveFromRolesAsync(user1, roles);
             await _userManager.AddToRolesAsync(user1, user.Roles);
-            //foreach (var role in roles)
-            //{
-            //    if (user.Roles.Any(x => x != role))
-            //    {
-            //        await _userManager.RemoveFromRoleAsync(user1, role);
-            //    }
-            //}
-            //foreach (var role in user.Roles)
-            //{
-            //    await _userManager.AddToRoleAsync(user1, role);
-            //}
             await _userManager.UpdateAsync(user1);
-            _logger.LogInformation("user {action} progress done successfully", "Update");
+            _logger.LogInformation("{عملیات} مشخصات کاربر با نام کاربری {نام کاربری} با موفقیت انجام شد", "به روز رسانی",user.UserName);
 
-            _logger.LogTrace("end of Update {methodName}", "Update");
         }
 
         public async Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken)
         {
             var result = await _appDbContext.ExpertCategories.Where(c => c.ExpertId == userId).ToListAsync();
-            //foreach (var item in result)
-            //{
-            //    _appDbContext.ExpertCategories.Remove(item);
-            //}
+            
             foreach (var item in categories)
             {
-                if (!result.Select(x=>x.CategoryId).Contains(item))
+                if (!result.Select(x => x.CategoryId).Contains(item))
                 {
                     ExpertCategory skill = new()
                     {
@@ -154,13 +145,15 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 }
             }
             await _appDbContext.SaveChangesAsync(cancellationToken);
+            _logger.LogInformation("{عملیات} مشخصات کاربر با شناسه کاربری {شناسه کاربری} با موفقیت انجام شد", "به روز رسانی مهارت", userId);
         }
 
         public async Task UpdateProfilePicture(UserDTO user, CancellationToken cancellationToken)
         {
-            var yser=await _userManager.FindByIdAsync(user.Id.ToString());
+            var yser = await _userManager.FindByIdAsync(user.Id.ToString());
             yser.ProfilePicture = user.ProfilePicture;
             await _userManager.UpdateAsync(yser);
+            _logger.LogInformation("{عملیات} مشخصات کاربر با نام کاربری {نام کاربری} با موفقیت انجام شد", "به روز رسانی تصویر پروفایل", user.UserName);
         }
     }
 }

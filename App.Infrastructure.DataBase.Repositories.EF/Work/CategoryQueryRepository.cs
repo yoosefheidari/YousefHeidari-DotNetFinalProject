@@ -2,6 +2,7 @@
 using App.Domain.Core.Work.DTOs;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
     public class CategoryQueryRepository : ICategoryQueryRepository
     {
         private readonly AppDbContext _appDbContext;
+        private readonly ILogger<CategoryQueryRepository> _logger;
 
-        public CategoryQueryRepository(AppDbContext appDbContext)
+        public CategoryQueryRepository(AppDbContext appDbContext, ILogger<CategoryQueryRepository> logger)
         {
             _appDbContext = appDbContext;
+            _logger = logger;
         }
         public async Task<CategoryDTO> Get(int id, CancellationToken cancellationToken)
         {
@@ -29,6 +32,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 CreationDate = category.CreationDate,
                 IsDeleted = category.IsDeleted,
             };
+            _logger.LogInformation($"دسته بندی با آی دی {id} فراخوانی شد", "id");
             return categoryDto;
         }
 

@@ -1,5 +1,4 @@
 ﻿
-
 using App.Domain.Core.Work.Contracts.AppServices;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,7 +15,7 @@ namespace App.EndPoint.MVC.UI.ViewComponents
 
         public IViewComponentResult Invoke(CancellationToken cancellationToken)
         {
-            var categoies =_categoryAppService.GetAllWithServices(cancellationToken).Result;
+            var categoies = _categoryAppService.GetAllWithServices(cancellationToken).Result;       
             return View("_CategoryList", categoies);
         }
     }

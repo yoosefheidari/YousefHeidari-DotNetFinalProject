@@ -7,6 +7,7 @@ using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,15 +21,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         private readonly UserManager<AppUser> _userManager;
         private readonly RoleManager<IdentityRole<int>> _roleManager;
         private readonly AppDbContext _appDbContext;
+        private readonly ILogger<UserQueryRepository> _logger;
 
-        public UserQueryRepository(UserManager<AppUser> userManager, AppDbContext appDbContext, RoleManager<IdentityRole<int>> roleManager)
+        public UserQueryRepository(UserManager<AppUser> userManager, AppDbContext appDbContext, RoleManager<IdentityRole<int>> roleManager, ILogger<UserQueryRepository> logger)
         {
             _userManager = userManager;
             _appDbContext = appDbContext;
             _roleManager = roleManager;
+            _logger = logger;
         }
 
-        
+
 
         public async Task<UserDTO> Get(string name)
         {
@@ -179,6 +182,12 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             };
             var roles = await _userManager.GetRolesAsync(user);
             userDto.Roles = roles.ToList();
+            if (roles.Count == 1 && roles.Contains("Customer"))
+                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "مشتری");
+            if(roles.Count == 2 && roles.Contains("Customer") && roles.Contains("Expert"))
+                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "متخصص");
+            if (roles.Contains("Admin"))
+                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "ادمین");
 
             userDto.expertCategories = await _appDbContext.ExpertCategories
                     .Where(x => x.ExpertId == userDto.Id)
