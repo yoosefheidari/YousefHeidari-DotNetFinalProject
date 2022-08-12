@@ -45,7 +45,10 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 newUser.PhoneNumber = user.PhoneNumber;
                 var result = await _userManager.CreateAsync(newUser, password);
                 if (result.Succeeded)
+                {
                     await _userManager.AddToRoleAsync(newUser, "Custommer");
+                    _logger.LogInformation("new user {username} is {action} successfully", newUser.UserName, "create");
+                }
                 return newUser.Id;
             }
             catch (Exception ex)
@@ -61,6 +64,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
             await _userManager.DeleteAsync(user);
+            _logger.LogInformation("user with id {id} is {action} successfully", id, "delete");
         }
 
         public async Task<int> LoginUser(string userName, string password, bool remember)
@@ -75,7 +79,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             }
             else
             {
-                _logger.LogWarning("خطایی در فرایند {عملیات}کاربر {نام کاربری} رخ داد", "عملیات", userName);
+                _logger.LogWarning("خطایی در فرایند {عملیات}کاربر {نام کاربری} رخ داد", "ورود", userName);
                 return 0;
             }
 
@@ -106,7 +110,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 }
                 else
                 {
-                    _logger.LogWarning("خطایی در {عملیات} تغییر نام کاربری کاربر {نام کاربری} رخ داد", "به روز رسانی",user.UserName);
+                    _logger.LogWarning("خطایی در {عملیات} رمز عبور کاربر {نام کاربری} رخ داد", "به روز رسانی",user.UserName);
                 }
 
             }

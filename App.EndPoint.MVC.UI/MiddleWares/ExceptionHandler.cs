@@ -18,15 +18,34 @@ namespace App.EndPoint.MVC.UI.MiddleWares
 
         public async Task Invoke(HttpContext httpContext)
         {
-            
+
             try
             {
                 await _next(httpContext);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "خطایی رخ داده است");
-                httpContext.Response.Redirect("Home/Error");
+                if (ex.GetType() == typeof(NullReferenceException))
+                    _logger.LogError(ex, "داده درخواستی وجود ندارد");
+
+                else if (ex.GetType() == typeof(DirectoryNotFoundException))
+                    _logger.LogError(ex, "مسیر درخواستی وجود ندارد");
+
+                else if (ex.GetType() == typeof(ArgumentNullException))
+                    _logger.LogError(ex, "مقدار وارد شده صحیح نیست");
+
+                else if (ex.GetType() == typeof(FileNotFoundException))
+                    _logger.LogError(ex, "فایل درخواستی شما وجود ندارد");
+
+                else if (ex.GetType() == typeof(AggregateException))
+                    _logger.LogCritical(ex, "ارتباط با دیتابیس خطا دارد");
+
+                else
+                {
+                    _logger.LogError(ex, "خطایی رخ داده است");                    
+                }
+
+                httpContext.Response.Redirect("/Home/Error");
             }
         }
     }

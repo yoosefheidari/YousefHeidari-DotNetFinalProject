@@ -2,6 +2,7 @@
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,21 +16,33 @@ namespace App.Domain.AppServices.Work
     {
         private readonly ICategoryService _categoryService;
         private readonly IDistributedCache _distributedCache;
-        public CategoryAppService(ICategoryService categoryService, IDistributedCache distributedCache)
+        private readonly ILogger<CategoryAppService> _logger;
+
+        public CategoryAppService(ICategoryService categoryService, IDistributedCache distributedCache, ILogger<CategoryAppService> logger)
         {
             _categoryService = categoryService;
             _distributedCache = distributedCache;
+            _logger = logger;
         }
 
         public async Task<List<CategoryDTO>> GetAll(CancellationToken cancellationToken)
         {
             var result = await _categoryService.GetAll(cancellationToken);
+            
             return result;
         }
 
         public async Task<int> Add(CategoryDTO category, CancellationToken cancellationToken)
         {
             var result = await _categoryService.Add(category, cancellationToken);
+            if (result != 0)
+            {
+                _logger.LogInformation("new category {action} successfully", "add");
+            }
+            else
+            {
+                _logger.LogWarning("{action} new category failed", "add");
+            }
             return result;
         }
 
@@ -42,6 +55,7 @@ namespace App.Domain.AppServices.Work
         public async Task Update(CategoryDTO category, CancellationToken cancellationToken)
         {
             await _categoryService.Update(category, cancellationToken);
+            _logger.LogInformation("new category {action} successfully", "update");
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
@@ -51,8 +65,6 @@ namespace App.Domain.AppServices.Work
 
         public async Task<List<CategoryDTO>> GetAllWithServices(CancellationToken cancellationToken)
         {
-            var fff = _distributedCache.Get("Categories");
-            Console.WriteLine("hello");
             var categories = new List<CategoryDTO>();
             
             if (_distributedCache.Get("Categories") != null)

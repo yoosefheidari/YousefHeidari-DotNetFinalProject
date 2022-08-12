@@ -19,7 +19,7 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
-builder.Logging.AddSeq("http://localhost:5341/", "6g08rf6N4EMyPxKT6bl8");
+builder.Logging.AddSeq(builder.Configuration.GetSection("Seq"));
 // Add services to the container.
 
 
@@ -86,12 +86,7 @@ builder.Services.AddScoped<IUtilityAppService, UtilityAppService>();
 #endregion
 
 
-
-
 builder.Services.AddControllersWithViews();
-
-
-
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<AppDbContext>(option =>
@@ -138,14 +133,6 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.Cookie.Name = "YousefProjectCookie";
     x.AccessDeniedPath = "/Home/AccessDenied";
 });
-
-
-
-
-
-
-
-
 
 //builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 

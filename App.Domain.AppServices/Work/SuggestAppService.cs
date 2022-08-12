@@ -1,6 +1,7 @@
 ﻿using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,12 @@ namespace App.Domain.AppServices.Work
     public class SuggestAppService : ISuggestAppService
     {
         private readonly ISuggestService _suggestService;
-        public SuggestAppService(ISuggestService suggestService)
+        private readonly ILogger<SuggestAppService> _logger;
+
+        public SuggestAppService(ISuggestService suggestService, ILogger<SuggestAppService> logger)
         {
             _suggestService = suggestService;
+            _logger = logger;
         }
 
         public async Task<int> CreateSuggest(int orderId, int expertId, int price, string description, CancellationToken cancellationToken)
@@ -30,12 +34,21 @@ namespace App.Domain.AppServices.Work
                 OrderId = orderId,
             };
             var result = await _suggestService.Add(suggest, cancellationToken);
+            if (result != 0)
+            {
+                _logger.LogInformation("new suggest {action} successfully", "add");
+            }
+            else
+            {
+                _logger.LogWarning("{action} new suggest failed", "add");
+            }
             return result;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
             await _suggestService.Delete(id, cancellationToken);
+            _logger.LogInformation("suggest with id {id} {action} successfully", id, "Delete");
         }
 
         public async Task<SuggestDTO> Get(int id, CancellationToken cancellationToken)

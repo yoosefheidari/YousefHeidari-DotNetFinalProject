@@ -4,6 +4,7 @@ using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,13 +22,14 @@ namespace App.Domain.AppServices.Work
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ISuggestAppService _suggestAppService;
         private readonly IConfiguration _configuration;
+        private readonly ILogger<OrderAppService> _logger;
 
         public OrderAppService(IOrderService orderService
             , IFileService fileService
             , IUserService userService, IServiceService serviceService
             , IHttpContextAccessor httpContextAccessor
             , ISuggestAppService suggestAppService
-            , IConfiguration configuration)
+            , IConfiguration configuration, ILogger<OrderAppService> logger)
         {
             _orderService = orderService;
             _fileService = fileService;
@@ -36,6 +38,7 @@ namespace App.Domain.AppServices.Work
             _httpContextAccessor = httpContextAccessor;
             _suggestAppService = suggestAppService;
             _configuration = configuration;
+            _logger = logger;
         }
 
         public async Task AcceptOrderSuggest(int suggestId, CancellationToken cancellationToken)
@@ -49,6 +52,8 @@ namespace App.Domain.AppServices.Work
             order.ConfirmedExpertId = suggest.ExpertId;
             order.IsConfirmedByCustomer = true;
             await _orderService.Update(order, cancellationToken);
+            _logger.LogInformation("suggest with id {id} accepted for order with id {id}", suggest.Id, suggest.OrderId);
+
         }
 
         public async Task<int> AddNewOrder(OrderDTO order, List<IFormFile> files, CancellationToken cancellationToken)
@@ -61,6 +66,14 @@ namespace App.Domain.AppServices.Work
             var result = await _orderService.Add(order, cancellationToken);
             var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);
             await _orderService.AddOrderFiles(result, fileIds, cancellationToken);
+            if (result != 0)
+            {
+                _logger.LogInformation("new order {action} successfully", "add");
+            }
+            else
+            {
+                _logger.LogWarning("{action} new order failed", "add");
+            }
             return result;
         }
 
@@ -69,6 +82,7 @@ namespace App.Domain.AppServices.Work
             var order = await _orderService.Get(orderId, cancellationToken);
             order.StatusId++;
             await _orderService.Update(order, cancellationToken);
+            _logger.LogInformation("status of order with id {id} changed to level {statusId}",orderId, order.StatusId);
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
@@ -82,6 +96,7 @@ namespace App.Domain.AppServices.Work
             var physicalFilePath = result.Path;
             File.Delete(physicalFilePath);
             await _orderService.DeleteOrderFile(id, cancellationToken);
+            _logger.LogInformation("files for order with id {id} {action} successfully", id, "Delete");
         }
 
         public async Task<OrderDTO> Get(int id, CancellationToken cancellationToken)

@@ -3,6 +3,7 @@ using App.Domain.Core.Work.Contracts.AppServices;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,16 +16,26 @@ namespace App.Domain.AppServices.Work
     {
         private readonly ICommentService _commentService;
         private readonly IUserAppService _userAppService;
+        private readonly ILogger<CommentAppService> _logger;
 
-        public CommentAppService(ICommentService commentService, IUserAppService userAppService)
+        public CommentAppService(ICommentService commentService, IUserAppService userAppService, ILogger<CommentAppService> logger)
         {
             _commentService = commentService;
             _userAppService = userAppService;
+            _logger = logger;
         }
 
         public async Task<int> Add(CommentDTO comment, CancellationToken cancellationToken)
         {
             var result = await _commentService.Add(comment, cancellationToken);
+            if (result != 0)
+            {
+                _logger.LogInformation("new comment {action} successfully", "add");
+            }
+            else
+            {
+                _logger.LogWarning("{action} new comment failed", "add");
+            }
             return result;
         }
 
@@ -41,17 +52,25 @@ namespace App.Domain.AppServices.Work
                 OrderId = orderId,
                 ServiceId = serviceId,
                 Title = title,
-                IsWriteByCustomer=false
+                IsWriteByCustomer = false
             };
-            if(currentUser.Roles.Count==1 && currentUser.Roles.Contains("Customer") || currentUser.Roles.Contains("CUSTOMER"))
+            if (currentUser.Roles.Count == 1 && currentUser.Roles.Contains("Customer") || currentUser.Roles.Contains("CUSTOMER"))
+
+            {
                 comment.IsWriteByCustomer = true;
+                
+            }
+
+
             var id = await _commentService.Add(comment, cancellationToken);
+            _logger.LogInformation("new commment {action} for order with id {id} by {user}", "create",orderId,currentUser.UserName);
             return id;
         }
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
             await _commentService.Delete(id, cancellationToken);
+            _logger.LogInformation("comment {action} successfully", "Delete");
         }
 
         public async Task<CommentDTO> Get(int id, CancellationToken cancellationToken)

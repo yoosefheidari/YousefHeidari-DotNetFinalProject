@@ -3,6 +3,7 @@ using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace App.Domain.AppServices.Work
     {
         private readonly IServiceService _serviceService;
         private readonly IFileService _fileService;
+        private readonly ILogger<ServcieAppServcie> _logger;
 
-        public ServcieAppServcie(IServiceService serviceService, IFileService fileService)
+        public ServcieAppServcie(IServiceService serviceService, IFileService fileService, ILogger<ServcieAppServcie> logger)
         {
             _serviceService = serviceService;
             _fileService = fileService;
+            _logger = logger;
         }
 
         public async Task<int> Add(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken)
@@ -28,6 +31,14 @@ namespace App.Domain.AppServices.Work
             var serviceId = await _serviceService.Add(serviceDTO, cancellationToken);
             var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);
             var result = await _serviceService.AddServiceFiles(serviceId, fileIds, cancellationToken);
+            if (serviceId!=0)
+            {
+                _logger.LogInformation("new service {action} successfully", "add");
+            }
+            else
+            {
+                _logger.LogWarning("{action} new service failed", "add");
+            }
             return serviceId;
         }
 
@@ -40,6 +51,7 @@ namespace App.Domain.AppServices.Work
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
             await _serviceService.Delete(id, cancellationToken);
+            _logger.LogInformation("service with id {id} {action} successfully", id, "Delete");
         }
 
         public async Task DeleteServiceFile(int id, CancellationToken cancellationToken)
