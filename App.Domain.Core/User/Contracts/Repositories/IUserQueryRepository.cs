@@ -13,7 +13,7 @@ namespace App.Domain.Core.User.Contracts.Repositories
         Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken);
         Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByUserName(string username);
-        Task<UserDTO> GetUserByEmail(string email);
+        Task<UserDTO>? GetUserByEmail(string email);
         Task<List<RoleDTO>> GetRoles();
     }
 }

@@ -23,31 +23,48 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         }
         public async Task<CategoryDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var category = await _appDbContext.Categories
-                .Where(x => x.Id == id).SingleAsync(cancellationToken);
-            var categoryDto = new CategoryDTO()
+            try
             {
-                Id = id,
-                Name = category.Name,
-                CreationDate = category.CreationDate,
-                IsDeleted = category.IsDeleted,
-            };
-            _logger.LogInformation($"دسته بندی با آی دی {id} فراخوانی شد", "id");
-            return categoryDto;
+                var category = await _appDbContext.Categories
+                .Where(x => x.Id == id).SingleAsync(cancellationToken);
+                var categoryDto = new CategoryDTO()
+                {
+                    Id = id,
+                    Name = category.Name,
+                    CreationDate = category.CreationDate,
+                    IsDeleted = category.IsDeleted,
+                };
+                _logger.LogInformation($"دسته بندی با آی دی {id} فراخوانی شد", "id");
+                return categoryDto;
+            }
+            catch (Exception ex)
+            {
+                throw new KeyNotFoundException("دسته بندی درخواست شده وجود ندارد");
+            }
+            
         }
 
         public async Task<CategoryDTO> Get(string name, CancellationToken cancellationToken)
         {
-            var category = await _appDbContext.Categories
-                .Where(x => x.Name.ToLower() == name.ToLower()).SingleAsync(cancellationToken);
-            var categoryDto = new CategoryDTO()
+            try
             {
-                Id = category.Id,
-                Name = category.Name,
-                CreationDate = DateTime.Now,
-                IsDeleted = category.IsDeleted,
-            };
-            return categoryDto;
+                var category = await _appDbContext.Categories
+                .Where(x => x.Name.ToLower() == name.ToLower()).SingleAsync(cancellationToken);
+                var categoryDto = new CategoryDTO()
+                {
+                    Id = category.Id,
+                    Name = category.Name,
+                    CreationDate = DateTime.Now,
+                    IsDeleted = category.IsDeleted,
+                };
+                _logger.LogInformation($"دسته بندی با نام {name} فراخوانی شد", "id");
+                return categoryDto;
+            }
+            catch(Exception ex)
+            {
+                throw new KeyNotFoundException("دسته بندی درخواست شده وجود ندارد");
+            }
+            
         }
 
         public async Task<List<CategoryDTO>> GetAll(CancellationToken cancellationToken)

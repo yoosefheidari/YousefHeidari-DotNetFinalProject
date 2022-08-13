@@ -124,9 +124,27 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
             return roleDtos;
         }
 
-        public Task<UserDTO> GetUserByEmail(string email)
+        public async Task<UserDTO>? GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return null;
+            else
+            {
+                UserDTO? userDto = new UserDTO()
+                {
+                    Address = user.Address,
+                    FirstName = user.FirstName,
+                    Email = user.Email,
+                    Id = user.Id,
+                    LastName = user.LastName,
+                    Mobile = user.Mobile,
+                    NationalCode = user.NationalCode,
+                    PhoneNumber = user.PhoneNumber,
+                    UserName = user.UserName,
+                };
+                return userDto;
+            }
         }
 
         public async Task<UserDTO> Get(int id)
@@ -165,97 +183,103 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
         public async Task<UserDTO> GetUserByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
-
-            UserDTO userDto = new()
+            if (user == null)
+                return null;
+            else
             {
-                Id = user.Id,
-                Address = user.Address,
-                FirstName = user.FirstName,
-                Email = user.Email,
-                LastName = user.LastName,
-                Mobile = user.Mobile,
-                NationalCode = user.NationalCode,
-                PhoneNumber = user.PhoneNumber,
-                ProfilePicture = user.ProfilePicture,
-                UserName = user.UserName,
-
-            };
-            var roles = await _userManager.GetRolesAsync(user);
-            userDto.Roles = roles.ToList();
-            if (roles.Count == 1 && roles.Contains("Customer"))
-                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "مشتری");
-            if(roles.Count == 2 && roles.Contains("Customer") && roles.Contains("Expert"))
-                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "متخصص");
-            if (roles.Contains("Admin"))
-                _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "ادمین");
-
-            userDto.expertCategories = await _appDbContext.ExpertCategories
-                    .Where(x => x.ExpertId == userDto.Id)
-                    .Select(x => x.Category)
-                    .Select(x => new CategoryDTO()
-                    {
-                        CreationDate = x.CreationDate,
-                        IsDeleted = x.IsDeleted,
-                        Id = x.Id,
-                        Name = x.Name
-                    }).ToListAsync();
-
-            userDto.UserOrders = await _appDbContext.Orders.Where(x => x.CustomerId == userDto.Id).Select(x => new OrderDTO()
-            {
-                Id = x.Id,
-                Description = x.Description,
-                FinalPrice = x.FinalPrice,
-                ConfirmedExpertId = x.ConfirmedExpertId,
-                CreationDate = x.CreationDate,
-                ShamsiCreationDate = x.CreationDate.ToShamsi(),
-                CustomerId = x.CustomerId,
-                IsConfirmedByCustomer = x.IsConfirmedByCustomer,
-                StatusId = x.StatusId,
-                ServiceId = x.ServiceId,
-                IsDeleted = x.IsDeleted,
-                CategoryId = x.Service.CategoryId,
-                StatusName = x.Status.Name,
-                StatusValue = x.Status.StatusValue,
-                CustomerName = x.Customer.UserName,
-                ExpertName = x.Expert.UserName,
-                ServiceName = x.Service.Title,
-                Address = x.Customer.Address,
-                Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
+                UserDTO userDto = new()
                 {
-                    Id = h.Id,
-                    CreationDate = h.CreationDate,                    
-                    Description = h.Description,
-                    IsDeleted = h.IsDeleted,
-                    ExpertId = h.ExpertId,
-                    IsConfirmedByCustomer = h.IsConfirmedByCustomer,
-                    OrderId = h.OrderId,
-                    SuggestedPrice = h.SuggestedPrice,
-                    ExpertName = h.Expert.UserName,
-                }).ToList(),
-                Comments = x.Comments.Select(h => new CommentDTO()
+                    Id = user.Id,
+                    Address = user.Address,
+                    FirstName = user.FirstName,
+                    Email = user.Email,
+                    LastName = user.LastName,
+                    Mobile = user.Mobile,
+                    NationalCode = user.NationalCode,
+                    PhoneNumber = user.PhoneNumber,
+                    ProfilePicture = user.ProfilePicture,
+                    UserName = user.UserName,
+
+                };
+                var roles = await _userManager.GetRolesAsync(user);
+                userDto.Roles = roles.ToList();
+                if (roles.Count == 1 && roles.Contains("Customer"))
+                    _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "مشتری");
+                if (roles.Count == 2 && roles.Contains("Customer") && roles.Contains("Expert"))
+                    _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "متخصص");
+                if (roles.Contains("Admin"))
+                    _logger.LogInformation("کاربر مورد نظر {نقش} می باشد", "ادمین");
+
+                userDto.expertCategories = await _appDbContext.ExpertCategories
+                        .Where(x => x.ExpertId == userDto.Id)
+                        .Select(x => x.Category)
+                        .Select(x => new CategoryDTO()
+                        {
+                            CreationDate = x.CreationDate,
+                            IsDeleted = x.IsDeleted,
+                            Id = x.Id,
+                            Name = x.Name
+                        }).ToListAsync();
+
+                userDto.UserOrders = await _appDbContext.Orders.Where(x => x.CustomerId == userDto.Id).Select(x => new OrderDTO()
                 {
-                    CreationDate = h.CreationDate,
-                    ShamsiCreationDate=h.CreationDate.ToShamsi(),
-                    Description = h.Description,
-                    Id = h.Id,
-                    IsApproved = h.IsApproved,
-                    IsDeleted = h.IsDeleted,
-                    OrderId = h.OrderId,
-                    //ServiceId = x.ServiceId,
-                    Title = h.Title,
-                    IsWriteByCustomer = h.IsWriteByCustomer,
+                    Id = x.Id,
+                    Description = x.Description,
+                    FinalPrice = x.FinalPrice,
+                    ConfirmedExpertId = x.ConfirmedExpertId,
+                    CreationDate = x.CreationDate,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
+                    CustomerId = x.CustomerId,
+                    IsConfirmedByCustomer = x.IsConfirmedByCustomer,
+                    StatusId = x.StatusId,
                     ServiceId = x.ServiceId,
-                }).ToList(),
-                Photos=x.OrderFiles.Select(f=>f.File).Select(z=>new PhysicalFileDTO()
-                {
-                    CreationDate=z.CreationDate,
-                    Id=z.Id,
-                    IsDeleted=z.IsDeleted,
-                    Path = z.Path,
-                }).ToList(),
+                    IsDeleted = x.IsDeleted,
+                    CategoryId = x.Service.CategoryId,
+                    StatusName = x.Status.Name,
+                    StatusValue = x.Status.StatusValue,
+                    CustomerName = x.Customer.UserName,
+                    ExpertName = x.Expert.UserName,
+                    ServiceName = x.Service.Title,
+                    Address = x.Customer.Address,
+                    Suggests = x.ExpertSuggests.Select(h => new SuggestDTO()
+                    {
+                        Id = h.Id,
+                        CreationDate = h.CreationDate,
+                        Description = h.Description,
+                        IsDeleted = h.IsDeleted,
+                        ExpertId = h.ExpertId,
+                        IsConfirmedByCustomer = h.IsConfirmedByCustomer,
+                        OrderId = h.OrderId,
+                        SuggestedPrice = h.SuggestedPrice,
+                        ExpertName = h.Expert.UserName,
+                    }).ToList(),
+                    Comments = x.Comments.Select(h => new CommentDTO()
+                    {
+                        CreationDate = h.CreationDate,
+                        ShamsiCreationDate = h.CreationDate.ToShamsi(),
+                        Description = h.Description,
+                        Id = h.Id,
+                        IsApproved = h.IsApproved,
+                        IsDeleted = h.IsDeleted,
+                        OrderId = h.OrderId,
+                        //ServiceId = x.ServiceId,
+                        Title = h.Title,
+                        IsWriteByCustomer = h.IsWriteByCustomer,
+                        ServiceId = x.ServiceId,
+                    }).ToList(),
+                    Photos = x.OrderFiles.Select(f => f.File).Select(z => new PhysicalFileDTO()
+                    {
+                        CreationDate = z.CreationDate,
+                        Id = z.Id,
+                        IsDeleted = z.IsDeleted,
+                        Path = z.Path,
+                    }).ToList(),
 
-            }).ToListAsync();
-            return userDto;
+                }).ToListAsync();
+                return userDto;
+            }
+
+
         }
     }
 }

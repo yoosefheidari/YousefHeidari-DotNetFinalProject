@@ -1,4 +1,4 @@
-﻿@model UserDTO
+﻿@model RegisterUserViewModel
 
 <!-- Sign Up End -->
 <div class="container my-auto">
@@ -12,8 +12,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <form role="form" class="text-start" asp-area="" asp-controller="Account" asp-action="Register" method="post">
-                        
+                    <form role="form" class="text-end" asp-area="" asp-controller="Account" asp-action="Register" method="post">
+                        <div asp-validation-summary=All class="text-danger"></div>
                         
                         <div class="input-group input-group-static mb-4">
                             <label asp-for="UserName" ></label>

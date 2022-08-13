@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 
 namespace App.Domain.Core.User.DTOs
 {
@@ -26,6 +27,8 @@ namespace App.Domain.Core.User.DTOs
         [Display(Name = ("تکرار رمز عبور"))]
         [Required(ErrorMessage = "تکرار رمز عبور حداقل 3 حرف باشد")]
         [DataType(DataType.Password)]
+        
+        [System.ComponentModel.DataAnnotations.Compare("Password",ErrorMessage ="رمز عبور و تکرار رمز عبور متفاوت هستند")]
         public string ConfirmPassword { get; set; }
 
         [Display(Name = ("ایمیل"))]

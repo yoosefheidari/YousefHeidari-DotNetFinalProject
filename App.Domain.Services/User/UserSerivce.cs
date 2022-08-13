@@ -121,5 +121,11 @@ namespace App.Domain.Services.User
         {
             await _userCommandRepository.UpdateProfilePicture(user, cancellationToken);
         }
+
+        public async Task<UserDTO> GetUserByEmail(string email)
+        {
+            var userr=await _userQueryRepository.GetUserByEmail(email);
+            return userr;
+        }
     }
 }

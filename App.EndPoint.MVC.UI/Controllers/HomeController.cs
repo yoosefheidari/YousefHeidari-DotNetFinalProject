@@ -37,7 +37,6 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public IActionResult Index(int id, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("به کنترلر هم رسیده");
             return View();
         }
 

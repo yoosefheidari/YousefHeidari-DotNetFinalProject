@@ -50,7 +50,7 @@ namespace App.Domain.AppServices.User
         {
             var users = await _userService.GetAll(id, search, cancellationToken);
             return users;
-        }        
+        }
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
@@ -118,6 +118,32 @@ namespace App.Domain.AppServices.User
             var filee = await _fileService.Get(ids[0], cancellationToken);
             currentUser.ProfilePicture = filee.Path;
             await _userService.UpdateProfilePicture(currentUser, cancellationToken);
+        }
+
+        public async Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken)
+        {
+            var userByUsername = await _userService.GetUserByUserName(user.UserName);
+            var userByEmail = await _userService.GetUserByEmail(user.Email);
+            if (userByUsername != null || userByEmail != null)
+                return false;
+            return true;
+
+        }
+
+        public async Task<bool> EnsureUserNameIsNotExist(string username, CancellationToken cancellationToken)
+        {
+            var user = await _userService.GetUserByUserName(username);
+            if (user != null)
+                return false;
+            return true;
+        }
+
+        public async Task<bool> EnsureEmailIsNotExist(string email, CancellationToken cancellationToken)
+        {
+            var user = await _userService.GetUserByEmail(email);
+            if (user != null)
+                return false;
+            return true;
         }
     }
 }

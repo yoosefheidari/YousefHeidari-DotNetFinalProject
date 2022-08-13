@@ -14,6 +14,7 @@ namespace App.Domain.Core.User.Contracts.Services
         Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken);
         Task<UserDTO> Get(int id);
         Task<UserDTO> GetUserByUserName(string username);
+        Task<UserDTO>? GetUserByEmail(string email);
         Task<int> RegisterUser(UserDTO user, string password);
         Task Update(UserDTO user, string oldPassword, string newPassword);
         Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken);

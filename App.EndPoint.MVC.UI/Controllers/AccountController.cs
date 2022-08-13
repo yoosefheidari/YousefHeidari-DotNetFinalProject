@@ -1,6 +1,8 @@
 ﻿using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.User.DTOs;
 using App.Domain.Core.Work.Contracts.AppServices;
+using App.EndPoint.MVC.UI.MappingProfile;
+using App.EndPoint.MVC.UI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -77,9 +79,15 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(UserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(RegisterUserViewModel userModel, CancellationToken cancellationToken)
 
         {
+            var userDTO = UserMapping.MapUserViewModelToUserDto(userModel);
+            var result = await _userAppService.EnsureUserIsNotExist(userDTO, cancellationToken);
+            if (!result)
+            {
+                ModelState.AddModelError("exist", "نام کاربری یا ایمیل تکراری است");
+            }
             if (!ModelState.IsValid)
             {
                 return View(userDTO);
@@ -89,6 +97,17 @@ namespace App.EndPoint.MVC.UI.Controllers
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
+
+        public async Task<bool> EnsureEmailIsNotExist(string Email, CancellationToken cancellationToken)
+        {
+            return await _userAppService.EnsureEmailIsNotExist(Email, cancellationToken);
+        }
+        public async Task<bool> EnsureUserNameIsNotExist(string Username, CancellationToken cancellationToken)
+        {
+            return await _userAppService.EnsureUserNameIsNotExist(Username, cancellationToken);
+        }
+
+
 
 
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)

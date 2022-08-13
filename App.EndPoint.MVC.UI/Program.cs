@@ -130,14 +130,14 @@ builder.Services.AddIdentity<AppUser, IdentityRole<int>>(option =>
 //builder.Services.ConfigureApplicationCookie(x => x.LoginPath = "/Admin/Account/Login");
 builder.Services.ConfigureApplicationCookie(x =>
 {
-    x.Cookie.Name = "YousefProjectCookie";
-    x.AccessDeniedPath = "/Home/AccessDenied";
+    x.Cookie.Name = builder.Configuration.GetSection("ApplicationCookieName").Value;
+    x.AccessDeniedPath = builder.Configuration.GetSection("AccessDeniedPath").Value;
 });
 
 //builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 
 var app = builder.Build();
-app.UseExceptionHandler2();
+app.UseErrorHandler();
 
 
 // Configure the HTTP request pipeline.
