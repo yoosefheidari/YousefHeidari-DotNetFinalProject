@@ -34,6 +34,7 @@ namespace App.Domain.AppServices.Work
 
         public async Task<int> Add(CategoryDTO category, CancellationToken cancellationToken)
         {
+            await _categoryService.EnsureCategoryIsNotExist(category.Name, cancellationToken);
             var result = await _categoryService.Add(category, cancellationToken);
             if (result != 0)
             {

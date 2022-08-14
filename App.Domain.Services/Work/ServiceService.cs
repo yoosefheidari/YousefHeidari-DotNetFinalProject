@@ -16,7 +16,7 @@ namespace App.Domain.Services.Work
         private readonly IServiceQueryRepository _serviceQueryRepository;
         private readonly IServiceFileCommandRepository _serviceFileCommandRepository;
         private readonly IConfiguration _configuration;
-        
+
 
         public ServiceService(IServiceQueryRepository serviceQueryRepository, IServiceCommandRepository serviceCommandRepository, IServiceFileCommandRepository serviceFileCommandRepository, IConfiguration configuration)
         {
@@ -58,6 +58,13 @@ namespace App.Domain.Services.Work
             await _serviceCommandRepository.DeleteServiceFile(id, cancellationToken);
         }
 
+        public async Task EnsureServiceIsNotExist(string title, CancellationToken cancellationToken)
+        {
+            var service = await _serviceQueryRepository.Get(title, cancellationToken);
+            if (!(service == null))
+                throw new Exception("خدمت مورد نظر قبلا ایجاد شده است");
+        }
+
         public async Task<ServiceDTO> Get(int id, CancellationToken cancellationToken)
         {
             var result = await _serviceQueryRepository.Get(id, cancellationToken);
@@ -76,7 +83,7 @@ namespace App.Domain.Services.Work
             var paths = await _serviceQueryRepository.GetAllFiles(ServiceId, cancellationToken);
             foreach (var path in paths)
             {
-                path.Path = rootPath+"/"+path.Path;
+                path.Path = rootPath + "/" + path.Path;
             }
             return paths;
         }

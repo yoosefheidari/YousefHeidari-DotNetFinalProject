@@ -32,6 +32,13 @@ namespace App.Domain.Services.Work
             await _statusCommandRepository.Delete(id, cancellationToken);
         }
 
+        public async Task EnsureStatusIsNotExist(string name, CancellationToken cancellationToken)
+        {
+            var service = await _statusQueryRepository.Get(name, cancellationToken);
+            if (!(service == null))
+                throw new Exception("وضعیت مورد نظر قبلا ایجاد شده است");
+        }
+
         public async Task<StatusDTO> Get(int id, CancellationToken cancellationToken)
         {
             var result = await _statusQueryRepository.Get(id, cancellationToken);

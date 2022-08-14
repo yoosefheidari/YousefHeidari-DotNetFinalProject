@@ -40,7 +40,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         public async Task<ServiceDTO> Get(string name, CancellationToken cancellationToken)
         {
             var service = await _appDbContext.Services
-        .Where(x => x.Title == name).SingleAsync(cancellationToken);
+        .Where(x => x.Title == name).SingleOrDefaultAsync(cancellationToken);
+            if (service == null)
+                return null;
             var serviceDto = new ServiceDTO()
             {
                 Id = service.Id,
@@ -56,7 +58,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         public async Task<List<ServiceDTO>> GetAll(int id, CancellationToken cancellationToken)
         {
             IQueryable<Service> query = _appDbContext.Services;
-            if(id != 0)
+            if (id != 0)
             {
                 query = query.Where(x => x.CategoryId == id);
             }
@@ -76,11 +78,11 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task<List<PhysicalFileDTO>> GetAllFiles(int ServiceId, CancellationToken cancellationToken)
         {
-            var files = await _appDbContext.ServiceFiles.Where(x => x.ServiceId == ServiceId).Select(x => x.File).Select(x=>new PhysicalFileDTO()
+            var files = await _appDbContext.ServiceFiles.Where(x => x.ServiceId == ServiceId).Select(x => x.File).Select(x => new PhysicalFileDTO()
             {
                 Id = x.Id,
                 Path = x.Path,
-                CreationDate= x.CreationDate,
+                CreationDate = x.CreationDate,
                 IsDeleted = x.IsDeleted,
             }).ToListAsync(cancellationToken);
             return files;

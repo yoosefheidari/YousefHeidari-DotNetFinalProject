@@ -15,5 +15,6 @@ namespace App.Domain.Core.Work.Contracts.Services
         Task<CategoryDTO> Get(int id, CancellationToken cancellationToken);
         Task Update(CategoryDTO category, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
+        Task EnsureCategoryIsNotExist(string name, CancellationToken cancellationToken);
     }
 }

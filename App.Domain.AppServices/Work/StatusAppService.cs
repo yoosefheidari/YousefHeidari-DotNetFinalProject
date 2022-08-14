@@ -21,9 +21,10 @@ namespace App.Domain.AppServices.Work
             _logger = logger;
         }
 
-        public async Task<int> Add(StatusDTO category, CancellationToken cancellationToken)
+        public async Task<int> Add(StatusDTO status, CancellationToken cancellationToken)
         {
-            var result = await _statusService.Add(category, cancellationToken);
+            await _statusService.EnsureStatusIsNotExist(status.Name, cancellationToken);
+            var result = await _statusService.Add(status, cancellationToken);
             if (result != 0)
             {
                 _logger.LogInformation("new status {action} successfully", "add");

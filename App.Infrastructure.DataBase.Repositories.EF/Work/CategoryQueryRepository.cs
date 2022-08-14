@@ -49,7 +49,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             try
             {
                 var category = await _appDbContext.Categories
-                .Where(x => x.Name.ToLower() == name.ToLower()).SingleAsync(cancellationToken);
+                .Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefaultAsync(cancellationToken);
+                if(category == null)
+                    return null;
                 var categoryDto = new CategoryDTO()
                 {
                     Id = category.Id,

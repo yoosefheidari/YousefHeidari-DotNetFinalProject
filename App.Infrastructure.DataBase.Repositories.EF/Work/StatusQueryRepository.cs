@@ -36,7 +36,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
         public async Task<StatusDTO> Get(string name, CancellationToken cancellationToken)
         {
             var status = await _appDbContext.Statuses
-                .Where(x => x.Name == name).SingleAsync(cancellationToken);
+                .Where(x => x.Name == name).SingleOrDefaultAsync(cancellationToken);
+            if (status == null)
+                return null;
             var statusDto = new StatusDTO()
             {
                 Id = status.Id,

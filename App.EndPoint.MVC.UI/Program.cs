@@ -137,6 +137,7 @@ builder.Services.ConfigureApplicationCookie(x =>
 //builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 
 var app = builder.Build();
+//app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseErrorHandler();
 
 
@@ -163,6 +164,11 @@ app.MapAreaControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "error",
+    
+    pattern: "{controller=Error}/{action=Index}/{id?}");
 
 
 

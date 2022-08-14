@@ -31,8 +31,17 @@ namespace App.Domain.AppServices.User
 
         public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
         {
-            var userId = await _userService.RegisterUser(user, password);
-            return userId;
+            var ensure = await _userService.EnsureUserIsNotExist(user, cancellationToken);
+            if (ensure)
+            {
+                var userId = await _userService.RegisterUser(user, password);
+                return userId;
+            }
+            else
+            {
+                return -1;
+            }
+
         }
 
         public async Task Delete(int id)
@@ -78,7 +87,6 @@ namespace App.Domain.AppServices.User
         {
             _logger.LogTrace("Call update {appServiceName} for user", "update");
             await _userService.Update(user, oldPassword, newPassword);
-
         }
 
         public async Task<List<RoleDTO>> GetRoles()
@@ -120,16 +128,6 @@ namespace App.Domain.AppServices.User
             await _userService.UpdateProfilePicture(currentUser, cancellationToken);
         }
 
-        public async Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken)
-        {
-            var userByUsername = await _userService.GetUserByUserName(user.UserName);
-            var userByEmail = await _userService.GetUserByEmail(user.Email);
-            if (userByUsername != null || userByEmail != null)
-                return false;
-            return true;
-
-        }
-
         public async Task<bool> EnsureUserNameIsNotExist(string username, CancellationToken cancellationToken)
         {
             var user = await _userService.GetUserByUserName(username);
@@ -142,6 +140,15 @@ namespace App.Domain.AppServices.User
         {
             var user = await _userService.GetUserByEmail(email);
             if (user != null)
+                return false;
+            return true;
+        }
+
+        public async Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken)
+        {
+            var userByUsername = await _userService.GetUserByUserName(user.UserName);
+            var userByEmail = await _userService.GetUserByEmail(user.Email);
+            if (userByUsername != null || userByEmail != null)
                 return false;
             return true;
         }

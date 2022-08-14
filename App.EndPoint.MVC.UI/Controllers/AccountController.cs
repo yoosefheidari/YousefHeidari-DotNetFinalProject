@@ -82,19 +82,18 @@ namespace App.EndPoint.MVC.UI.Controllers
         public async Task<IActionResult> Register(RegisterUserViewModel userModel, CancellationToken cancellationToken)
 
         {
+            if (!ModelState.IsValid)
+                return View(userModel);
+
             var userDTO = UserMapping.MapUserViewModelToUserDto(userModel);
             var result = await _userAppService.EnsureUserIsNotExist(userDTO, cancellationToken);
             if (!result)
             {
                 ModelState.AddModelError("exist", "نام کاربری یا ایمیل تکراری است");
-            }
-            if (!ModelState.IsValid)
-            {
-                return View(userDTO);
+                return View(userModel);
             }
             var id = await _userAppService.RegisterUser(userDTO, userDTO.Password, cancellationToken);
             await _userAppService.SignInUserById(id);
-
             return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
@@ -106,9 +105,6 @@ namespace App.EndPoint.MVC.UI.Controllers
         {
             return await _userAppService.EnsureUserNameIsNotExist(Username, cancellationToken);
         }
-
-
-
 
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
         {

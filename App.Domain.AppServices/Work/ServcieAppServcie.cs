@@ -27,6 +27,7 @@ namespace App.Domain.AppServices.Work
 
         public async Task<int> Add(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken)
         {
+            await _serviceService.EnsureServiceIsNotExist(serviceDTO.Title, cancellationToken);
             serviceDTO.CreationDate = DateTimeOffset.Now;
             var serviceId = await _serviceService.Add(serviceDTO, cancellationToken);
             var fileIds = await _fileService.UploadFileAsync(files, cancellationToken);

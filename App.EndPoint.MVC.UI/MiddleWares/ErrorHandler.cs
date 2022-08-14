@@ -33,33 +33,27 @@ namespace App.EndPoint.MVC.UI.MiddleWares
 
                 switch (error)
                 {
-                    case BadHttpRequestException exeption:
-                        // custom application error
+                    case BadHttpRequestException:
                         response.StatusCode = (int)HttpStatusCode.BadRequest;
                         _logger.LogError(error, "درخواست اشتباه داده شده است");
                         break;
-                    case NullReferenceException e:
-                        // not found error
+                    case NullReferenceException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         _logger.LogError(error, "داده درخواستی وجود ندارد");
                         break;
-                    case KeyNotFoundException e:
-                        // not found error
+                    case KeyNotFoundException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         _logger.LogError(error, "داده درخواستی وجود ندارد");
                         break;
-                    case DirectoryNotFoundException e:
-                        // not found error
+                    case DirectoryNotFoundException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         _logger.LogError(error, "مسیر درخواستی وجود ندارد");
                         break;
-                    case FileNotFoundException e:
-                        // not found error
+                    case FileNotFoundException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         _logger.LogError(error, "فایل درخواستی وجود ندارد");
                         break;
-                    case AggregateException e:
-                        // not found error
+                    case AggregateException:
                         response.StatusCode = (int)HttpStatusCode.NotFound;
                         _logger.LogCritical(error, "خطا در برقراری ارتباط با دیتابیس");
                         break;

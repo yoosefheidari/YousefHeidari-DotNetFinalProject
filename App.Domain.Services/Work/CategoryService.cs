@@ -27,15 +27,15 @@ namespace App.Domain.Services.Work
         }
         public async Task<int> Add(CategoryDTO category, CancellationToken cancellationToken)
         {
-            category.CreationDate=DateTimeOffset.Now;
+            category.CreationDate = DateTimeOffset.Now;
             category.IsDeleted = false;
-            var result=await _categoryCommandRepository.Add(category, cancellationToken);
+            var result = await _categoryCommandRepository.Add(category, cancellationToken);
             return result;
         }
 
         public async Task<CategoryDTO> Get(int id, CancellationToken cancellationToken)
         {
-            var result=await _categoryQueryRepository.Get(id, cancellationToken);
+            var result = await _categoryQueryRepository.Get(id, cancellationToken);
             return result;
         }
 
@@ -53,6 +53,14 @@ namespace App.Domain.Services.Work
         {
             var categories = await _categoryQueryRepository.GetAllWithServices(cancellationToken);
             return categories;
+        }
+
+        public async Task EnsureCategoryIsNotExist(string name, CancellationToken cancellationToken)
+        {
+            var category = await _categoryQueryRepository.Get(name, cancellationToken);
+            if (!(category == null))
+                throw new Exception("کتگوری مورد نظر قبلا ایجاد شده است");
+
         }
     }
 }

@@ -26,5 +26,6 @@ namespace App.Domain.Core.User.Contracts.Services
         Task<List<RoleDTO>> GetRoles();
         Task<UserDTO> GetCurrentUserFullInfo();
         Task UpdateProfilePicture(UserDTO user,CancellationToken cancellationToken);
+        Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken);
     }
 }

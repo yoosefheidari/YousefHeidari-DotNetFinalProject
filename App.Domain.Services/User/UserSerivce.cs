@@ -127,5 +127,14 @@ namespace App.Domain.Services.User
             var userr=await _userQueryRepository.GetUserByEmail(email);
             return userr;
         }
+
+        public async Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken)
+        {
+            var userByUsername = await _userQueryRepository.GetUserByUserName(user.UserName);
+            var userByEmail = await _userQueryRepository.GetUserByEmail(user.Email);
+            if (userByUsername != null || userByEmail != null)
+                return false;
+            return true;
+        }
     }
 }

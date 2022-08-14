@@ -94,10 +94,10 @@ namespace App.EndPoint.MVC.UI.Controllers
 
             return View();
         }
+
+        
         public IActionResult Error()
         {
-
-
             return View();
         }
 
