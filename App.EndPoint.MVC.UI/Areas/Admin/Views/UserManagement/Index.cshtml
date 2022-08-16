@@ -1,7 +1,8 @@
 ﻿@model List<UserDTO>
 <br />
+<br />
 <form class="d-none d-md-flex ms-4" asp-area="Admin" asp-controller="UserManagement" asp-action="Index">
-    <input class="form-control border-0" type="search" placeholder="جستجوی کاربر" name="search">
+    <input value="@ViewBag.Search" class="form-control border-0" type="search" placeholder="جستجوی کاربر" name="search">
     <input class="btn btn-primary" type="submit" value="جستجو" />
 </form>
 <br />
@@ -19,6 +20,10 @@
     <tbody>
         @foreach (var user in Model)
         {
+            Random random = new();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var randomId = new string(Enumerable.Repeat(chars, 8)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
             <tr>
                 <td>@user.Id</td>
                 <td>@user.UserName</td>
@@ -48,12 +53,33 @@
 
                 </td>
                 <td>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">حذف</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-success">ویرایش</a>
-                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Detail" asp-route-id="@user.Id" class="btn btn-warning">جزئیات</a>
+                    <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId">
+                        حذف
+                    </button>
+                    <div class="modal fade" id="@randomId" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">حذف کاربر <span class="badge badge-success mr-2">@user.UserName</span></h5>
+                                </div>
+                                <div class="modal-body">
+                                    شما در حال حذف کاربر <strong class="text-primary">@user.UserName</strong> هستید، از حذف این کاربر اطمینان دارید؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                    <form asp-area="Admin" asp-controller="UserManagement" asp-action="Delete" method="post">
+                                        <input style="display:none" name="userId" value="@user.Id" />
+                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Edit" asp-route-id="@user.Id" class="btn btn-success btn-round">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="UserManagement" asp-action="Detail" asp-route-id="@user.Id" class="btn btn-info btn-round">جزئیات</a>
                     @if (user.Roles.Count == 2)
                     {
-                        <a asp-area="Admin" asp-controller="UserManagement" asp-action="EditExpertSkill" asp-route-id="@user.Id" class="btn btn-info">ویرایش مهارت</a>
+                        <a asp-area="Admin" asp-controller="UserManagement" asp-action="EditExpertSkill" asp-route-id="@user.Id" class="btn btn-round btn-secondary">ویرایش مهارت</a>
                     }
                 </td>
             </tr>

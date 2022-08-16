@@ -1,5 +1,6 @@
 ﻿@model CategoryDTO
-
+<br />
+<br />
 <form asp-area="Admin" asp-controller="Category" asp-action="Create" method="post">
     <div asp-validation-summary="All"></div>
 
@@ -9,5 +10,5 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">ایجاد</button>
+    <button type="submit" class="btn btn-primary btn-round">ایجاد</button>
 </form>

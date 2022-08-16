@@ -7,6 +7,7 @@
         <div asp-validation-summary="All"></div>
 
         <div><input asp-for="Id" style="display:none" /></div>
+        <div><input asp-for="IsConfirmedByCustomer" style="display:none" /></div>
         <div><input asp-for="CustomerId" style="display:none" /></div>
         <div><input asp-for="ServiceId" style="display:none" /></div>
         <div><input asp-for="ConfirmedExpertId" style="display:none" /></div>
@@ -43,34 +44,3 @@
 <br />
 <br />
 <br />
-
-@*<form asp-area="Admin" asp-controller="Order" asp-action="Edit" method="post">
-    <div asp-validation-summary="All"></div>
-
-    <div><input asp-for="Id" style="display:none" /></div>
-    <div><input asp-for="CustomerId" style="display:none" /></div>
-    <div><input asp-for="ServiceId" style="display:none" /></div>
-    <div><input asp-for="ConfirmedExpertId" style="display:none" /></div>
-
-    <div class="mb-3">
-        <label asp-for="StatusId" class="form-label"></label>
-        <select asp-for="StatusId" class="form-select" asp-items="@ViewBag.Statuses">
-            <option value="@Model.StatusId">تغییر وضعیت</option>
-        </select>
-        <span asp-validation-for="StatusId" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Description" class="form-label"></label>
-        <input asp-for="Description" class="form-control">
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="FinalPrice" class="form-label"></label>
-        <input asp-for="FinalPrice" class="form-control">
-        <span asp-validation-for="FinalPrice" class="text-danger"></span>
-    </div>
-
-    <button type="submit" class="btn btn-primary">آپدیت</button>
-</form>*@

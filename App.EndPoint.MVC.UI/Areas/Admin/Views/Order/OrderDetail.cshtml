@@ -13,12 +13,18 @@
                         <a class="nav-link" id="Description" data-toggle="pill" href="#v-pills-description-nobd" role="tab" aria-controls="v-pills-description-nobd" aria-selected="false">توضیحات سفارش</a>
                         <a class="nav-link" id="Address" data-toggle="pill" href="#v-pills-address-nobd" role="tab" aria-controls="v-pills-address-nobd" aria-selected="false">آدرس</a>
                         <a class="nav-link" id="Photos" data-toggle="pill" href="#v-pills-photos-nobd" role="tab" aria-controls="v-pills-photos-nobd" aria-selected="false">تصاویر</a>
-                        <a class="nav-link" id="comments" data-toggle="pill" href="#v-pills-comments-nobd" role="tab" aria-controls="v-pills-comments-nobd" aria-selected="false">نظرات</a>
-                        <a class="nav-link" id="suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات</a>
+                        @if (Model.StatusId == 5)
+                        {
+                        <a class="nav-link" id="comments" data-toggle="pill" href="#v-pills-comments-nobd" role="tab" aria-controls="v-pills-comments-nobd" aria-selected="false">نظرات</a>                            
+                        }
+                        @if (Model.StatusId == 1)
+                        {
+                        <a class="nav-link" id="suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات</a>                            
+                        }
                         <a class="nav-link bg-success text-light" asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a>
                         @*<a class="nav-link bg-danger text-light" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">حذف</a>*@
 
-                        <button type="button" class="nav-link bg-danger text-light" data-toggle="modal" data-target="#DeleteModal">
+                        <button type="button" class="nav-link bg-danger text-light" data-toggle="modal" data-target="#DeleteModal" style="cursor:pointer">
                             حذف
                         </button>
 
@@ -34,9 +40,10 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="nav-link bg-success text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal" style="cursor:pointer">انصراف</button>
-                                        <a class="nav-link bg-danger text-light ml-2 mr-2 pr-3 pl-3" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">
-                                            حذف
-                                        </a>
+                                        <form asp-area="Admin" asp-controller="Order" asp-action="Delete" method="post">
+                                            <input style="display:none" name="orderId" value="@Model.Id" />
+                                            <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -189,7 +196,19 @@
 
                         </div>
                         <div class="tab-pane fade" id="v-pills-photos-nobd" role="tabpanel" aria-labelledby="Photos">
-                            تصاویر
+                            @foreach (var photo in Model.Photos)
+                            {
+                                <div class="card col-4">
+                                    <div class="card-body">
+                                        <img src="@photo.Path" style="width:100%" class="mb-3">
+                                    </div>
+                                    <div class="card-footer">
+                                        <button class="btn btn-warning btn-block">
+                                            مشاهده
+                                        </button>
+                                    </div>
+                                </div>
+                            }
                         </div>
                         <div class="tab-pane fade" id="v-pills-address-nobd" role="tabpanel" aria-labelledby="Address">
                             @Model.Address
@@ -198,110 +217,459 @@
                             @Model.Description
                         </div>
                         <div class="tab-pane fade" id="v-pills-comments-nobd" role="tabpanel" aria-labelledby="Comments">
-                            قسمت نظرات
+                            @*قسمت نظرات*@
 
                             @foreach (var comment in Model.Comments)
                             {
-                                if (comment.IsApproved == true)
+                                Random random = new();
+                                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                                var randomId17 = new string(Enumerable.Repeat(chars, 8)
+                                .Select(s => s[random.Next(s.Length)]).ToArray());
+                                var randomId18 = new string(Enumerable.Repeat(chars, 8)
+                                .Select(s => s[random.Next(s.Length)]).ToArray());
+                                if (comment.IsWriteByCustomer)
                                 {
-                                    if (comment.IsWriteByCustomer)
-                                    {
-                                        <ul class="timeline">
-                                            <li class="timeline-inverted">
-                                                <div class="timeline-badge success"><i class="flaticon-message"></i></div>
-                                                <div class="timeline-panel">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title"><span class="badge badge-success">توسط مشتری</span></h4>
-                                                        <h4 class="timeline-title">@comment.Title</h4>
-                                                    </div>
-                                                    <div class="timeline-body">
-                                                        <p>@comment.Description</p>
+                                    <ul class="timeline">
+                                        <li class="timeline-inverted">
+                                            <div class="timeline-badge secondary"><i class="flaticon-message"></i></div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <h4 class="timeline-title d-inline"><span class="badge badge-secondary">توسط مشتری</span></h4>
+                                                    @if (comment.IsApproved == false)
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-danger">رد شده</span></h4>
+                                                    }
+                                                    else if (comment.IsApproved == true)
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-success">تایید شده</span></h4>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-warning">در انتظار تایید</span></h4>
+                                                    }
+                                                    <br />
+                                                    <h4 class="timeline-title mt-2">عن.ان : @comment.Title</h4>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    <p>@comment.Description</p>
+                                                </div>
+                                                <hr />
+                                                <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId17">
+                                                    حذف
+                                                </button>
+                                                <div class="modal fade" id="@randomId17" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">حذف نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                شما در حال حذف نظر شمراه <strong class="text-primary">@comment.Id</strong> هستید، از حذف این نظر اطمینان دارید؟
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                <form asp-area="Admin" asp-controller="Comment" asp-action="Delete" method="post">
+                                                                    <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                    <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                    <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        </ul>
-                                    }
-                                    else
-                                    {
-                                        <ul class="timeline">
-                                            <li class="timeline-badge">
-                                                <div class="timeline-badge info"><i class="flaticon-message"></i></div>
-                                                <div class="timeline-panel">
-                                                    <div class="timeline-heading">
-                                                        <h4 class="timeline-title"><span class="badge badge-info">توسط متخصص</span></h4>
-                                                        <h4 class="timeline-title">@comment.Title</h4>
+                                                @if (comment.IsApproved == null)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        تایید
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">تایید نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال تایید نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از تایید این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success text-light btn-round ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="true" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">تایید</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="timeline-body">
-                                                        <p>@comment.Description</p>
+
+                                                    <button style="cursor:pointer" type="button" class="btn btn-warning btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        رد
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">رد نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال رد نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از رد این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="false" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">رد کن</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (comment.IsApproved == true)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-warning btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        رد
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">رد نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال رد نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از رد این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success text-light btn-round ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="false" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">رد کن</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (comment.IsApproved == false)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        تایید
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">تایید نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال تایید نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از تایید این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="true" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">تایید</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
+                                else
+                                {
+                                    <ul class="timeline">
+                                        <li class="timeline-badge">
+                                            <div class="timeline-badge info"><i class="flaticon-message"></i></div>
+                                            <div class="timeline-panel">
+                                                <div class="timeline-heading">
+                                                    <h4 class="timeline-title d-inline"><span class="badge badge-info">توسط متخصص</span></h4>
+                                                    @if (comment.IsApproved == false)
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-danger">رد شده</span></h4>
+                                                    }
+                                                    else if (comment.IsApproved == true)
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-success">تایید شده</span></h4>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h4 class="timeline-title d-inline"><span class="badge badge-warning">در انتظار تایید</span></h4>
+                                                    }
+                                                    <br />
+                                                    <h4 class="timeline-title mt-2">عنوان : @comment.Title</h4>
+                                                </div>
+                                                <div class="timeline-body">
+                                                    <p>@comment.Description</p>
+                                                </div>
+                                                <hr />
+                                                <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId17">
+                                                    حذف
+                                                </button>
+                                                <div class="modal fade" id="@randomId17" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="exampleModalLongTitle">حذف نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                شما در حال حذف نظر شمراه <strong class="text-primary">@comment.Id</strong> هستید، از حذف این نظر اطمینان دارید؟
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                <form asp-area="Admin" asp-controller="Comment" asp-action="Delete" method="post">
+                                                                    <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                    <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                    <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                                                </form>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </li>
-                                        </ul>
-                                    }
+                                                @if (comment.IsApproved == null)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        تایید
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">تایید نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال تایید نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از تایید این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="true" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">تایید</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <button style="cursor:pointer" type="button" class="btn btn-warning btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        رد
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">رد نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال رد نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از رد این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success text-light btn-round ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="false" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">رد کن</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (comment.IsApproved == true)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-warning btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        رد
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">رد نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال رد نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از رد این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success text-light btn-round ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="false" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">رد کن</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                                @if (comment.IsApproved == false)
+                                                {
+                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light" data-toggle="modal" data-target="#@randomId18">
+                                                        تایید
+                                                    </button>
+                                                    <div class="modal fade" id="@randomId18" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLongTitle">تایید نظر شماره <span class="badge badge-success mr-2">@comment.Id</span></h5>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    شما در حال تایید نظر شماره <strong class="text-primary">@comment.Id</strong> هستید، از تایید این نظر اطمینان دارید؟
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                    <form asp-area="Admin" asp-controller="Comment" asp-action="ChangeCommentStatus" method="post">
+                                                                        <input style="display:none" name="commentId" value="@comment.Id" />
+                                                                        <input style="display:none" name="orderId" value="@comment.OrderId" />
+                                                                        <input style="display:none" name="status" value="true" />
+                                                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">تایید</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </li>
+                                    </ul>
                                 }
                             }
-
+                            @* انتهای قسمت نظرات*@
 
                         </div>
                         <div class="tab-pane fade" id="v-pills-suggests-nobd" role="tabpanel" aria-labelledby="Suggests">
-                            قسمت پیشنهادات
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            <h4 class="card-title">پیشنهادات دیگر متخصصین</h4>
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table id="basic-datatables" class="display table table-striped table-hover">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>نام متخصص</th>
-                                                            <th>قیمت پیشنهادی</th>
-                                                            <th>توضیحات</th>
-                                                            <th>عملیت</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tfoot>
-                                                        <tr>
-                                                            <th>نام متخصص</th>
-                                                            <th>قیمت پیشنهادی</th>
-                                                            <th>توضیحات</th>
-                                                             <th>عملیات</th>
-                                                        </tr>
-                                                    </tfoot>
-                                                    <tbody>
-                                                        @foreach (var sugges in Model.Suggests)
-                                                        {
-                                                            if (sugges.ExpertId != @ViewBag.UserId)
+                            @*قسمت پیشنهادات*@
+                            @if (Model.StatusId == 1)
+                            {
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h4 class="card-title">پیشنهادات متخصصین</h4>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="table-responsive">
+                                                    <table id="basic-datatables" class="display table table-striped table-hover">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>نام متخصص</th>
+                                                                <th>قیمت پیشنهادی</th>
+                                                                <th>توضیحات</th>
+                                                                <th>عملیات</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tfoot>
+                                                            <tr>
+                                                                <th>نام متخصص</th>
+                                                                <th>قیمت پیشنهادی</th>
+                                                                <th>توضیحات</th>
+                                                                <th>عملیات</th>
+                                                            </tr>
+                                                        </tfoot>
+                                                        <tbody>
+                                                            @foreach (var sugges in Model.Suggests)
                                                             {
+                                                                Random random = new();
+                                                                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                                                                var randomId11 = new string(Enumerable.Repeat(chars, 8)
+                                                                .Select(s => s[random.Next(s.Length)]).ToArray());
+                                                                var randomId20 = new string(Enumerable.Repeat(chars, 8)
+                                                                .Select(s => s[random.Next(s.Length)]).ToArray());
                                                                 <tr>
                                                                     <td>@sugges.ExpertName</td>
                                                                     <td>@sugges.SuggestedPrice</td>
                                                                     <td>@sugges.Description</td>
-                                                                    <td><a asp-area="Admin" asp-controller="Suggest" asp-action="Edit" asp-route-id="@sugges.Id">ویرایش</a></td>
+                                                                    <td>
+                                                                        <button style="cursor:pointer" type="button" class="btn btn-info btn-round text-light" data-toggle="modal" data-target="#@randomId20">
+                                                                            ویرایش
+                                                                        </button>
+                                                                        <div class="modal fade" id="@randomId20" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <form asp-area="Admin" asp-controller="Suggest" asp-action="EditSuggest" method="post">
+                                                                                        <div class="modal-header">
+                                                                                            <h5 class="modal-title" id="exampleModalLongTitle">ویرایش پیشنهاد <span class="badge badge-success mr-2">@sugges.Id</span></h5>
+                                                                                        </div>
+                                                                                        <div class="modal-body">
+
+                                                                                            <div class="mb-3">
+                                                                                                <label class="form-label">قیمت پیشنهادی</label>
+                                                                                                <input name="price" value="@sugges.SuggestedPrice" class="form-control">
+                                                                                            </div>
+
+                                                                                            <div class="mb-3">
+                                                                                                <label class="form-label">توضیحات</label>
+                                                                                                <textarea name="description" class="form-control text-end" rows="3">
+                                                                                                    @sugges.Description
+                                                                                                            </textarea>
+                                                                                                @*<input name="description" class="form-control">*@
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div class="modal-footer">
+                                                                                            <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                                            <input style="display:none" name="suggestId" value="@sugges.Id" />
+                                                                                            <input style="display:none" name="orderId" value="@sugges.OrderId" />
+                                                                                            <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">ویرایش</button>
+
+                                                                                        </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId11">
+                                                                            حذف
+                                                                        </button>
+                                                                        <div class="modal fade" id="@randomId11" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <h5 class="modal-title" id="exampleModalLongTitle">حذف پیشنهاد <span class="badge badge-success mr-2">@sugges.Id</span></h5>
+                                                                                    </div>
+                                                                                    <div class="modal-body">
+                                                                                        شما در حال حذف پیشنهاد شماره <strong class="text-primary">@sugges.Id</strong> هستید، از حذف این پیشنهاد اطمینان دارید؟
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                                                        <form asp-area="Admin" asp-controller="Suggest" asp-action="Delete" method="post">
+                                                                                            <input style="display:none" name="suggestId" value="@sugges.Id" />
+                                                                                            <input style="display:none" name="OrderId" value="@sugges.OrderId" />
+                                                                                            <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                                                                        </form>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
                                                                 </tr>
+
                                                             }
-                                                            else
-                                                            {
-                                                                <tr class="bg-success">
-                                                                    <td>@sugges.ExpertName</td>
-                                                                    <td>@sugges.SuggestedPrice</td>
-                                                                    <td>@sugges.Description</td>
-                                                                    <td><a class="btn btn-warning" asp-area="Admin" asp-controller="Suggest" asp-action="Edit" asp-route-id="@sugges.Id">ویرایش</a></td>
-                                                                </tr>
-                                                            }
-                                                        }
-                                                    </tbody>
-                                                </table>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-
+                            }
+                            @*انتهای قسمت پیشنهادات*@
                         </div>
                     </div>
                 </div>

@@ -25,10 +25,10 @@
                 <td>@suggest.SuggestedPrice</td>
                 <td>@suggest.Description</td>
                 <td>@suggest.IsConfirmedByCustomer</td>
-                <td>@suggest.CreationDate</td>
+                <td>@suggest.ShamsiCreationDate</td>
                 <td>
-                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Delete" asp-route-id="@suggest.Id" class="btn btn-danger">حذف</a>
-                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Edit" asp-route-id="@suggest.Id" class="btn btn-success">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Delete" asp-route-id="@suggest.Id" class="btn btn-round btn-danger">حذف</a>
+                    <a asp-area="Admin" asp-controller="Suggest" asp-action="Edit" asp-route-id="@suggest.Id" class="btn btn-round btn-success">ویرایش</a>
                 </td>
             </tr>
         }

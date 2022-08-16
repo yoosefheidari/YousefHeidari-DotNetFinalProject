@@ -25,6 +25,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index(int id, string? search, CancellationToken cancellationToken)
         {
+            ViewBag.Search=search;
             var users = await _userAppService.GetAll(id, search, cancellationToken);
             return View(users);
 
@@ -48,15 +49,11 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-        {
-            var user = await _userAppService.Get(id);
-            return View(user);
-        }
+        
         [HttpPost]
-        public async Task<IActionResult> Delete(UserDTO userDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int userId, CancellationToken cancellationToken)
         {
-            await _userAppService.Delete(userDTO.Id);
+            await _userAppService.Delete(userId);
             return RedirectToAction("Index");
         }
 

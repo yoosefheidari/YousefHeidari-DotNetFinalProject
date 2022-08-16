@@ -55,6 +55,7 @@ namespace App.Domain.Core.Work.DTOs
         public string? Address { get; set; }
         [Display(Name = ("حذف شده؟"))]
         public bool IsDeleted { get; set; }
+        [Display(Name = ("تاریخ ثبت"))]
         public string? ShamsiCreationDate { get; set; }
         public List<CommentDTO> Comments { get; set; }
         public List<SuggestDTO>? Suggests { get; set; }

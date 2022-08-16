@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.DTOs;
+using App.Domain.Services.Utilities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -28,7 +29,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = id,
                 IsDeleted = status.IsDeleted,
                 Name = status.Name,
-                CreationDate = status.CreationDate
+                CreationDate = status.CreationDate,
+                ShamsiCreationDate=status.CreationDate.ToShamsi(),
             };
             return statusDto;
         }
@@ -44,7 +46,8 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 Id = status.Id,
                 IsDeleted = status.IsDeleted,
                 Name = status.Name,
-                CreationDate = status.CreationDate
+                CreationDate = status.CreationDate,
+                ShamsiCreationDate = status.CreationDate.ToShamsi(),
             };
             return statusDto;
         }
@@ -56,6 +59,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 {
                     Id = x.Id,
                     CreationDate = x.CreationDate,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
                     IsDeleted = x.IsDeleted,
                     Name = x.Name
                 })

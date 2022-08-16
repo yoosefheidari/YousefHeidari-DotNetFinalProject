@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.Work.Contracts.Repositories;
 using App.Domain.Core.Work.DTOs;
+using App.Domain.Services.Utilities;
 using App.Infrastructure.DataBase.SqlServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     Id = id,
                     Name = category.Name,
                     CreationDate = category.CreationDate,
+                    ShamsiCreationDate = category.CreationDate.ToShamsi(),
                     IsDeleted = category.IsDeleted,
                 };
                 _logger.LogInformation($"دسته بندی با آی دی {id} فراخوانی شد", "id");
@@ -57,6 +59,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     Id = category.Id,
                     Name = category.Name,
                     CreationDate = DateTime.Now,
+                    ShamsiCreationDate = category.CreationDate.ToShamsi(),
                     IsDeleted = category.IsDeleted,
                 };
                 _logger.LogInformation($"دسته بندی با نام {name} فراخوانی شد", "id");
@@ -77,6 +80,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     Id = x.Id,
                     Name = x.Name,
                     CreationDate = x.CreationDate,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
                     IsDeleted = x.IsDeleted,
                 })
                 .ToListAsync(cancellationToken);
@@ -91,6 +95,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                     Id = x.Id,
                     Name = x.Name,
                     CreationDate = x.CreationDate,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
                     IsDeleted = x.IsDeleted,
                     Services = x.Services.Select(v => new ServiceDTO()
                     {
@@ -100,6 +105,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                         ShortDescription = v.ShortDescription,
                         CategoryId = v.CategoryId,
                         CreationDate = v.CreationDate,
+                        ShamsiCreationDate = v.CreationDate.ToShamsi(),
                     }).ToList()
                 })
                 .ToListAsync(cancellationToken);

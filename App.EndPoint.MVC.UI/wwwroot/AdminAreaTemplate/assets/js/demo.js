@@ -18,15 +18,15 @@ Circles.create({
 //Notify
 $.notify({
 	icon: 'flaticon-alarm-1',
-	title: 'Atlantis',
-	message: 'Premium Bootstrap 4 Admin Dashboard',
+	title: 'تست نوتیف',
+	message: 'Premium Bootstrap 4 Admin Dashboard fgfgfgfgfgfgf',
 },{
 	type: 'secondary',
 	placement: {
 		from: "bottom",
 		align: "right"
 	},
-	time: 1000,
+	time: 100000,
 });
 
 // JQVmap

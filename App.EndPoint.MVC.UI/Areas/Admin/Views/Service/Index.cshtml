@@ -1,7 +1,8 @@
 ﻿@model List<ServiceDTO>
 
 <br />
-<a aasp-area="Admin" asp-controller="Service" asp-action="Create" class="btn btn-success">ایجاد خدمت جدید</a>
+<br />
+<a asp-area="Admin" asp-controller="Service" asp-action="Create" asp-route-id="@ViewBag.Category" class="btn btn-round btn-primary">ایجاد سرویس جدید</a>
 <br />
 
 <table class="table table-hover table-striped">
@@ -19,6 +20,10 @@
     <tbody>
         @foreach (var service in Model)
         {
+            Random random = new();
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            var randomId = new string(Enumerable.Repeat(chars, 8)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
             <tr>
                 <td>@service.Id</td>
                 <td>@service.Title</td>
@@ -33,12 +38,34 @@
                     }
                 }
 
-                <td>@service.CreationDate</td>
+                <td>@service.ShamsiCreationDate</td>
                 <td>
-                    <a asp-area="Admin" asp-controller="Service" asp-action="Delete" asp-route-id="@service.Id" class="btn btn-danger m-1">حذف</a>
-                    <a asp-area="Admin" asp-controller="Service" asp-action="Edit" asp-route-id="@service.Id" class="btn btn-success m-1">ویرایش</a>
-                    <a asp-area="Admin" asp-controller="Service" asp-action="Files" asp-route-id="@service.Id" class="btn btn-warning m-1">مشاهده تصاویر</a>
-                    <a asp-area="Admin" asp-controller="Service" asp-action="AddServiceFile" asp-route-id="@service.Id" class="btn btn-warning m-1">افزودن تصویر</a>
+                    <button style="cursor:pointer" type="button" class="btn btn-danger btn-round text-light" data-toggle="modal" data-target="#@randomId">
+                        حذف
+                    </button>
+                    <div class="modal fade" id="@randomId" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">حذف سرویس <span class="badge badge-success mr-2">@service.Title</span></h5>
+                                </div>
+                                <div class="modal-body">
+                                    شما در حال حذف سرویس <strong class="text-primary">@service.Title</strong> هستید، از حذف این سرویس اطمینان دارید؟
+                                </div>
+                                <div class="modal-footer">
+                                    <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                    <form asp-area="Admin" asp-controller="Service" asp-action="Delete" method="post">
+                                        <input style="display:none" name="serviceId" value="@service.Id" />
+                                        <input style="display:none" name="categoryId" value="@service.CategoryId" />
+                                        <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="Edit" asp-route-id="@service.Id" class="btn btn-round btn-success m-1">ویرایش</a>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="Files" asp-route-id="@service.Id" class="btn btn-round btn-warning m-1">مشاهده تصاویر</a>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="AddServiceFile" asp-route-id="@service.Id" class="btn btn-round btn-warning m-1">افزودن تصویر</a>
                 </td>
             </tr>
         }

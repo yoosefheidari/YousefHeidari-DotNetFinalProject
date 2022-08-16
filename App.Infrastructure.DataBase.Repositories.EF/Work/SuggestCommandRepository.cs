@@ -49,7 +49,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             var expertSuggest1 = await _appDbContext.Suggests.SingleAsync(x => x.Id == expertSuggest.Id, cancellationToken);
             expertSuggest1.IsConfirmedByCustomer= expertSuggest.IsConfirmedByCustomer;
             expertSuggest1.SuggestedPrice = expertSuggest.SuggestedPrice;
-            expertSuggest.Description = expertSuggest1.Description;
+            expertSuggest1.Description = expertSuggest.Description;
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
     }

@@ -52,15 +52,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction("OrderDetail", new {id=orderDTO.Id});
         }
 
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-        {
-            var order = await _orderAppService.Get(id, cancellationToken);
-            return View(order);
-        }
         [HttpPost]
-        public async Task<IActionResult> Delete(OrderDTO orderDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int orderId, CancellationToken cancellationToken)
         {
-            await _orderAppService.Delete(orderDTO.Id, cancellationToken);
+            await _orderAppService.Delete(orderId, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 

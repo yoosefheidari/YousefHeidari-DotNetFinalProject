@@ -12,6 +12,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
         Task<int> Add(CommentDTO comment, CancellationToken cancellationToken);
         Task<int> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken);
         Task Update(CommentDTO comment, CancellationToken cancellationToken);
+        Task ChangeCommentStatus(int commentId, bool status, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task<List<CommentDTO>> GetAll(int approve, CancellationToken cancellationToken);
         Task<List<CommentDTO>> GetAllOrderComments(int OrderId, CancellationToken cancellationToken);

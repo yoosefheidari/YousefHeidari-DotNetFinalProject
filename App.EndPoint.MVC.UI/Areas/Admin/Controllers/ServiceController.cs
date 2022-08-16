@@ -18,10 +18,11 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             _categoryAppService = categoryAppService;
         }
 
-        public async Task<IActionResult> Index(int id,CancellationToken cancellationToken)
+        public async Task<IActionResult> Index(int id, CancellationToken cancellationToken)
         {
-            var services = await _serviceAppService.GetAll(id,cancellationToken);
+            var services = await _serviceAppService.GetAll(id, cancellationToken);
             var categories = await _categoryAppService.GetAll(cancellationToken);
+            ViewBag.Category = id;
             ViewBag.Categories = categories.Select(x => new SelectListItem()
             {
                 Value = x.Id.ToString(),
@@ -30,14 +31,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(services);
         }
 
-        public async Task<IActionResult> Create(CancellationToken cancellationToken)
+        public async Task<IActionResult> Create(int id, CancellationToken cancellationToken)
         {
             var categories = await _categoryAppService.GetAll(cancellationToken);
-            ViewBag.Categories = categories.Select(x => new SelectListItem()
-            {
-                Value = x.Id.ToString(),
-                Text = x.Name
-            });
+            ViewBag.Category = id;
             return View();
         }
 
@@ -45,7 +42,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> Create(ServiceDTO serviceDTO, List<IFormFile> files, CancellationToken cancellationToken)
         {
             var result = await _serviceAppService.Add(serviceDTO, files, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = serviceDTO.CategoryId });
         }
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
@@ -67,18 +64,11 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
-        {
-            var category = await _serviceAppService.Get(id, cancellationToken);
-            return View(category);
-        }
-
-
         [HttpPost]
-        public async Task<IActionResult> Delete(CategoryDTO categoryDTO, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int serviceId, int categoryId, CancellationToken cancellationToken)
         {
-            await _serviceAppService.Delete(categoryDTO.Id, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            await _serviceAppService.Delete(serviceId, cancellationToken);
+            return RedirectToAction(nameof(Index), new { id = categoryId });
         }
 
 
@@ -96,7 +86,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> AddServiceFile(int id, CancellationToken cancellationToken)
         {
-            
+
             return View(id);
         }
         [HttpPost]

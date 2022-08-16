@@ -22,5 +22,7 @@ namespace App.Domain.Core.Work.DTOs
         public int Price { get; set; }
         [Display(Name = ("تاریخ ثبت"))]
         public DateTimeOffset CreationDate { get; set; }
+        [Display(Name = ("تاریخ ثبت"))]
+        public string? ShamsiCreationDate { get; set; }
     }
 }

@@ -20,6 +20,9 @@ namespace App.Domain.Core.Work.DTOs
         [DataType(DataType.Date)]
         public DateTimeOffset CreationDate { get; set; }
 
+        [Display(Name = ("تاریخ ثبت"))]
+        public string? ShamsiCreationDate { get; set; }
+
         public List<ServiceDTO> Services { get; set; }
 
         public bool IsDeleted { get; set; }

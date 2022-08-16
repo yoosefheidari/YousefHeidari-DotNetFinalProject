@@ -29,7 +29,7 @@ namespace App.EndPoint.MVC.UI.MiddleWares
             {
 
                 var response = httpContext.Response;
-                response.ContentType = "application/json";
+                //response.ContentType = "application/json";
 
                 switch (error)
                 {
@@ -63,8 +63,8 @@ namespace App.EndPoint.MVC.UI.MiddleWares
                         _logger.LogError(error, "خطایی رخ داده است");
                         break;
                 }
-                var result = JsonSerializer.Serialize(new { message = error?.Message });
-                await response.WriteAsync(result);       
+                //var result = JsonSerializer.Serialize(new { message = error?.Message });
+                //await response.WriteAsync(result);       
                 httpContext.Response.Redirect("/Home/Error");
             }
         }

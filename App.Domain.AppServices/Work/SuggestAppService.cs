@@ -51,6 +51,15 @@ namespace App.Domain.AppServices.Work
             _logger.LogInformation("suggest with id {id} {action} successfully", id, "Delete");
         }
 
+        public async Task EditSuggest(int suggestId, int price, string description, CancellationToken cancellationToken)
+        {
+            var suggest = await _suggestService.Get(suggestId, cancellationToken);
+            suggest.Description = description;
+            suggest.SuggestedPrice = price;
+            await _suggestService.Update(suggest, cancellationToken);
+
+        }
+
         public async Task<SuggestDTO> Get(int id, CancellationToken cancellationToken)
         {
             var suggest = await _suggestService.Get(id, cancellationToken);

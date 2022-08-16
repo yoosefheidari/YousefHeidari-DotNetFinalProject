@@ -48,17 +48,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Delete(int id,CancellationToken cancellationToken)
-        {
-            var category = await _categoryAppService.Get(id, cancellationToken);
-            return View(category);
-        }
-
-
         [HttpPost]
-        public async Task<IActionResult> Delete(CategoryDTO categoryDTO,CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int categoryId, CancellationToken cancellationToken)
         {
-            await _categoryAppService.Delete(categoryDTO.Id, cancellationToken);
+            await _categoryAppService.Delete(categoryId, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -33,7 +33,14 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         {
             var id = suggestDTO.OrderId;
             await _suggestAppService.Update(suggestDTO, cancellationToken);
-            return RedirectToAction("OrderDetail","Order", new {id=id});
+            return RedirectToAction("OrderDetail", "Order", new { id = id });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditSuggest(int suggestId, int orderId, int price, string description, CancellationToken cancellationToken)
+        {
+            await _suggestAppService.EditSuggest(suggestId, price, description, cancellationToken);
+            return RedirectToAction("OrderDetail", "Order", new { id = orderId });
         }
 
         public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
@@ -42,11 +49,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             return View(suggest);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(SuggestDTO suggestdto, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(int suggestId, int orderId, CancellationToken cancellationToken)
         {
-            var id = suggestdto.OrderId;
-            await _suggestAppService.Delete(suggestdto.Id, cancellationToken);            
-            return RedirectToAction("Index", new {id=id});
+            await _suggestAppService.Delete(suggestId, cancellationToken);
+            return RedirectToAction("Index", new { id = orderId });
         }
     }
 }

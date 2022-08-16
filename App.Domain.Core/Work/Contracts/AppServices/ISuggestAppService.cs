@@ -11,6 +11,7 @@ namespace App.Domain.Core.Work.Contracts.AppServices
     {
         Task<int> CreateSuggest(int orderId, int expertId, int price, string description, CancellationToken cancellationToken);
         Task Update(SuggestDTO suggest, CancellationToken cancellationToken);
+        Task EditSuggest(int suggestId, int price, string description, CancellationToken cancellationToken);
         Task Delete(int id, CancellationToken cancellationToken);
         Task<List<SuggestDTO>> GetAll(CancellationToken cancellationToken);
         Task<List<SuggestDTO>> GetAll(int OrderId, CancellationToken cancellationToken);

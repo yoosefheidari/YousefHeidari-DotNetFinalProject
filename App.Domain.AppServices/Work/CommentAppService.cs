@@ -39,6 +39,13 @@ namespace App.Domain.AppServices.Work
             return result;
         }
 
+        public async Task ChangeCommentStatus(int commentId, bool status, CancellationToken cancellationToken)
+        {
+            var comment = await _commentService.Get(commentId, cancellationToken);
+            comment.IsApproved = status;
+            await _commentService.Update(comment, cancellationToken);
+        }
+
         public async Task<int> CreateOrderComment(int orderId, int serviceId, string title, string description, CancellationToken cancellationToken)
         {
             var currentUser = await _userAppService.GetCurrentUserFullInfo();

@@ -17,6 +17,8 @@ namespace App.Domain.Core.Work.DTOs
 
         [Display(Name = "تاریخ ثبت")]
         public DateTimeOffset CreationDate { get; set; }
+        [Display(Name = ("تاریخ ثبت"))]
+        public string? ShamsiCreationDate { get; set; }
 
         public bool IsDeleted { get; set; }
     }

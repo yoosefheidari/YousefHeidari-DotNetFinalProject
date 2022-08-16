@@ -1,5 +1,6 @@
 ﻿@model StatusDTO
-
+<br />
+<br />
 <form asp-area="Admin" asp-controller="Status" asp-action="Create" method="post">
     <div asp-validation-summary="All"></div>
 
@@ -9,5 +10,5 @@
         <span asp-validation-for="Name" class="text-danger"></span>
     </div>
 
-    <button type="submit" class="btn btn-primary">ایجاد</button>
+    <button type="submit" class="btn btn-round btn-primary">ایجاد</button>
 </form>
