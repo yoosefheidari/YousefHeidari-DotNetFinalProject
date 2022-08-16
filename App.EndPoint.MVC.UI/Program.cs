@@ -134,7 +134,6 @@ builder.Services.ConfigureApplicationCookie(x =>
     x.AccessDeniedPath = builder.Configuration.GetSection("AccessDeniedPath").Value;
 });
 
-//builder.Services.AddSingleton(typeof(ILogger), typeof(Logger<Startup>));
 
 var app = builder.Build();
 //app.UseStatusCodePagesWithReExecute("/Error/{0}");
