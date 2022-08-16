@@ -35,9 +35,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var status = await _appDbContext.Statuses.SingleAsync(x => x.Id == id, cancellationToken);
-            _appDbContext.Statuses.Remove(status);
-            await _appDbContext.SaveChangesAsync(cancellationToken);
+            try
+            {
+                var status = await _appDbContext.Statuses.SingleAsync(x => x.Id == id, cancellationToken);
+                _appDbContext.Statuses.Remove(status);
+                await _appDbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("امکان حذف به دلیل استفاده شناسه وجود ندارد", ex.InnerException);
+            }
+            
         }
 
         public async Task Update(StatusDTO status, CancellationToken cancellationToken)

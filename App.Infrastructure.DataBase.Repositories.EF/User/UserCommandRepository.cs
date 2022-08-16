@@ -62,9 +62,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
         public async Task Delete(int id)
         {
-            var user = await _userManager.FindByIdAsync(id.ToString());
-            await _userManager.DeleteAsync(user);
-            _logger.LogInformation("user with id {id} is {action} successfully", id, "delete");
+            try
+            {
+                var user = await _userManager.FindByIdAsync(id.ToString());
+                await _userManager.DeleteAsync(user);
+                _logger.LogInformation("user with id {id} is {action} successfully", id, "delete");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("امکان حذف به دلیل استفاده شناسه وجود ندارد", ex.InnerException);
+            }
+            
         }
 
         public async Task<int> LoginUser(string userName, string password, bool remember)

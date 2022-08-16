@@ -20,7 +20,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             _appDbContext = appDbContext;
         }
 
-        
+
 
         public async Task<int> Add(ServiceDTO serviceDTO, CancellationToken cancellationToken)
         {
@@ -31,7 +31,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
                 CategoryId = serviceDTO.CategoryId,
                 Price = serviceDTO.Price,
                 Title = serviceDTO.Title,
-                
+
             };
             await _appDbContext.Services.AddAsync(service, cancellationToken);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -40,9 +40,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var tag = await _appDbContext.Services.SingleAsync(x => x.Id == id, cancellationToken);
-            _appDbContext.Services.Remove(tag);
-            await _appDbContext.SaveChangesAsync(cancellationToken);
+            try
+            {
+                var tag = await _appDbContext.Services.SingleAsync(x => x.Id == id, cancellationToken);
+                _appDbContext.Services.Remove(tag);
+                await _appDbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("امکان حذف به دلیل استفاده شناسه وجود ندارد", ex.InnerException);
+            }
+
         }
 
         public async Task DeleteServiceFile(int id, CancellationToken cancellationToken)

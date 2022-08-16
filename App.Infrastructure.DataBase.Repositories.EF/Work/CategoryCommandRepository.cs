@@ -46,10 +46,18 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
 
         public async Task Delete(int id, CancellationToken cancellationToken)
         {
-            var category = await _appDbContext.Categories.SingleAsync(x => x.Id == id,cancellationToken);
-            _appDbContext.Categories.Remove(category);
-            await _appDbContext.SaveChangesAsync(cancellationToken);
-            _logger.LogInformation("دسته بندی جدید با موفقیت {حذف} شد", "عملیات");
+            try
+            {
+                var category = await _appDbContext.Categories.SingleAsync(x => x.Id == id, cancellationToken);
+                _appDbContext.Categories.Remove(category);
+                await _appDbContext.SaveChangesAsync(cancellationToken);
+                _logger.LogInformation("دسته بندی جدید با موفقیت {حذف} شد", "عملیات");
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("امکان حذف به دلیل استفاده شناسه وجود ندارد", ex.InnerException);
+            }
+            
         }
 
         public async Task Update(CategoryDTO category, CancellationToken cancellationToken)
