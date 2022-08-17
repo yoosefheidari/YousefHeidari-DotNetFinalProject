@@ -120,7 +120,7 @@ namespace App.EndPoint.MVC.UI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int>? categories, string? oldPassword, string? newPassword, IFormFile? file, CancellationToken cancellationToken)
+        public async Task<IActionResult> EditProfile(UserDTO userDTO, List<int>? categories, string? oldPassword, string? newPassword, CancellationToken cancellationToken)
         {
             ModelState.Remove("Password");
             ModelState.Remove("ConfirmPassword");

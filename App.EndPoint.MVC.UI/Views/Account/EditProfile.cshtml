@@ -7,7 +7,7 @@
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-warning shadow-success border-radius-lg py-3 pe-1 text-center py-4">
                         <h4 class="font-weight-bolder text-white mt-1">ویرایش پروفایل</h4>
-                        
+
                     </div>
                 </div>
                 <div class="card-body">
@@ -70,7 +70,7 @@
                             <span asp-validation-for="Address"></span>
                         </div>
 
-                        @if (Model.Roles.Count == 2)
+                        @if (Model.Roles.Count == 2 && Model.Roles.Contains("Expert") || Model.Roles.Contains("EXPERT"))
                         {
                             <div class="input-group input-group-static mb-4">
                                 <label for="categories">ویرایش مهارت ها</label>
@@ -83,13 +83,6 @@
                                 </select>
                             </div>
                         }
-
-                        <div class="input-group input-group-outline mb-4">
-                            <label for="formFileLg">تصویر پروفایل</label>
-                            
-                                <input name="file" class="form-control" type="file" id="formFileLg" />
-                            
-                        </div>
 
                         <div class="input-group input-group-static mb-4">
                             <label>پسوورد قدیم</label>
