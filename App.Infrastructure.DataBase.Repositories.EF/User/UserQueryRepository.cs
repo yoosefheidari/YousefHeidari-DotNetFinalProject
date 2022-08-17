@@ -281,5 +281,23 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
 
         }
+
+        public async Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken)
+        {
+            var comments=await _appDbContext.Comments
+                .Where(c=>c.Order.ConfirmedExpertId==expertId)
+                .Select(v=>new CommentDTO()
+                {
+                    Description = v.Description,
+                    ShamsiCreationDate=v.CreationDate.ToShamsi(),
+                    Id = v.Id,
+                    IsApproved=v.IsApproved,
+                    IsWriteByCustomer=v.IsWriteByCustomer,
+                    OrderId = v.OrderId,
+                    Title=v.Title,                    
+                })
+                .ToListAsync();
+            return comments;
+        }
     }
 }

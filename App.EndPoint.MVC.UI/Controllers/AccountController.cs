@@ -140,6 +140,12 @@ namespace App.EndPoint.MVC.UI.Controllers
             return RedirectToAction("Profile", "Account");
         }
 
+        public async Task<IActionResult> ExpertRating(int id, CancellationToken cancellationToken)
+        {
+            var comments = await _userAppService.GetExpertRatingAndComments(id, cancellationToken);
+            return View(comments);
+        }
+
 
     }
 }

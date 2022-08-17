@@ -28,6 +28,7 @@ namespace App.Domain.Core.User.Contracts.AppServices
         Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken);
         Task<bool> EnsureUserNameIsNotExist(string username, CancellationToken cancellationToken);
         Task<bool> EnsureEmailIsNotExist(string email, CancellationToken cancellationToken);
+        Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken);
 
     }
 }

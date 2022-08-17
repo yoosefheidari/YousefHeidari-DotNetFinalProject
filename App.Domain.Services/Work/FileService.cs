@@ -54,7 +54,9 @@ namespace App.Domain.Services.Work
                 var fullfilePath = Path.Combine(rootPath, uniqePath);
                 PhysicalFileDTO newFile = new()
                 {
-                    Path = uniqePath
+                    Path = uniqePath,
+                    CreationDate = DateTimeOffset.Now,
+                    IsDeleted = false,
                 };
                 var id = await _fileCommandRepository.Add(newFile, cancellationToken);
                 fileIds.Add(id);

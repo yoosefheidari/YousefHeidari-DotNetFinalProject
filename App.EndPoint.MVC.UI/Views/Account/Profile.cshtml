@@ -67,7 +67,7 @@
                                                     <input type="file" name="file" />
                                                     <button type="submit" class="btn bg-gradient-info btn-sm mb-0 mt-3">ویرایش تصویر پروفایل</button>
                                                 </form>
-                                                
+
                                             </div>
                                         </div>
                                     </div>
@@ -297,22 +297,27 @@
                                                                                                                     <td>
                                                                                                                         <div class="d-flex px-2 py-1">
                                                                                                                             <div class="d-flex flex-column justify-content-center">
-                                                                                                                                <a href="javascript:;" class="btn btn-warning btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
+                                                                                                                                <a href="javascript:;" class="btn btn-success btn-sm mb-0 mx-1 mt-md-0 mt-4 float-md-end">
                                                                                                                                     <i class="fab fa-date me-2" style="font-size:22px;"></i>@suggest.ExpertName
                                                                                                                                 </a>
                                                                                                                             </div>
                                                                                                                         </div>
                                                                                                                     </td>
-                                                                                                                    <td>
+                                                                                                                    <td style="width:200px">
                                                                                                                         <p class="text-lg text-secondary mb-0">@suggest.Description</p>
                                                                                                                     </td>
                                                                                                                     <td class="align-middle text-center text-sm ">
                                                                                                                         <h6 class="text-dark">@suggest.SuggestedPrice</h6>
                                                                                                                     </td>
                                                                                                                     <td class="align-middle">
-                                                                                                                        <a style="font-size:20px;" class=" btn btn-warning text-secondary font-weight-normal text-xl"
+                                                                                                                        <a style="font-size:20px;" class=" btn btn-warning text-white font-weight-normal text-xl"
                                                                                                            asp-area="" asp-controller="Home" asp-action="AcceptSuggest" asp-route-id="@suggest.Id">
                                                                                                                             پذیرفتن
+                                                                                                                        </a>
+
+                                                                                                                        <a style="font-size:20px;" class=" btn btn-info text-white font-weight-normal text-xl"
+                                                                                                           asp-area="" asp-controller="Account" asp-action="ExpertRating" asp-route-id="@suggest.ExpertId">
+                                                                                                                            نظرات
                                                                                                                         </a>
                                                                                                                     </td>
                                                                                                                 </tr>

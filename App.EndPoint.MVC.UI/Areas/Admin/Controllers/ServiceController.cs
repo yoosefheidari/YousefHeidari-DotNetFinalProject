@@ -89,7 +89,6 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> AddServiceFile(int id, CancellationToken cancellationToken)
         {
-
             return View(id);
         }
         [HttpPost]

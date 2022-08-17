@@ -49,7 +49,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> Edit(OrderDTO orderDTO, CancellationToken cancellationToken)
         {
             await _orderAppService.Update(orderDTO, cancellationToken);
-            return RedirectToAction("OrderDetail", new {id=orderDTO.Id});
+            return RedirectToAction("OrderDetail", new { id = orderDTO.Id });
         }
 
         [HttpPost]
@@ -64,12 +64,10 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var files = await _orderAppService.GetAllFiles(id, cancellationToken);
             return View(files);
         }
-        public async Task<IActionResult> DeleteFile(int orderId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteFile(int orderId, int imageId, CancellationToken cancellationToken)
         {
-            await _orderAppService.DeleteOrderFile(orderId, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            await _orderAppService.DeleteOrderFile(imageId, cancellationToken);
+            return RedirectToAction("OrderDetail", new { id = orderId });
         }
-
-
     }
 }

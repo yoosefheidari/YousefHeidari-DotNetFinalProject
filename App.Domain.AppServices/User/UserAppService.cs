@@ -152,5 +152,11 @@ namespace App.Domain.AppServices.User
                 return false;
             return true;
         }
+
+        public async Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken)
+        {
+            var comments = await _userService.GetExpertRatingAndComments(expertId, cancellationToken);
+            return comments;
+        }
     }
 }

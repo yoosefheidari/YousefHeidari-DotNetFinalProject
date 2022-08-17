@@ -64,7 +64,7 @@ namespace App.Domain.Services.User
         public async Task<int> LoginUser(string userName, string password, bool remember)
         {
             var result = await _userCommandRepository.LoginUser(userName, password, remember);
-            return result;            
+            return result;
         }
 
         public async Task SignInUserById(int id)
@@ -113,7 +113,7 @@ namespace App.Domain.Services.User
         public async Task<UserDTO> GetCurrentUserFullInfo()
         {
             var username = _httpContext.HttpContext.User.Identity.Name;
-            var userDto=await _userQueryRepository.GetUserByUserName(username);
+            var userDto = await _userQueryRepository.GetUserByUserName(username);
             return userDto;
         }
 
@@ -124,7 +124,7 @@ namespace App.Domain.Services.User
 
         public async Task<UserDTO> GetUserByEmail(string email)
         {
-            var userr=await _userQueryRepository.GetUserByEmail(email);
+            var userr = await _userQueryRepository.GetUserByEmail(email);
             return userr;
         }
 
@@ -135,6 +135,12 @@ namespace App.Domain.Services.User
             if (userByUsername != null || userByEmail != null)
                 return false;
             return true;
+        }
+
+        public async Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken)
+        {
+            var comments = await _userQueryRepository.GetExpertRatingAndComments(expertId, cancellationToken);
+            return comments;
         }
     }
 }

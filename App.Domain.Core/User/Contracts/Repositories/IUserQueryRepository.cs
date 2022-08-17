@@ -1,5 +1,6 @@
 ﻿using App.Domain.Core.User.DTOs;
 using App.Domain.Core.User.Entities;
+using App.Domain.Core.Work.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,5 +16,6 @@ namespace App.Domain.Core.User.Contracts.Repositories
         Task<UserDTO> GetUserByUserName(string username);
         Task<UserDTO>? GetUserByEmail(string email);
         Task<List<RoleDTO>> GetRoles();
+        Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken);
     }
 }
