@@ -17,5 +17,8 @@ namespace App.Domain.Core.Work.DTOs
 
         [Display(Name = ("کل کابران"))]
         public int TotalUsers { get; set; }
+
+        [Display(Name = ("فروش کلی"))]
+        public int TotalSell { get; set; }
     }
 }

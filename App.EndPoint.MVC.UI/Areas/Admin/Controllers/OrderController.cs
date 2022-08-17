@@ -64,9 +64,9 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
             var files = await _orderAppService.GetAllFiles(id, cancellationToken);
             return View(files);
         }
-        public async Task<IActionResult> DeleteFile(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteFile(int orderId, CancellationToken cancellationToken)
         {
-            await _orderAppService.DeleteOrderFile(id, cancellationToken);
+            await _orderAppService.DeleteOrderFile(orderId, cancellationToken);
             return RedirectToAction(nameof(Index));
         }
 

@@ -38,7 +38,7 @@ namespace App.Domain.AppServices.Work
                 var statisticBytes = Encoding.UTF8.GetBytes(statisticString);
                 var options = new DistributedCacheEntryOptions
                 {
-                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(20),
+                    AbsoluteExpiration = DateTimeOffset.Now.AddSeconds(1200),
                 };
                 _distributedCache.Set("Statistics", statisticBytes, options);
             }

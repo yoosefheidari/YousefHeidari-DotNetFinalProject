@@ -65,9 +65,33 @@
                     </div>
                     <a asp-area="Admin" asp-controller="Service" asp-action="Edit" asp-route-id="@service.Id" class="btn btn-round btn-success m-1">ویرایش</a>
                     <a asp-area="Admin" asp-controller="Service" asp-action="Files" asp-route-id="@service.Id" class="btn btn-round btn-warning m-1">مشاهده تصاویر</a>
-                    <a asp-area="Admin" asp-controller="Service" asp-action="AddServiceFile" asp-route-id="@service.Id" class="btn btn-round btn-warning m-1">افزودن تصویر</a>
+                    <a asp-area="Admin" asp-controller="Service" asp-action="AddServiceFile" asp-route-id="@service.Id" class="btn btn-round btn-secondary m-1">افزودن تصویر</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts{
+    @{
+        string res= (string)TempData["Result"];        
+    }
+<script>
+    if(@res == "Create")
+    {
+        $.notify({
+        icon: 'flaticon-alarm-1',
+        title: 'سرویس ها',
+        message: 'سرویس جدید با موفقیت ایجاد شد',
+         },{
+        type: 'secondary',
+        placement: {
+            from: "bottom",
+            align: "right"
+        },
+        time: 100000,
+    });
+    }
+
+</script>
+}

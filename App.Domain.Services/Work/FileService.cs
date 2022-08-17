@@ -32,7 +32,7 @@ namespace App.Domain.Services.Work
 
         public async Task DeletePhysicalFile(string fileName, CancellationToken cancellationToken)
         {
-            var rootpath = _configuration.GetSection("UploadPath").Value;
+            var rootpath =_configuration.GetSection("UploadPath").Value;
             File.Delete(Path.Combine(rootpath, fileName));
         }
 

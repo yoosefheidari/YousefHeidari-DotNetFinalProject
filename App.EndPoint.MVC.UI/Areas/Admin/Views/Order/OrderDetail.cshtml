@@ -15,11 +15,11 @@
                         <a class="nav-link" id="Photos" data-toggle="pill" href="#v-pills-photos-nobd" role="tab" aria-controls="v-pills-photos-nobd" aria-selected="false">تصاویر</a>
                         @if (Model.StatusId == 5)
                         {
-                        <a class="nav-link" id="comments" data-toggle="pill" href="#v-pills-comments-nobd" role="tab" aria-controls="v-pills-comments-nobd" aria-selected="false">نظرات</a>                            
+                            <a class="nav-link" id="comments" data-toggle="pill" href="#v-pills-comments-nobd" role="tab" aria-controls="v-pills-comments-nobd" aria-selected="false">نظرات</a>
                         }
                         @if (Model.StatusId == 1)
                         {
-                        <a class="nav-link" id="suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات</a>                            
+                            <a class="nav-link" id="suggests" data-toggle="pill" href="#v-pills-suggests-nobd" role="tab" aria-controls="v-pills-suggests-nobd" aria-selected="false">پیشنهادات</a>
                         }
                         <a class="nav-link bg-success text-light" asp-area="Admin" asp-controller="Order" asp-action="Edit" asp-route-id="@Model.Id">ویرایش</a>
                         @*<a class="nav-link bg-danger text-light" asp-area="Admin" asp-controller="Order" asp-action="Delete" asp-route-id="@Model.Id">حذف</a>*@
@@ -198,14 +198,38 @@
                         <div class="tab-pane fade" id="v-pills-photos-nobd" role="tabpanel" aria-labelledby="Photos">
                             @foreach (var photo in Model.Photos)
                             {
+                                Random random = new();
+                                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                                var randomId23 = new string(Enumerable.Repeat(chars, 8)
+                                .Select(s => s[random.Next(s.Length)]).ToArray());
                                 <div class="card col-4">
                                     <div class="card-body">
                                         <img src="@photo.Path" style="width:100%" class="mb-3">
                                     </div>
                                     <div class="card-footer">
-                                        <button class="btn btn-warning btn-block">
-                                            مشاهده
+                                        <button style="cursor:pointer" type="button" class="btn btn-danger btn-round btn-block text-light" data-toggle="modal" data-target="#@randomId23">
+                                            حذف
                                         </button>
+                                        <div class="modal fade" id="@randomId23" tabindex="-1" role="dialog" aria-labelledby="DeleteModal" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">حذف تصویر شماره <span class="badge badge-success mr-2">@photo.Id</span></h5>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        شما در حال حذف تصویر شمراه <strong class="text-primary">@photo.Id</strong> هستید، از حذف این تصویر اطمینان دارید؟
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button style="cursor:pointer" type="button" class="btn btn-success btn-round text-light ml-2 mr-2 pr-3 pl-3" data-dismiss="modal">انصراف</button>
+                                                        <form asp-area="Admin" asp-controller="Comment" asp-action="Delete" method="post">
+                                                            <input style="display:none" name="commentId" value="@photo.Id" />
+                                                            <input style="display:none" name="orderId" value="@Model.Id" />
+                                                            <button style="cursor:pointer" type="submit" class="btn btn-danger btn-round text-light">حذف کن</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             }
@@ -614,9 +638,9 @@
 
                                                                                             <div class="mb-3">
                                                                                                 <label class="form-label">توضیحات</label>
-                                                                                                <textarea name="description" class="form-control text-end" rows="3">
+                                                                                                <textarea name="description" class="form-control text-start" rows="3">
                                                                                                     @sugges.Description
-                                                                                                            </textarea>
+                                                                                                                            </textarea>
                                                                                                 @*<input name="description" class="form-control">*@
                                                                                             </div>
 

@@ -74,14 +74,17 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Files(int id, CancellationToken cancellationToken)
         {
+            var service = await _serviceAppService.Get(id, cancellationToken);
+            ViewBag.CategoryId = service.CategoryId;
+            ViewBag.ServiceId = id;
             var files = await _serviceAppService.GetAllFiles(id, cancellationToken);
             return View(files);
         }
 
-        public async Task<IActionResult> DeleteFile(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteFile(int imageId, int serviceId, CancellationToken cancellationToken)
         {
-            await _serviceAppService.DeleteServiceFile(id, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            await _serviceAppService.DeleteServiceFile(imageId, cancellationToken);
+            return RedirectToAction("Files", new { id = serviceId });
         }
 
         public async Task<IActionResult> AddServiceFile(int id, CancellationToken cancellationToken)

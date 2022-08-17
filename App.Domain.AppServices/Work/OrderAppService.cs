@@ -94,7 +94,7 @@ namespace App.Domain.AppServices.Work
         {
             var result = await _fileService.Get(id, cancellationToken);
             var physicalFilePath = result.Path;
-            File.Delete(physicalFilePath);
+            await _fileService.DeletePhysicalFile(physicalFilePath, cancellationToken);
             await _orderService.DeleteOrderFile(id, cancellationToken);
             _logger.LogInformation("files for order with id {id} {action} successfully", id, "Delete");
         }

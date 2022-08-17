@@ -27,6 +27,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             var services = await _serviceQueryRepository.GetAll(0, cancellationToken);
             var orders = await _orderQueryRepository.GetAll(0, cancellationToken);
             var users = await _userQueryRepository.GetAll(0, null, cancellationToken);
+            var totalSell = orders.Sum(x => x.FinalPrice);
             var statistics = new StatisticsDTO()
             {
                 TotalOrders = orders.Count,

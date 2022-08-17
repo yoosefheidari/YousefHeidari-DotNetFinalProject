@@ -60,7 +60,7 @@ namespace App.Domain.AppServices.Work
         {
             var result = await _fileService.Get(id, cancellationToken);
             var physicalFilePath = result.Path;
-            File.Delete(physicalFilePath);
+            await _fileService.DeletePhysicalFile(physicalFilePath, cancellationToken);
             await _serviceService.DeleteServiceFile(id, cancellationToken);
         }
 
