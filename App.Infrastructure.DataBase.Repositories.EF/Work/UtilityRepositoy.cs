@@ -28,11 +28,16 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             var orders = await _orderQueryRepository.GetAll(0, cancellationToken);
             var users = await _userQueryRepository.GetAll(0, null, cancellationToken);
             var totalSell = orders.Sum(x => x.FinalPrice);
+            var todaySell = orders.Where(o => o.CreationDate > DateTimeOffset.Now.AddDays(-2)).Sum(x => x.FinalPrice);
+            var latestOrders = orders.OrderByDescending(o => o.CreationDate).Take(3).ToList();
             var statistics = new StatisticsDTO()
             {
                 TotalOrders = orders.Count,
                 TotalServices = services.Count,
                 TotalUsers = users.Count,
+                TotalSell=totalSell,
+                TodaySell=todaySell,
+                LatestOrders=latestOrders,
             };
             return statistics;
         }

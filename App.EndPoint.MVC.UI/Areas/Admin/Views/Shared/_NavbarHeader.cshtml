@@ -46,42 +46,7 @@
 													<span class="time">5 دقیقه پیش</span> 
 												</div>
 											</a>
-											@*<a href="#">
-												<div class="notif-img"> 
-													<img src="~/AdminAreaTemplate/assets/img/chadengle.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Chad</span>
-													<span class="block">
-														Ok, Thanks !
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-img"> 
-													<img src="~/AdminAreaTemplate/assets/img/mlane.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Jhon Doe</span>
-													<span class="block">
-														Ready for the meeting today...
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>*@
-											@*<a href="#">
-												<div class="notif-img"> 
-													<img src="~/AdminAreaTemplate/assets/img/talha.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="subject">Talha</span>
-													<span class="block">
-														Hi, Apa Kabar ?
-													</span>
-													<span class="time">17 minutes ago</span> 
-												</div>
-											</a>*@
+											
 										</div>
 									</div>
 								</li>
@@ -120,26 +85,7 @@
 													<span class="time">نیم ساعت پیش</span> 
 												</div>
 											</a>
-											@*<a href="#">
-												<div class="notif-img"> 
-													<img src="~/AdminAreaTemplate/assets/img/profile2.jpg" alt="Img Profile">
-												</div>
-												<div class="notif-content">
-													<span class="block">
-														Reza send messages to you
-													</span>
-													<span class="time">12 minutes ago</span> 
-												</div>
-											</a>
-											<a href="#">
-												<div class="notif-icon notif-danger"> <i class="fa fa-heart"></i> </div>
-												<div class="notif-content">
-													<span class="block">
-														Farrah liked Admin
-													</span>
-													<span class="time">17 minutes ago</span> 
-												</div>
-											</a>*@
+											
 										</div>
 									</div>
 								</li>
@@ -184,18 +130,6 @@
 													<span class="text">سفارشات جدید</span>
 												</div>
 											</a>
-											@*<a class="col-6 col-md-4 p-0" href="#">
-												<div class="quick-actions-item">
-													<i class="flaticon-list"></i>
-													<span class="text">Completed Tasks</span>
-												</div>
-											</a>
-											<a class="col-6 col-md-4 p-0" href="#">
-												<div class="quick-actions-item">
-													<i class="flaticon-file"></i>
-													<span class="text">Create New Invoice</span>
-												</div>
-											</a>*@
 										</div>
 									</div>
 								</div>
@@ -213,20 +147,17 @@
 										<div class="user-box">
 											<div class="u-text">
 												<h4>@User.Identity.Name</h4>
-												<p class="text-muted">ایمیل</p><a href="profile.html" class="btn btn-xs btn-secondary btn-sm">مشاهده پروفایل</a>
+												<p class="text-muted">ایمیل</p><a asp-area="" asp-controller="Account" asp-action="Profile" class="btn btn-xs btn-secondary btn-sm">مشاهده پروفایل</a>
 											</div>
 											<div class="avatar-lg"><img src="~/AdminAreaTemplate/assets/img/profile.jpg" alt="image profile" class="avatar-img rounded"></div>
 										</div>
 									</li>
 									<li>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">پروفایل من</a>
-										<a class="dropdown-item" href="#">کیف پول</a>
+										<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Profile">پروفایل من</a>
 										<a class="dropdown-item" href="#">پیغام ها</a>
 										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">تنظیمات</a>
-										<div class="dropdown-divider"></div>
-										<a class="dropdown-item" href="#">خروج</a>
+										<a class="dropdown-item" asp-area="" asp-controller="Account" asp-action="Logout">خروج</a>
 									</li>
 								</div>
 							</ul>

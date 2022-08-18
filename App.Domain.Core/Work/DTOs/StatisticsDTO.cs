@@ -19,6 +19,11 @@ namespace App.Domain.Core.Work.DTOs
         public int TotalUsers { get; set; }
 
         [Display(Name = ("فروش کلی"))]
-        public int TotalSell { get; set; }
+        public int? TotalSell { get; set; }
+        [Display(Name = ("فروش امروز"))]
+        public int? TodaySell { get; set; }
+
+        [Display(Name = ("آخرین سفارشات"))]
+        public List<OrderDTO> LatestOrders { get; set; }
     }
 }

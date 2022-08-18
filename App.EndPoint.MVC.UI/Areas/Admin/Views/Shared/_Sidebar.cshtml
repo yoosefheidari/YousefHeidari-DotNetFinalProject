@@ -18,17 +18,13 @@
                     <div class="collapse in" id="collapseExample">
                         <ul class="nav">
                             <li>
-                                <a href="#profile">
+                                <a asp-area="" asp-controller="Account" asp-action="Profile">
                                     <span class="link-collapse">پروفایل من</span>
                                 </a>
                             </li>
+                           
                             <li>
-                                <a href="#edit">
-                                    <span class="link-collapse">ویرایش پروفایل</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#settings">
+                                <a asp-area="" asp-controller="Account" asp-action="Logout">
                                     <span class="link-collapse">خروج از حساب کاربری</span>
                                 </a>
                             </li>
@@ -83,86 +79,7 @@
                             </li>                            
                         </ul>
                     </div>
-                </li>@*
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#sidebarLayouts">
-                        <i class="fas fa-comment"></i>
-                        <p>نظرات</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="sidebarLayouts">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="sidebar-style-1.html">
-                                    <span class="sub-item">جدیدترین ها</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="overlay-sidebar.html">
-                                    <span class="sub-item">تایید شده ها</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="compact-sidebar.html">
-                                    <span class="sub-item">رد شده ها</span>
-                                </a>
-                            </li>                            
-                        </ul>
-                    </div>
-                </li>*@
-                @*<li class="nav-item">
-                    <a data-toggle="collapse" href="#forms">
-                        <i class="fas fa-pen-square"></i>
-                        <p>Forms</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="forms">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="forms/forms.html">
-                                    <span class="sub-item">Basic Form</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
                 </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#tables">
-                        <i class="fas fa-table"></i>
-                        <p>Tables</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="tables">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="tables/tables.html">
-                                    <span class="sub-item">Basic Table</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="tables/datatables.html">
-                                    <span class="sub-item">Datatables</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a data-toggle="collapse" href="#maps">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <p>Maps</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="maps">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a href="maps/jqvmap.html">
-                                    <span class="sub-item">JQVMap</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>*@
                 <li class="nav-item">
                     <a data-toggle="collapse" href="#charts">
                         <i class="far fa-chart-bar"></i>
@@ -171,7 +88,7 @@
                     </a>
                     <div class="collapse" id="charts">
                         <ul class="nav nav-collapse">
-                            @await Component.InvokeAsync("AdminCategory")                            
+                            @await Component.InvokeAsync("AdminCategory")                         
                         </ul>
                     </div>
                 </li>
@@ -179,7 +96,7 @@
                     <a asp-area="Admin" asp-controller="Category" asp-action="Index">
                         <i class="fas fa-desktop"></i>
                         <p>دسته بندی ها</p>
-                        <span class="badge badge-success mr-2">7</span>
+                        @await Component.InvokeAsync("NumberOfCategories")                        
                     </a>
                 </li>
 
@@ -187,63 +104,10 @@
                     <a asp-area="Admin" asp-controller="Status" asp-action="Index">
                         <i class="fa fa-heartbeat"></i>
                         <p>وضعیت ها</p>
-                        <span class="badge badge-warning mr-2">5</span>
+                        @await Component.InvokeAsync("NumberOfStatuses")  
                     </a>
                 </li>
-                @*<li class="nav-item">
-                    <a data-toggle="collapse" href="#submenu">
-                        <i class="fas fa-bars"></i>
-                        <p>Menu Levels</p>
-                        <span class="caret"></span>
-                    </a>
-                    <div class="collapse" id="submenu">
-                        <ul class="nav nav-collapse">
-                            <li>
-                                <a data-toggle="collapse" href="#subnav1">
-                                    <span class="sub-item">Level 1</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="subnav1">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <a data-toggle="collapse" href="#subnav2">
-                                    <span class="sub-item">Level 1</span>
-                                    <span class="caret"></span>
-                                </a>
-                                <div class="collapse" id="subnav2">
-                                    <ul class="nav nav-collapse subnav">
-                                        <li>
-                                            <a href="#">
-                                                <span class="sub-item">Level 2</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    <span class="sub-item">Level 1</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>*@
-                @*<li class="mx-4 mt-2">
-                    <a href="http://themekita.com/atlantis-bootstrap-dashboard.html" class="btn btn-primary btn-block"><span class="btn-label mr-2"> <i class="fa fa-heart"></i> </span>Buy Pro</a>
-                </li>*@
+                
             </ul>
         </div>
     </div>

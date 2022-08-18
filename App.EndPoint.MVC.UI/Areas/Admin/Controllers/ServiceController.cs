@@ -47,21 +47,22 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
 
         public async Task<IActionResult> Edit(int id, CancellationToken cancellationToken)
         {
-            var category = await _serviceAppService.Get(id, cancellationToken);
+            var service = await _serviceAppService.Get(id, cancellationToken);
+            ViewBag.CategoryId = service.CategoryId;
             var categories = await _categoryAppService.GetAll(cancellationToken);
             ViewBag.Categories = categories.Select(x => new SelectListItem()
             {
                 Value = x.Id.ToString(),
                 Text = x.Name
             });
-            return View(category);
+            return View(service);
         }
 
         [HttpPost]
         public async Task<IActionResult> Edit(ServiceDTO serviceDTO, CancellationToken cancellationToken)
         {
             await _serviceAppService.Update(serviceDTO, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = serviceDTO.CategoryId });
         }
 
         [HttpPost]
@@ -95,7 +96,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> AddServiceFile(int id, List<IFormFile> files, CancellationToken cancellationToken)
         {
             await _serviceAppService.AddServiceFile(id, files, cancellationToken);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Files), new { id = id });
         }
     }
 }

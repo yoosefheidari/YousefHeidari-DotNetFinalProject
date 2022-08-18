@@ -1,7 +1,6 @@
 ﻿@model OrderDTO
 <br />
 <br />
-
 <div class="bd-example col-4">
     <form asp-area="Admin" asp-controller="Order" asp-action="Edit" method="post">
         <div asp-validation-summary="All"></div>
@@ -34,11 +33,12 @@
                 <label asp-for="FinalPrice" class="mt-2 ml-4" style="font-size:23px !important"></label>
                 <input asp-for="FinalPrice" type="text" class="form-control" aria-label="Amount (to the nearest dollar)">
                 <div class="input-group-append">
-                    <span class="input-group-text bg-warning rounded-left" >تومان</span>
+                    <span class="input-group-text bg-primary rounded-left text-white" >تومان</span>
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-outline-warning btn-lg btn-block btn-round btn-border hover" style="font-size:24px !important">اعمال تغییرات</button>
+        <button type="submit" class="btn btn-warning btn-lg btn-block btn-round" style="font-size:24px !important">اعمال تغییرات</button>
+        <a asp-area="Admin" asp-controller="Order" asp-action="OrderDetail" asp-route-id="@Model.Id" class="btn btn-success btn-lg btn-block btn-round">انصراف</a>
     </form>
 </div>
 <br />
