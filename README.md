@@ -1,6 +1,6 @@
 
-# TekSoonService : 
-[TekService.ir](https://stekservice.ir/)
+# TekService : 
+[TekService.ir](https://tekservice.ir/)
 </hr>
 A wesite that people can request services and 
 expert can accpet those requests.
