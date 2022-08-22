@@ -13,9 +13,9 @@ namespace App.EndPoint.MVC.UI.ViewComponents
             _categoryAppService = categoryAppService;
         }
 
-        public IViewComponentResult Invoke(CancellationToken cancellationToken)
+        public async Task<IViewComponentResult> InvokeAsync(CancellationToken cancellationToken)
         {
-            var categoies = _categoryAppService.GetAllWithServices(cancellationToken).Result;       
+            var categoies = await _categoryAppService.GetAllWithServices(cancellationToken);
             return View("_CategoryList", categoies);
         }
     }
