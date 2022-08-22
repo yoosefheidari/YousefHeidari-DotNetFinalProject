@@ -7,8 +7,8 @@ expert can accpet those requests.
 
 ## Feature :
 * Users can register,navigate and edit profile
-* Customers can register order,upload needed files for order, \n
- accept best offers from experts, see their orders flow on profile and \n
+* Customers can register order,upload needed files for order, </br>
+ accept best offers from experts, see their orders flow on profile and </br>
  finally  can put comments on finished orders 
  * Test Customer Account : Username:customer1 Password:123
  * Test Expert Account : Username:expert6 Password:123
