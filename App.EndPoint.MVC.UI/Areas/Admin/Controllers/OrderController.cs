@@ -29,7 +29,7 @@ namespace App.EndPoint.MVC.UI.Areas.Admin.Controllers
         public async Task<IActionResult> OrderDetail(int id, CancellationToken cancellationToken)
         {
             var order = await _orderAppService.Get(id, cancellationToken);
-            var user = await _userAppService.GetCurrentUserFullInfo();
+            var user = await _userAppService.GetCurrentUserFullInfo(cancellationToken);
             ViewBag.UserId = user.Id;
             return View(order);
         }

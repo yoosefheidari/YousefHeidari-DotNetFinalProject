@@ -28,5 +28,13 @@ namespace App.Domain.Core.User.Contracts.Services
         Task UpdateProfilePicture(UserDTO user,CancellationToken cancellationToken);
         Task<bool> EnsureUserIsNotExist(UserDTO user, CancellationToken cancellationToken);
         Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken);
+
+        Task<List<CategoryDTO>?> GetExpertSkills(string username, CancellationToken cancellationToken);
+        Task<List<string>?> GetUserRoles(string username, CancellationToken cancellationToken);
+        Task<List<OrderDTO>?> GetUserOrders(string username, CancellationToken cancellationToken);
+        Task<List<SuggestDTO>?> GetOrderSuggests(int orderId, CancellationToken cancellationToken);
+        Task<List<CommentDTO>?> GetOrderComments(int orderId, CancellationToken cancellationToken);
+
+        Task<UserDTO> GetCurrentUserBriefInfoByUsername(string username, CancellationToken cancellationToken);
     }
 }

@@ -24,6 +24,8 @@ namespace App.EndPoint.MVC.UI.MiddleWares
             try
             {
                 await _next(httpContext);
+                if (httpContext.Response.StatusCode == (int)HttpStatusCode.NotFound)
+                    httpContext.Response.Redirect("/Home/Error");
             }
             catch (Exception error)
             {

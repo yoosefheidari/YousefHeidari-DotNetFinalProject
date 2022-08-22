@@ -18,7 +18,8 @@ namespace App.Domain.Core.User.Contracts.AppServices
         Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken);
         Task Update(UserDTO user, string oldPassword, string newPassword, CancellationToken cancellationToken);
         Task UpdateExpertSkills(int userId, List<int> categories, CancellationToken cancellationToken);
-        Task<UserDTO> GetCurrentUserFullInfo();
+        Task<UserDTO> GetCurrentUserFullInfo(CancellationToken cancellationToken);
+        Task<UserDTO> GetCurrentUserBriefInfo(CancellationToken cancellationToken);
         Task Delete(int id);
         Task SignInUserById(int id);
         Task SignoutUser();

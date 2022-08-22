@@ -33,9 +33,9 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
 
 
-        public async Task<UserDTO> Get(string name)
+        public async Task<UserDTO> Get(string username)
         {
-            var user = await _userManager.FindByNameAsync(name);
+            var user = await _userManager.FindByNameAsync(username);
             UserDTO userDto = new()
             {
                 Id = user.Id,
@@ -47,8 +47,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                 NationalCode = user.NationalCode,
                 PhoneNumber = user.PhoneNumber,
                 ProfilePicture = user.ProfilePicture,
-                UserName = user.UserName,
-
+                UserName = user.UserName
             };
             return userDto;
         }
@@ -179,6 +178,113 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
                     }).ToListAsync();
             return userDto;
         }
+        public async Task<List<CategoryDTO>?> GetExpertSkills(string username, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                return null;
+            else
+            {
+                var skills = await _appDbContext.ExpertCategories
+                        .Where(x => x.ExpertId == user.Id)
+                        .Select(x => x.Category)
+                        .Select(x => new CategoryDTO()
+                        {
+                            CreationDate = x.CreationDate,
+                            IsDeleted = x.IsDeleted,
+                            Id = x.Id,
+                            Name = x.Name
+                        }).ToListAsync();
+                return skills;
+            }
+        }
+        public async Task<List<string>?> GetUserRoles(string username, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                return null;
+            else
+            {
+                var roles = await _userManager.GetRolesAsync(user);
+                return roles.ToList();
+            }
+        }
+        public async Task<List<OrderDTO>?> GetUserOrders(string username, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+                return null;
+            else
+            {
+                var orders = await _appDbContext.Orders.Where(x => x.CustomerId == user.Id).Select(x => new OrderDTO()
+                {
+                    Id = x.Id,
+                    Description = x.Description,
+                    FinalPrice = x.FinalPrice,
+                    ConfirmedExpertId = x.ConfirmedExpertId,
+                    CreationDate = x.CreationDate,
+                    ShamsiCreationDate = x.CreationDate.ToShamsi(),
+                    CustomerId = x.CustomerId,
+                    IsConfirmedByCustomer = x.IsConfirmedByCustomer,
+                    StatusId = x.StatusId,
+                    ServiceId = x.ServiceId,
+                    IsDeleted = x.IsDeleted,
+                    CategoryId = x.Service.CategoryId,
+                    StatusName = x.Status.Name,
+                    StatusValue = x.Status.StatusValue,
+                    CustomerName = x.Customer.UserName,
+                    ExpertName = x.Expert.UserName,
+                    ServiceName = x.Service.Title,
+                    Address = x.Customer.Address,
+                }).ToListAsync();
+                return orders;
+            }
+        }
+        public async Task<List<SuggestDTO>?> GetOrderSuggests(int orderId, CancellationToken cancellationToken)
+        {
+            var suggests = await _appDbContext.Suggests
+                .Where(s => s.OrderId == orderId)
+                .Select(h => new SuggestDTO()
+                {
+                    Id = h.Id,
+                    CreationDate = h.CreationDate,
+                    Description = h.Description,
+                    IsDeleted = h.IsDeleted,
+                    ExpertId = h.ExpertId,
+                    IsConfirmedByCustomer = h.IsConfirmedByCustomer,
+                    OrderId = h.OrderId,
+                    SuggestedPrice = h.SuggestedPrice,
+                    ExpertName = h.Expert.UserName,
+                }).ToListAsync(cancellationToken);
+            if (suggests == null)
+                return null;
+            else
+                return suggests;
+
+        }
+        public async Task<List<CommentDTO>?> GetOrderComments(int orderId, CancellationToken cancellationToken)
+        {
+            var comments = await _appDbContext.Comments
+                .Where(c => c.OrderId == orderId)
+                .Select(h => new CommentDTO()
+                {
+                    CreationDate = h.CreationDate,
+                    ShamsiCreationDate = h.CreationDate.ToShamsi(),
+                    Description = h.Description,
+                    Id = h.Id,
+                    IsApproved = h.IsApproved,
+                    IsDeleted = h.IsDeleted,
+                    OrderId = h.OrderId,
+                    //ServiceId = x.ServiceId,
+                    Title = h.Title,
+                    IsWriteByCustomer = h.IsWriteByCustomer
+                }).ToListAsync(cancellationToken);
+            if (comments == null)
+                return null;
+            else
+                return comments;
+        }
+
 
         public async Task<UserDTO> GetUserByUserName(string username)
         {
@@ -284,17 +390,17 @@ namespace App.Infrastructure.DataBase.Repositories.EF.User
 
         public async Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken)
         {
-            var comments=await _appDbContext.Comments
-                .Where(c=>c.Order.ConfirmedExpertId==expertId)
-                .Select(v=>new CommentDTO()
+            var comments = await _appDbContext.Comments
+                .Where(c => c.Order.ConfirmedExpertId == expertId)
+                .Select(v => new CommentDTO()
                 {
                     Description = v.Description,
-                    ShamsiCreationDate=v.CreationDate.ToShamsi(),
+                    ShamsiCreationDate = v.CreationDate.ToShamsi(),
                     Id = v.Id,
-                    IsApproved=v.IsApproved,
-                    IsWriteByCustomer=v.IsWriteByCustomer,
+                    IsApproved = v.IsApproved,
+                    IsWriteByCustomer = v.IsWriteByCustomer,
                     OrderId = v.OrderId,
-                    Title=v.Title,                    
+                    Title = v.Title,
                 })
                 .ToListAsync();
             return comments;

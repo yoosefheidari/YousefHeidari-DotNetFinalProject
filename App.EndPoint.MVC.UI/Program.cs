@@ -139,7 +139,6 @@ var app = builder.Build();
 //app.UseStatusCodePagesWithReExecute("/Error/{0}");
 app.UseErrorHandler();
 
-
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -164,10 +163,10 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.MapControllerRoute(
-    name: "error",
+//app.MapControllerRoute(
+//    name: "error",
     
-    pattern: "{controller=Error}/{action=Index}/{id?}");
+//    pattern: "{controller=Error}/{action=Index}/{id?}");
 
 
 

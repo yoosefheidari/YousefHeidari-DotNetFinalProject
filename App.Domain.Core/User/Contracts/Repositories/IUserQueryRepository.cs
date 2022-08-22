@@ -13,9 +13,15 @@ namespace App.Domain.Core.User.Contracts.Repositories
     {
         Task<List<UserDTO>> GetAll(int id, string? search, CancellationToken cancellationToken);
         Task<UserDTO> Get(int id);
+        Task<UserDTO> Get(string username);
         Task<UserDTO> GetUserByUserName(string username);
         Task<UserDTO>? GetUserByEmail(string email);
         Task<List<RoleDTO>> GetRoles();
         Task<List<CommentDTO>> GetExpertRatingAndComments(int expertId, CancellationToken cancellationToken);
+        Task<List<CategoryDTO>?> GetExpertSkills(string username, CancellationToken cancellationToken);
+        Task<List<string>?> GetUserRoles(string username, CancellationToken cancellationToken);
+        Task<List<OrderDTO>?> GetUserOrders(string username, CancellationToken cancellationToken);
+        Task<List<SuggestDTO>?> GetOrderSuggests(int orderId, CancellationToken cancellationToken);
+        Task<List<CommentDTO>?> GetOrderComments(int orderId, CancellationToken cancellationToken);
     }
 }

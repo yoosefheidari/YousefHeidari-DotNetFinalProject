@@ -21,9 +21,9 @@ namespace App.EndPoint.MVC.UI.Controllers
             _categoryAppService = categoryAppService;
         }
 
-        public async Task<IActionResult> Profile()
+        public async Task<IActionResult> Profile(CancellationToken cancellationToken)
         {
-            var user = await _userAppService.GetCurrentUserFullInfo();
+            var user = await _userAppService.GetCurrentUserFullInfo( cancellationToken);
             return View(user);
         }
 
@@ -108,7 +108,7 @@ namespace App.EndPoint.MVC.UI.Controllers
 
         public async Task<IActionResult> EditProfile(CancellationToken cancellationToken)
         {
-            var user = await _userAppService.GetCurrentUserFullInfo();
+            var user = await _userAppService.GetCurrentUserFullInfo(cancellationToken);
             var categories = await _categoryAppService.GetAll(cancellationToken);
             var filteredCategories = categories.Where(t => !user.expertCategories
                 .Any(r => r.Name == t.Name))

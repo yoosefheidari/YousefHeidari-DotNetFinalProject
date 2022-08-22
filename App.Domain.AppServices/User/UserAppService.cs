@@ -1,7 +1,6 @@
 ﻿using App.Domain.Core.User.Contracts.AppServices;
 using App.Domain.Core.User.Contracts.Services;
 using App.Domain.Core.User.DTOs;
-using App.Domain.Core.User.Entities;
 using App.Domain.Core.Work.Contracts.Services;
 using App.Domain.Core.Work.DTOs;
 using Microsoft.AspNetCore.Http;
@@ -21,12 +20,14 @@ namespace App.Domain.AppServices.User
         private readonly ILogger<UserAppService> _logger;
         private readonly IConfiguration _configuration;
         private readonly IFileService _fileService;
-        public UserAppService(IUserService userService, ILogger<UserAppService> logger, IConfiguration configuration, IFileService fileService)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserAppService(IUserService userService, ILogger<UserAppService> logger, IConfiguration configuration, IFileService fileService, IHttpContextAccessor httpContextAccessor)
         {
             _userService = userService;
             _logger = logger;
             _configuration = configuration;
             _fileService = fileService;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<int> RegisterUser(UserDTO user, string password, CancellationToken cancellationToken)
@@ -100,20 +101,39 @@ namespace App.Domain.AppServices.User
             await _userService.UpdateExpertSkills(userId, categories, cancellationToken);
         }
 
-        public async Task<UserDTO> GetCurrentUserFullInfo()
+        public async Task<UserDTO> GetCurrentUserFullInfo(CancellationToken cancellationToken)
         {
-            var user = await _userService.GetCurrentUserFullInfo();
-
+            var currentUserUsername = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var yser = await _userService.GetCurrentUserBriefInfoByUsername(currentUserUsername, cancellationToken);
+            var Userorders = await _userService.GetUserOrders(currentUserUsername, cancellationToken);
+            yser.UserOrders = Userorders;
+            var userRoles = await _userService.GetUserRoles(currentUserUsername, cancellationToken);
+            yser.Roles = userRoles;
+            if (userRoles.Any(x => x.Contains("Expert") || x.Contains("EXPERT")))
+            {
+                var skills = await _userService.GetExpertSkills(currentUserUsername, cancellationToken);
+                yser.expertCategories = skills;
+            }
+            if (Userorders != null)
+            {
+                foreach (var order in Userorders)
+                {
+                    var suggests = await _userService.GetOrderSuggests(order.Id, cancellationToken);
+                    order.Suggests = suggests;
+                    var comments = await _userService.GetOrderComments(order.Id, cancellationToken);
+                    order.Comments = comments;
+                }
+            }
             var filrRootPath = _configuration.GetSection("DownloadPath").Value;
-            foreach (var order in user.UserOrders)
+            foreach (var order in yser.UserOrders)
             {
                 foreach (var file in order.Photos)
                 {
                     file.Path = filrRootPath + "/" + file.Path;
                 }
             }
-            user.ProfilePicture = filrRootPath + "/" + user.ProfilePicture;
-            return user;
+            yser.ProfilePicture = filrRootPath + "/" + yser.ProfilePicture;
+            return yser;
         }
 
         public async Task ChangeProfilePicture(IFormFile file, CancellationToken cancellationToken)
@@ -157,6 +177,13 @@ namespace App.Domain.AppServices.User
         {
             var comments = await _userService.GetExpertRatingAndComments(expertId, cancellationToken);
             return comments;
+        }
+
+        public async Task<UserDTO> GetCurrentUserBriefInfo(CancellationToken cancellationToken)
+        {
+            var currentUserUsername = _httpContextAccessor.HttpContext.User.Identity.Name;
+            var user = await _userService.GetCurrentUserBriefInfoByUsername(currentUserUsername, cancellationToken);
+            return user;
         }
     }
 }

@@ -52,7 +52,7 @@ namespace App.Infrastructure.DataBase.Repositories.EF.Work
             {
                 var category = await _appDbContext.Categories
                 .Where(x => x.Name.ToLower() == name.ToLower()).SingleOrDefaultAsync(cancellationToken);
-                if(category == null)
+                if (category == null)
                     return null;
                 var categoryDto = new CategoryDTO()
                 {

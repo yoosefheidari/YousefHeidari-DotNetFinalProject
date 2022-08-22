@@ -40,7 +40,7 @@ namespace App.EndPoint.MVC.UI.Controllers
         public async Task<IActionResult> OrderDetail(int id, CancellationToken cancellationToken)
         {
             var order = await _orderAppService.Get(id, cancellationToken);
-            var user = await _userAppService.GetCurrentUserFullInfo();
+            var user = await _userAppService.GetCurrentUserBriefInfo(cancellationToken);
             var statuses = await _statusAppServcie.GetAll(cancellationToken);
             ViewBag.UserId = user.Id;
             ViewBag.Statuses = statuses.Where(x => x.Id != 1 && x.Id != 5);

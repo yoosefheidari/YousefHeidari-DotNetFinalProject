@@ -142,5 +142,41 @@ namespace App.Domain.Services.User
             var comments = await _userQueryRepository.GetExpertRatingAndComments(expertId, cancellationToken);
             return comments;
         }
+
+        public async Task<List<CategoryDTO>?> GetExpertSkills(string username, CancellationToken cancellationToken)
+        {
+            var skills = await _userQueryRepository.GetExpertSkills(username, cancellationToken);
+            return skills;
+        }
+
+        public async Task<List<string>?> GetUserRoles(string username, CancellationToken cancellationToken)
+        {
+            var userRoles = await _userQueryRepository.GetUserRoles(username, cancellationToken);
+            return userRoles;
+        }
+
+        public async Task<List<OrderDTO>?> GetUserOrders(string username, CancellationToken cancellationToken)
+        {
+            var orders = await _userQueryRepository.GetUserOrders(username, cancellationToken);
+            return orders;
+        }
+
+        public async Task<List<SuggestDTO>?> GetOrderSuggests(int orderId, CancellationToken cancellationToken)
+        {
+            var suggests = await _userQueryRepository.GetOrderSuggests(orderId, cancellationToken);
+            return suggests;
+        }
+
+        public async Task<List<CommentDTO>?> GetOrderComments(int orderId, CancellationToken cancellationToken)
+        {
+            var comments = await _userQueryRepository.GetOrderComments(orderId, cancellationToken);
+            return comments;
+        }
+
+        public async Task<UserDTO> GetCurrentUserBriefInfoByUsername(string username, CancellationToken cancellationToken)
+        {
+            var user = await _userQueryRepository.Get(username);
+            return user;
+        }
     }
 }
